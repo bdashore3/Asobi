@@ -13,6 +13,7 @@
 		7C2248CB26B85D1000AD3D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C2248CA26B85D1000AD3D42 /* Preview Assets.xcassets */; };
 		7C2248D626B85D1000AD3D42 /* CubariTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248D526B85D1000AD3D42 /* CubariTests.swift */; };
 		7C2248E126B85D1000AD3D42 /* CubariUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248E026B85D1000AD3D42 /* CubariUITests.swift */; };
+		7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248EE26B85D8C00AD3D42 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		7C2248DC26B85D1000AD3D42 /* CubariUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CubariUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2248E026B85D1000AD3D42 /* CubariUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariUITests.swift; sourceTree = "<group>"; };
 		7C2248E226B85D1000AD3D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C2248EE26B85D8C00AD3D42 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				7C2248C726B85D1000AD3D42 /* Assets.xcassets */,
 				7C2248CC26B85D1000AD3D42 /* Info.plist */,
 				7C2248C926B85D1000AD3D42 /* Preview Content */,
+				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
 			);
 			path = Cubari;
 			sourceTree = "<group>";
@@ -146,6 +149,8 @@
 			dependencies = (
 			);
 			name = Cubari;
+			packageProductDependencies = (
+			);
 			productName = Cubari;
 			productReference = 7C2248C026B85D0F00AD3D42 /* Cubari.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +222,8 @@
 				Base,
 			);
 			mainGroup = 7C2248B726B85D0F00AD3D42;
+			packageReferences = (
+			);
 			productRefGroup = 7C2248C126B85D0F00AD3D42 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */,
 			);
@@ -427,7 +435,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kingbri.Cubari;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,7 +458,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kingbri.Cubari;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        // Open cubari on launch
+        WebView(url: URL(string: "https://cubari.moe"))
     }
 }
 
