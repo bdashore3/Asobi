@@ -14,12 +14,13 @@ struct ContentView: View {
         ZStack {
             // Open cubari on launch
             WebView(webView: model.webView, showNavigation: $model.showNavigation)
+                .zIndex(0)
 
             // Navigation bar view
             if model.showNavigation {
                 VStack {
                     Spacer()
-                    
+
                     HStack {
                         Button(action: {
                             model.goBack()
@@ -62,6 +63,8 @@ struct ContentView: View {
                     .padding()
                     .background(Color.black)
                 }
+                .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                .zIndex(1)
             }
         }
     }
