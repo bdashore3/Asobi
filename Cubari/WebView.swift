@@ -9,29 +9,35 @@ import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
-    let url: URL?
+    let webView: WKWebView
+    @Binding var showNavigation: Bool
+    
+    class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate, UIGestureRecognizerDelegate {
+        var parent: WebView
+        
+        init(_ parent: WebView) {
+            self.parent = parent
+        }
+        
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+            return true
+        }
+        
+        @objc func toggleNavigation() {
+            parent.showNavigation.toggle()
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
     
     func makeUIView(context: Context) -> WKWebView {
-        // Configure the WebView
-        let prefs = WKWebpagePreferences()
-        prefs.allowsContentJavaScript = true
+        let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
+        tapGesture.numberOfTapsRequired = 2
+        tapGesture.delegate = context.coordinator
+        webView.addGestureRecognizer(tapGesture)
         
-        let config = WKWebViewConfiguration()
-        config.defaultWebpagePreferences = prefs
-        
-        let webView = WKWebView(
-            frame: .zero,
-            configuration: config
-        )
-        webView.allowsBackForwardNavigationGestures = true
-        
-        // Make a request here
-        guard let scopedUrl = url else {
-            return webView
-        }
-        let request = URLRequest(url: scopedUrl)
-        
-        webView.load(request)
         return webView
     }
     

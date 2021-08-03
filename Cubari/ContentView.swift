@@ -8,9 +8,62 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var model = WebViewModel()
+    
     var body: some View {
-        // Open cubari on launch
-        WebView(url: URL(string: "https://cubari.moe"))
+        ZStack {
+            // Open cubari on launch
+            WebView(webView: model.webView, showNavigation: $model.showNavigation)
+
+            // Navigation bar view
+            if model.showNavigation {
+                VStack {
+                    Spacer()
+                    
+                    HStack {
+                        Button(action: {
+                            model.goBack()
+                        }, label: {
+                            Image(systemName: "arrow.left")
+                        })
+                        .disabled(!model.canGoBack)
+                        .foregroundColor(Color.red)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            model.goForward()
+                        }, label: {
+                            Image(systemName: "arrow.right")
+                        })
+                        .disabled(!model.canGoForward)
+                        .foregroundColor(Color.red)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            model.goHome()
+                        }, label: {
+                            Image(systemName: "house")
+                        })
+                        .foregroundColor(Color.red)
+
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            print("About button tapped")
+                        }, label: {
+                            Image(systemName: "info.circle")
+                        })
+                        .foregroundColor(Color.red)
+
+                    }
+                    .padding()
+                    .background(Color.black)
+                }
+            }
+        }
     }
 }
 
