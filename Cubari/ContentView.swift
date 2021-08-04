@@ -18,53 +18,8 @@ struct ContentView: View {
 
             // Navigation bar view
             if model.showNavigation {
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        Button(action: {
-                            model.goBack()
-                        }, label: {
-                            Image(systemName: "arrow.left")
-                        })
-                        .disabled(!model.canGoBack)
-                        .foregroundColor(Color.red)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            model.goForward()
-                        }, label: {
-                            Image(systemName: "arrow.right")
-                        })
-                        .disabled(!model.canGoForward)
-                        .foregroundColor(Color.red)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            model.goHome()
-                        }, label: {
-                            Image(systemName: "house")
-                        })
-                        .foregroundColor(Color.red)
-
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            print("About button tapped")
-                        }, label: {
-                            Image(systemName: "info.circle")
-                        })
-                        .foregroundColor(Color.red)
-
-                    }
-                    .padding()
-                    .background(Color.black)
-                }
-                .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                .zIndex(1)
+                NavigationBarView(model: model)
+                    .zIndex(1)
             }
         }
     }
