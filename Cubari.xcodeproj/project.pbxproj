@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
+		7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */; };
 		7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C326B85D0F00AD3D42 /* CubariApp.swift */; };
 		7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C526B85D0F00AD3D42 /* ContentView.swift */; };
 		7C2248C826B85D1000AD3D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C2248C726B85D1000AD3D42 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		7C2248C026B85D0F00AD3D42 /* Cubari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubari.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2248C326B85D0F00AD3D42 /* CubariApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariApp.swift; sourceTree = "<group>"; };
 		7C2248C526B85D0F00AD3D42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				7C2248C326B85D0F00AD3D42 /* CubariApp.swift */,
 				7C2248C526B85D0F00AD3D42 /* ContentView.swift */,
+				7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */,
 				7C2248C726B85D1000AD3D42 /* Assets.xcassets */,
 				7C2248CC26B85D1000AD3D42 /* Info.plist */,
 				7C2248C926B85D1000AD3D42 /* Preview Content */,
@@ -273,6 +276,7 @@
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
+				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +445,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -465,7 +469,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
