@@ -12,7 +12,7 @@ struct WebView: UIViewRepresentable {
     let webView: WKWebView
     @Binding var showNavigation: Bool
     
-    class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate, UIGestureRecognizerDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
         
         init(_ parent: WebView) {
@@ -26,6 +26,11 @@ struct WebView: UIViewRepresentable {
         @objc func toggleNavigation() {
             parent.showNavigation.toggle()
         }
+        
+        @objc func refreshWebView(_ sender: UIRefreshControl) {            
+            parent.webView.reload()
+            sender.endRefreshing()
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -38,6 +43,11 @@ struct WebView: UIViewRepresentable {
         tapGesture.delegate = context.coordinator
         webView.addGestureRecognizer(tapGesture)
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(context.coordinator, action: #selector(context.coordinator.refreshWebView), for: .valueChanged)
+        webView.scrollView.addSubview(refreshControl)
+        webView.scrollView.bounces = true
+
         return webView
     }
     
