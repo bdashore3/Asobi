@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PartialSheet
 
 struct ContentView: View {
     @StateObject var model = WebViewModel()
@@ -17,11 +18,12 @@ struct ContentView: View {
                 .zIndex(0)
 
             // Navigation bar view
-            if model.showNavigation {
+            if model.showNavigation  {
                 NavigationBarView(model: model)
                     .zIndex(1)
             }
         }
+        .addPartialSheet()
     }
 }
 

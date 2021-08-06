@@ -32,7 +32,7 @@ class WebViewModel: ObservableObject {
     @Published var urlString: String = "https://cubari.moe"
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
-    @Published var showNavigation: Bool = false
+    @Published var showNavigation: Bool = true
     
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)

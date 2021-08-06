@@ -9,43 +9,31 @@ import SwiftUI
 
 struct NavigationBarView: View {
     @ObservedObject var model: WebViewModel
+    @AppStorage("leftHandMode") var leftHandMode = false
+    @State private var showAbout = false
     
     var body: some View {
         VStack {
             Spacer()
 
             HStack {
-                Button(action: {
-                    model.goBack()
-                }, label: {
-                    Image(systemName: "arrow.left")
-                })
-                .disabled(!model.canGoBack)
-                
-                Spacer()
-                
-                Button(action: {
-                    model.goForward()
-                }, label: {
-                    Image(systemName: "arrow.right")
-                })
-                .disabled(!model.canGoForward)
-                
-                Spacer()
-                
-                Button(action: {
-                    model.goHome()
-                }, label: {
-                    Image(systemName: "house")
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    print("About button tapped")
-                }, label: {
-                    Image(systemName: "info.circle")
-                })
+                if leftHandMode {
+                    ForwardBackButtonView(model: model)
+                    Spacer()
+                    SettingsButtonView()
+                    Spacer()
+                    HomeButtonView(model: model)
+                    Spacer()
+                    AboutButtonView()
+                } else {
+                    AboutButtonView()
+                    Spacer()
+                    HomeButtonView(model: model)
+                    Spacer()
+                    SettingsButtonView()
+                    Spacer()
+                    ForwardBackButtonView(model: model)
+                }
             }
             .padding()
             .background(Color.black)

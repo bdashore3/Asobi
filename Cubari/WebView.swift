@@ -11,6 +11,7 @@ import WebKit
 struct WebView: UIViewRepresentable {
     let webView: WKWebView
     @Binding var showNavigation: Bool
+    @AppStorage("persistNavigation") var persistNavigation = false
     
     class Coordinator: NSObject, WKNavigationDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
@@ -22,9 +23,11 @@ struct WebView: UIViewRepresentable {
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             return true
         }
-        
-        @objc func toggleNavigation() {
-            parent.showNavigation.toggle()
+
+        @objc func toggleNavigation(_ gestureRecognizer: UIGestureRecognizer) {
+            if !parent.persistNavigation {
+                parent.showNavigation.toggle()
+            }
         }
         
         @objc func refreshWebView(_ sender: UIRefreshControl) {            
@@ -42,7 +45,7 @@ struct WebView: UIViewRepresentable {
         tapGesture.numberOfTapsRequired = 2
         tapGesture.delegate = context.coordinator
         webView.addGestureRecognizer(tapGesture)
-        
+
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(context.coordinator, action: #selector(context.coordinator.refreshWebView), for: .valueChanged)
         webView.scrollView.addSubview(refreshControl)
@@ -50,8 +53,11 @@ struct WebView: UIViewRepresentable {
 
         return webView
     }
-    
-    // Keep this function empty otherwise all progress on WebView is lost
-    // This issue is fixed in iOS 15, but the app has a minver of iOS 14
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // Tap gesture
+        let tapGesture = uiView.gestureRecognizers?.last
+        
+        tapGesture!.isEnabled = !persistNavigation
+    }
 }
