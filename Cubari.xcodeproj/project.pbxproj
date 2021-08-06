@@ -3,12 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
 		7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */; };
+		7C20C0C126BC3B4B004D8618 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0C026BC3B4B004D8618 /* AboutView.swift */; };
+		7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */; };
+		7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0C626BC6E38004D8618 /* SettingsView.swift */; };
+		7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0C926BC6FA5004D8618 /* ForwardBackButtonView.swift */; };
+		7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0CC26BC6FBA004D8618 /* HomeButtonView.swift */; };
+		7C20C0CF26BC6FF1004D8618 /* AboutButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0CE26BC6FF1004D8618 /* AboutButtonView.swift */; };
+		7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */; };
 		7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C326B85D0F00AD3D42 /* CubariApp.swift */; };
 		7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C526B85D0F00AD3D42 /* ContentView.swift */; };
 		7C2248C826B85D1000AD3D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C2248C726B85D1000AD3D42 /* Assets.xcassets */; };
@@ -16,6 +23,7 @@
 		7C2248D626B85D1000AD3D42 /* CubariTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248D526B85D1000AD3D42 /* CubariTests.swift */; };
 		7C2248E126B85D1000AD3D42 /* CubariUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248E026B85D1000AD3D42 /* CubariUITests.swift */; };
 		7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248EE26B85D8C00AD3D42 /* WebView.swift */; };
+		7C4C267626BDD9800077F9ED /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4C267526BDD9800077F9ED /* PartialSheet */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +46,13 @@
 /* Begin PBXFileReference section */
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		7C20C0C026BC3B4B004D8618 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowViews.swift; sourceTree = "<group>"; };
+		7C20C0C626BC6E38004D8618 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7C20C0C926BC6FA5004D8618 /* ForwardBackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardBackButtonView.swift; sourceTree = "<group>"; };
+		7C20C0CC26BC6FBA004D8618 /* HomeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonView.swift; sourceTree = "<group>"; };
+		7C20C0CE26BC6FF1004D8618 /* AboutButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutButtonView.swift; sourceTree = "<group>"; };
+		7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonView.swift; sourceTree = "<group>"; };
 		7C2248C026B85D0F00AD3D42 /* Cubari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubari.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2248C326B85D0F00AD3D42 /* CubariApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariApp.swift; sourceTree = "<group>"; };
 		7C2248C526B85D0F00AD3D42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C4C267626BDD9800077F9ED /* PartialSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +94,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C20C0C226BC3BC2004D8618 /* CommonViews */ = {
+			isa = PBXGroup;
+			children = (
+				7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */,
+			);
+			path = CommonViews;
+			sourceTree = "<group>";
+		};
+		7C20C0C826BC6F96004D8618 /* NavigationBarViews */ = {
+			isa = PBXGroup;
+			children = (
+				7C20C0C926BC6FA5004D8618 /* ForwardBackButtonView.swift */,
+				7C20C0CC26BC6FBA004D8618 /* HomeButtonView.swift */,
+				7C20C0CE26BC6FF1004D8618 /* AboutButtonView.swift */,
+				7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */,
+			);
+			path = NavigationBarViews;
+			sourceTree = "<group>";
+		};
 		7C2248B726B85D0F00AD3D42 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +136,9 @@
 		7C2248C226B85D0F00AD3D42 /* Cubari */ = {
 			isa = PBXGroup;
 			children = (
+				7C20C0C826BC6F96004D8618 /* NavigationBarViews */,
+				7C20C0C226BC3BC2004D8618 /* CommonViews */,
+				7C20C0C026BC3B4B004D8618 /* AboutView.swift */,
 				7C2248C326B85D0F00AD3D42 /* CubariApp.swift */,
 				7C2248C526B85D0F00AD3D42 /* ContentView.swift */,
 				7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */,
@@ -109,6 +147,7 @@
 				7C2248C926B85D1000AD3D42 /* Preview Content */,
 				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
 				7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */,
+				7C20C0C626BC6E38004D8618 /* SettingsView.swift */,
 			);
 			path = Cubari;
 			sourceTree = "<group>";
@@ -156,6 +195,7 @@
 			);
 			name = Cubari;
 			packageProductDependencies = (
+				7C4C267526BDD9800077F9ED /* PartialSheet */,
 			);
 			productName = Cubari;
 			productReference = 7C2248C026B85D0F00AD3D42 /* Cubari.app */;
@@ -229,6 +269,7 @@
 			);
 			mainGroup = 7C2248B726B85D0F00AD3D42;
 			packageReferences = (
+				7C4C267426BDD9800077F9ED /* XCRemoteSwiftPackageReference "PartialSheet" */,
 			);
 			productRefGroup = 7C2248C126B85D0F00AD3D42 /* Products */;
 			projectDirPath = "";
@@ -273,9 +314,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
+				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
+				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
+				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
+				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */,
+				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
+				7C20C0CF26BC6FF1004D8618 /* AboutButtonView.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
+				7C20C0C126BC3B4B004D8618 /* AboutView.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,7 +482,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
@@ -458,7 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
@@ -600,6 +648,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7C4C267426BDD9800077F9ED /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C4C267526BDD9800077F9ED /* PartialSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C4C267426BDD9800077F9ED /* XCRemoteSwiftPackageReference "PartialSheet" */;
+			productName = PartialSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7C2248B826B85D0F00AD3D42 /* Project object */;
 }
