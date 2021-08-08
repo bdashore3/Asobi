@@ -25,6 +25,7 @@ struct SettingsButtonView: View {
     }
 }
 
+#if DEBUG
 struct SettingsButtonView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsButtonView()
@@ -32,3 +33,4 @@ struct SettingsButtonView_Previews: PreviewProvider {
             .environmentObject(PartialSheetManager())
     }
 }
+#endif
