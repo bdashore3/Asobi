@@ -20,7 +20,7 @@ struct SettingsButtonView: View {
             Image(systemName: "gear")
         })
         .partialSheet(isPresented: $showSettings) {
-            SettingsView()
+            SettingsView(showView: $showSettings)
         }
     }
 }
