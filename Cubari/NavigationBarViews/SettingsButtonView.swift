@@ -6,11 +6,9 @@
 //
 
 import SwiftUI
-import PartialSheet
 
 struct SettingsButtonView: View {
-    @EnvironmentObject var partialSheet: PartialSheetManager
-
+    @ObservedObject var model: WebViewModel
     @State private var showSettings = false
     
     var body: some View {
@@ -19,8 +17,8 @@ struct SettingsButtonView: View {
         }, label: {
             Image(systemName: "gear")
         })
-        .partialSheet(isPresented: $showSettings) {
-            SettingsView(showView: $showSettings)
+        .sheet(isPresented: $showSettings) {
+            SettingsView(model: model, showView: $showSettings)
         }
     }
 }
@@ -28,9 +26,7 @@ struct SettingsButtonView: View {
 #if DEBUG
 struct SettingsButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsButtonView()
-            .addPartialSheet()
-            .environmentObject(PartialSheetManager())
+        SettingsButtonView(model: WebViewModel())
     }
 }
 #endif

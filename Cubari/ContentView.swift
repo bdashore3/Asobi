@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PartialSheet
 
 struct ContentView: View {
     @StateObject var model = WebViewModel()
@@ -23,7 +22,6 @@ struct ContentView: View {
                     .zIndex(1)
             }
         }
-        .addPartialSheet()
     }
 }
 

@@ -16,11 +16,12 @@ struct NavigationBarView: View {
         VStack {
             Spacer()
 
+            // Sets button position depending on hand mode setting
             HStack {
                 if leftHandMode {
                     ForwardBackButtonView(model: model)
                     Spacer()
-                    SettingsButtonView()
+                    SettingsButtonView(model: model)
                     Spacer()
                     HomeButtonView(model: model)
                     Spacer()
@@ -30,7 +31,7 @@ struct NavigationBarView: View {
                     Spacer()
                     HomeButtonView(model: model)
                     Spacer()
-                    SettingsButtonView()
+                    SettingsButtonView(model: model)
                     Spacer()
                     ForwardBackButtonView(model: model)
                 }

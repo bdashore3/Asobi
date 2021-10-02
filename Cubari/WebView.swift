@@ -42,7 +42,7 @@ struct WebView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> WKWebView {
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
-        tapGesture.numberOfTapsRequired = 2
+        tapGesture.numberOfTapsRequired = 3
         tapGesture.delegate = context.coordinator
         webView.addGestureRecognizer(tapGesture)
 
