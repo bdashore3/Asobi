@@ -16,6 +16,9 @@ class WebViewModel: ObservableObject {
     // All Settings go here
     @AppStorage("blockAds") var blockAds = false
     @AppStorage("defaultUrl") var defaultUrl = ""
+    
+    // Make a non mutable fallback URL
+    private let fallbackUrl = URL(string: "https://cubari.moe")!
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -103,7 +106,7 @@ class WebViewModel: ObservableObject {
     // Builds homepage URL from settings
     func buildHomeUrl() -> URL {
         if defaultUrl == "" {
-            return URL(string: "https://cubari.moe")!
+            return fallbackUrl
         } else if defaultUrl.hasPrefix("https://") || defaultUrl.hasPrefix("http://") {
             return URL(string: defaultUrl)!
         } else {
