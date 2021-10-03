@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeButtonView: View {
-    @ObservedObject var model: WebViewModel
+    @EnvironmentObject var model: WebViewModel
     
     var body: some View {
         Button(action: {
@@ -22,7 +22,7 @@ struct HomeButtonView: View {
 #if DEBUG
 struct HomeButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeButtonView(model: WebViewModel())
+        HomeButtonView()
     }
 }
 #endif

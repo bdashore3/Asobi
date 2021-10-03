@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsButtonView: View {
-    @ObservedObject var model: WebViewModel
+    @EnvironmentObject var model: WebViewModel
     @State private var showSettings = false
     
     var body: some View {
@@ -18,7 +18,7 @@ struct SettingsButtonView: View {
             Image(systemName: "gear")
         })
         .sheet(isPresented: $showSettings) {
-            SettingsView(model: model, showView: $showSettings)
+            SettingsView(showView: $showSettings)
         }
     }
 }
@@ -26,7 +26,7 @@ struct SettingsButtonView: View {
 #if DEBUG
 struct SettingsButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsButtonView(model: WebViewModel())
+        SettingsButtonView()
     }
 }
 #endif

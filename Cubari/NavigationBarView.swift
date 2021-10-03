@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NavigationBarView: View {
-    @ObservedObject var model: WebViewModel
     @AppStorage("leftHandMode") var leftHandMode = false
     @State private var showAbout = false
     
@@ -19,21 +18,21 @@ struct NavigationBarView: View {
             // Sets button position depending on hand mode setting
             HStack {
                 if leftHandMode {
-                    ForwardBackButtonView(model: model)
+                    ForwardBackButtonView()
                     Spacer()
-                    SettingsButtonView(model: model)
+                    SettingsButtonView()
                     Spacer()
-                    HomeButtonView(model: model)
+                    HomeButtonView()
                     Spacer()
                     AboutButtonView()
                 } else {
                     AboutButtonView()
                     Spacer()
-                    HomeButtonView(model: model)
+                    HomeButtonView()
                     Spacer()
-                    SettingsButtonView(model: model)
+                    SettingsButtonView()
                     Spacer()
-                    ForwardBackButtonView(model: model)
+                    ForwardBackButtonView()
                 }
             }
             .padding()
@@ -47,7 +46,7 @@ struct NavigationBarView: View {
 #if DEBUG
 struct NavigationBarView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationBarView(model: WebViewModel())
+        NavigationBarView()
     }
 }
 #endif

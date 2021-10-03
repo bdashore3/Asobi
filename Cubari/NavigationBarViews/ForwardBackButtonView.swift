@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ForwardBackButtonView: View {
-    @ObservedObject var model: WebViewModel
+    @EnvironmentObject var model: WebViewModel
     
     var body: some View {
         Button(action: {
@@ -32,7 +32,7 @@ struct ForwardBackButtonView: View {
 #if DEBUG
 struct ForwardBackButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ForwardBackButtonView(model: WebViewModel())
+        ForwardBackButtonView()
     }
 }
 #endif

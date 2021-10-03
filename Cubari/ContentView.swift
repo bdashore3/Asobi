@@ -18,10 +18,11 @@ struct ContentView: View {
 
             // Navigation bar view
             if model.showNavigation  {
-                NavigationBarView(model: model)
+                NavigationBarView()
                     .zIndex(1)
             }
         }
+        .environmentObject(model)
     }
 }
 

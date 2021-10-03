@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var model: WebViewModel
+    @EnvironmentObject var model: WebViewModel
     @Binding var showView: Bool
 
     // All settings here
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("blockAds") var blockAds = false
+    @AppStorage("defaultUrl") var defaultUrl = ""
     
     @State private var showAdblockAlert: Bool = false
     
@@ -53,6 +54,10 @@ struct SettingsView: View {
                             )
                         }
                 }
+                Section(header: Text("Default URL"), footer: Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it")) {
+                    TextField("https://...", text: $defaultUrl)
+                        .textCase(.lowercase)
+                }
             }
             .navigationBarTitle("Settings")
             .toolbar {
@@ -69,7 +74,7 @@ struct SettingsView: View {
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(model: WebViewModel(), showView: .constant(true))
+        SettingsView(showView: .constant(true))
     }
 }
 #endif

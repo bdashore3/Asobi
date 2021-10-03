@@ -15,10 +15,8 @@ class WebViewModel: ObservableObject {
     
     // All Settings go here
     @AppStorage("blockAds") var blockAds = false
-    
-    // TODO: Change this to a default URL
-    private var homeUrl = URL(string: "https://cubari.moe")!
-    
+    @AppStorage("defaultUrl") var defaultUrl = ""
+
     init() {
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true
@@ -95,11 +93,22 @@ class WebViewModel: ObservableObject {
     // Force the home URL if the user wants to go home
     // Otherwise, use the current URL with the home URL as a fallback
     func loadUrl(goHome: Bool = false) {
-        let url = goHome ? homeUrl : webView.url ?? homeUrl
-        
+        let url = goHome ? buildHomeUrl() : webView.url ?? buildHomeUrl()
+
         let urlRequest = URLRequest(url: url)
 
         self.webView.load(urlRequest)
+    }
+    
+    // Builds homepage URL from settings
+    func buildHomeUrl() -> URL {
+        if defaultUrl == "" {
+            return URL(string: "https://cubari.moe")!
+        } else if defaultUrl.hasPrefix("https://") || defaultUrl.hasPrefix("http://") {
+            return URL(string: defaultUrl)!
+        } else {
+            return URL(string: "https://\(defaultUrl)")!
+        }
     }
     
     func goForward() {
