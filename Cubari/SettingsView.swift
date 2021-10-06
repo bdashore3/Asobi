@@ -18,6 +18,7 @@ struct SettingsView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
     
     @State private var showAdblockAlert: Bool = false
+    @State private var showUrlChangeAlert: Bool = false
     
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
@@ -54,9 +55,27 @@ struct SettingsView: View {
                             )
                         }
                 }
-                Section(header: Text("Default URL"), footer: Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it")) {
-                    TextField("https://...", text: $defaultUrl)
-                        .textCase(.lowercase)
+                Section(header: Text("Default URL"),
+                        footer: Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it. If the page doesn't refresh automatically or is white, check the URL format or refresh the page manually.")) {
+                    
+                    // Auto capitalization modifier will be deprecated at some point
+                    TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
+                        if !begin {
+                            showUrlChangeAlert.toggle()
+                            model.loadUrl(goHome: true)
+                        }
+                    })
+                    .textCase(.lowercase)
+                    .disableAutocorrection(true)
+                    .keyboardType(.URL)
+                    .autocapitalization(.none)
+                    .alert(isPresented: $showUrlChangeAlert) {
+                        Alert(
+                            title: Text("The default URL was changed"),
+                            message: Text("Your page should refresh to the new URL when you exit settings"),
+                            dismissButton: .cancel(Text("OK!"))
+                        )
+                    }
                 }
             }
             .navigationBarTitle("Settings")
