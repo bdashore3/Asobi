@@ -16,6 +16,7 @@ struct SettingsView: View {
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("blockAds") var blockAds = false
     @AppStorage("defaultUrl") var defaultUrl = ""
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
     
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -32,6 +33,7 @@ struct SettingsView: View {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
+                    ColorPicker("Navigation bar accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Blockers"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {

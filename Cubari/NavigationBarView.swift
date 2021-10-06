@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NavigationBarView: View {
     @AppStorage("leftHandMode") var leftHandMode = false
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @State private var showAbout = false
     
     var body: some View {
@@ -37,7 +38,7 @@ struct NavigationBarView: View {
             }
             .padding()
             .background(Color.black)
-            .accentColor(.red)
+            .accentColor(navigationAccent)
         }
         .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
     }
