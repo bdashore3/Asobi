@@ -28,6 +28,10 @@ struct NavigationBarView: View {
                     Spacer()
                     SettingsButtonView()
                     Spacer()
+                    if UIDevice.current.userInterfaceIdiom == .mac || UIDevice.current.userInterfaceIdiom == .pad {
+                        RefreshButtonView()
+                        Spacer()
+                    }
                     HomeButtonView()
                     Spacer()
                     AboutButtonView()
@@ -42,6 +46,10 @@ struct NavigationBarView: View {
                     Spacer()
                     HomeButtonView()
                     Spacer()
+                    if UIDevice.current.userInterfaceIdiom == .mac || UIDevice.current.userInterfaceIdiom == .pad {
+                        RefreshButtonView()
+                        Spacer()
+                    }
                     SettingsButtonView()
                     Spacer()
                     ForwardBackButtonView()
