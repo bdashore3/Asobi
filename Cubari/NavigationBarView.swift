@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NavigationBarView: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @State private var showAbout = false
@@ -19,6 +21,9 @@ struct NavigationBarView: View {
             // Sets button position depending on hand mode setting
             HStack {
                 if leftHandMode {
+                    if horizontalSizeClass == .regular {
+                        Spacer()
+                    }
                     ForwardBackButtonView()
                     Spacer()
                     SettingsButtonView()
@@ -26,7 +31,13 @@ struct NavigationBarView: View {
                     HomeButtonView()
                     Spacer()
                     AboutButtonView()
+                    if horizontalSizeClass == .regular {
+                        Spacer()
+                    }
                 } else {
+                    if horizontalSizeClass == .regular {
+                        Spacer()
+                    }
                     AboutButtonView()
                     Spacer()
                     HomeButtonView()
@@ -34,6 +45,9 @@ struct NavigationBarView: View {
                     SettingsButtonView()
                     Spacer()
                     ForwardBackButtonView()
+                    if horizontalSizeClass == .regular {
+                        Spacer()
+                    }
                 }
             }
             .padding()
