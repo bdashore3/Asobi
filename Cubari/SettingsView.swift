@@ -15,6 +15,7 @@ struct SettingsView: View {
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("blockAds") var blockAds = false
+    @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     
@@ -40,8 +41,8 @@ struct SettingsView: View {
                         Toggle(isOn: $blockAds) {
                             Text("Block ads")
                         }
-                        .onChange(of: blockAds) { _ in
-                            if blockAds {
+                        .onChange(of: blockAds) { changed in
+                            if changed {
                                 model.enableBlocker()
                             } else {
                                 model.disableBlocker()
@@ -56,6 +57,15 @@ struct SettingsView: View {
                                 dismissButton: .cancel(Text("OK!"))
                             )
                         }
+                }
+                Section(header: Text("Website settings")) {
+                    Toggle(isOn: $changeUserAgent) {
+                        Text("Request \(UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac ? "mobile" : "desktop") website")
+                    }
+                    .onChange(of: changeUserAgent) { changed in
+                        model.setUserAgent(changeUserAgent: changed)
+                        model.webView.reload()
+                    }
                 }
                 Section(header: Text("Default URL"),
                         footer: Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it. If the page doesn't refresh automatically or is white, check the URL format or refresh the page manually.")) {

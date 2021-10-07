@@ -16,6 +16,7 @@ class WebViewModel: ObservableObject {
     // All Settings go here
     @AppStorage("blockAds") var blockAds = false
     @AppStorage("defaultUrl") var defaultUrl = ""
+    @AppStorage("changeUserAgent") var changeUserAgent = false
     
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://cubari.moe")!
@@ -27,11 +28,16 @@ class WebViewModel: ObservableObject {
         let config = WKWebViewConfiguration()
         config.defaultWebpagePreferences = prefs
         
+        // Clears the disk and in-memory cache. Doesn't harm accounts.
+        WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
+        
         webView = WKWebView(
             frame: .zero,
             configuration: config
         )
         webView.allowsBackForwardNavigationGestures = true
+
+        setUserAgent(changeUserAgent: changeUserAgent)
         
         if blockAds {
             enableBlocker()
@@ -97,9 +103,8 @@ class WebViewModel: ObservableObject {
     // Otherwise, use the current URL with the home URL as a fallback
     func loadUrl(goHome: Bool = false) {
         let url = goHome ? buildHomeUrl() : webView.url ?? buildHomeUrl()
-
         let urlRequest = URLRequest(url: url)
-
+        
         self.webView.load(urlRequest)
     }
     
@@ -124,5 +129,16 @@ class WebViewModel: ObservableObject {
     
     func goHome() {
         loadUrl(goHome: true)
+    }
+
+    func setUserAgent(changeUserAgent: Bool) {
+        if changeUserAgent && UIDevice.current.userInterfaceIdiom == .phone {
+            webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko)"
+        }
+        else if changeUserAgent && (UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac) {
+            webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+        } else {
+            webView.customUserAgent = nil
+        }
     }
 }
