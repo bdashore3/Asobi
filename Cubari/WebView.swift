@@ -13,11 +13,20 @@ struct WebView: UIViewRepresentable {
     @Binding var showNavigation: Bool
     @AppStorage("persistNavigation") var persistNavigation = false
     
-    class Coordinator: NSObject, WKNavigationDelegate, UIGestureRecognizerDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
         
         init(_ parent: WebView) {
             self.parent = parent
+        }
+        
+        func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+            if let frame = navigationAction.targetFrame,
+                frame.isMainFrame {
+                return nil
+            }
+            webView.load(navigationAction.request)
+            return nil
         }
         
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -51,6 +60,8 @@ struct WebView: UIViewRepresentable {
         webView.scrollView.addSubview(refreshControl)
         webView.scrollView.bounces = true
 
+        webView.uiDelegate = context.coordinator
+        
         return webView
     }
 
