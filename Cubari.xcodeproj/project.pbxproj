@@ -50,6 +50,7 @@
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
+		0C908C3F271088BA00CD6236 /* Cubari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cubari.entitlements; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 		7C2248C226B85D0F00AD3D42 /* Cubari */ = {
 			isa = PBXGroup;
 			children = (
+				0C908C3F271088BA00CD6236 /* Cubari.entitlements */,
 				0CB54E81270682690091897E /* Extensions */,
 				7C20C0C826BC6F96004D8618 /* NavigationBarViews */,
 				7C20C0C226BC3BC2004D8618 /* CommonViews */,
@@ -501,6 +503,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Cubari/Cubari.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
@@ -515,6 +518,8 @@
 				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -525,6 +530,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Cubari/Cubari.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
@@ -539,6 +545,8 @@
 				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
