@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
 		0C5CBB8C270D39350045E2FE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CBB8B270D39350045E2FE /* Color.swift */; };
+		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
 		0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */; };
 		0CB54E83270682AF0091897E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB54E82270682AF0091897E /* UIApplication.swift */; };
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
 		0C908C3F271088BA00CD6236 /* Cubari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cubari.entitlements; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				0CB54E82270682AF0091897E /* UIApplication.swift */,
 				0C5CBB8B270D39350045E2FE /* Color.swift */,
+				0C615B89271214C80090198B /* UIDevice.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
+				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C5CBB8C270D39350045E2FE /* Color.swift in Sources */,
