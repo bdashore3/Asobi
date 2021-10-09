@@ -68,11 +68,22 @@ struct SettingsView: View {
                     }
                 }
                 Section(header: Text("Default URL"),
-                        footer: Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it. If the page doesn't refresh automatically or is white, check the URL format or refresh the page manually.")) {
+                        footer:
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
+                                Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
+                                Text("If the loading animation keeps going, make sure your URL is correct!")
+                            }
+                ) {
                     
                     // Auto capitalization modifier will be deprecated at some point
                     TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
-                        if !begin {
+                        if !begin && UIDevice.current.deviceType != .mac {
+                            showUrlChangeAlert.toggle()
+                            model.loadUrl(goHome: true)
+                        }
+                    }, onCommit: {
+                        if UIDevice.current.deviceType == .mac {
                             showUrlChangeAlert.toggle()
                             model.loadUrl(goHome: true)
                         }
@@ -84,7 +95,7 @@ struct SettingsView: View {
                     .alert(isPresented: $showUrlChangeAlert) {
                         Alert(
                             title: Text("The default URL was changed"),
-                            message: Text("Your page should refresh to the new URL when you exit settings"),
+                            message: Text("Your page should have refreshed to the new URL"),
                             dismissButton: .cancel(Text("OK!"))
                         )
                     }
