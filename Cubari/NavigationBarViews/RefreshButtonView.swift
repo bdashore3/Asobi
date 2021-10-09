@@ -12,7 +12,9 @@ struct RefreshButtonView: View {
     
     var body: some View {
         Button(action: {
+            model.showError = false
             model.webView.reload()
+            model.showProgress = true
         }, label: {
             Image(systemName: "arrow.clockwise")
         })

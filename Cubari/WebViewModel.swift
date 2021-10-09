@@ -37,6 +37,11 @@ class WebViewModel: ObservableObject {
         )
         webView.allowsBackForwardNavigationGestures = true
 
+        // Clears the white background on webpage load
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.backgroundColor = UIColor.clear
+        
         setUserAgent(changeUserAgent: changeUserAgent)
         
         if blockAds {
@@ -51,6 +56,9 @@ class WebViewModel: ObservableObject {
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
     @Published var showNavigation: Bool = true
+    @Published var showProgress: Bool = false
+    @Published var errorDescription: String? = nil
+    @Published var showError: Bool = false
     
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
@@ -104,7 +112,7 @@ class WebViewModel: ObservableObject {
     func loadUrl(goHome: Bool = false) {
         let url = goHome ? buildHomeUrl() : webView.url ?? buildHomeUrl()
         let urlRequest = URLRequest(url: url)
-        
+
         self.webView.load(urlRequest)
     }
     

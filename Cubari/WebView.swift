@@ -10,8 +10,12 @@ import WebKit
 
 struct WebView: UIViewRepresentable {
     let webView: WKWebView
-    @Binding var showNavigation: Bool
+
     @AppStorage("persistNavigation") var persistNavigation = false
+    @Binding var errorDescription: String?
+    @Binding var showError: Bool
+    @Binding var showNavigation: Bool
+    @Binding var showProgress: Bool
     
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
@@ -27,6 +31,28 @@ struct WebView: UIViewRepresentable {
             }
             webView.load(navigationAction.request)
             return nil
+        }
+        
+        // Navigation delegate methods for ProgressView/errors
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            parent.showError = false
+            parent.showProgress = true
+        }
+        
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            parent.showProgress = false
+            parent.errorDescription = error.localizedDescription
+            parent.showError = true
+        }
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            parent.showProgress = false
+        }
+        
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            parent.showProgress = false
+            parent.errorDescription = error.localizedDescription
+            parent.showError = true
         }
         
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -61,7 +87,8 @@ struct WebView: UIViewRepresentable {
         webView.scrollView.bounces = true
 
         webView.uiDelegate = context.coordinator
-        
+        webView.navigationDelegate = context.coordinator
+
         return webView
     }
 
