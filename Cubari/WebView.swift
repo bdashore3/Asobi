@@ -40,6 +40,8 @@ struct WebView: UIViewRepresentable {
         }
         
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("Failed navigation! Error: \(error.localizedDescription)")
+            
             parent.showProgress = false
             parent.errorDescription = error.localizedDescription
             parent.showError = true
@@ -50,9 +52,15 @@ struct WebView: UIViewRepresentable {
         }
         
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            let error = error as NSError
+            
             parent.showProgress = false
-            parent.errorDescription = error.localizedDescription
-            parent.showError = true
+
+            // Error -1022 can be ignored because we don't want popup ads
+            if error.code != -1022 {
+                parent.errorDescription = error.localizedDescription
+                parent.showError = true
+            }
         }
         
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
