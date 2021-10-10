@@ -17,15 +17,15 @@ jobs:
         id: commitinfo
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build
-        run: xcodebuild -scheme Cubari -configuration Release archive -archivePath build/Cubari.xcarchive CODE_SIGN_IDENTITY= CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+        run: xcodebuild -scheme Asobi -configuration Release archive -archivePath build/Asobi.xcarchive CODE_SIGN_IDENTITY= CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
       - name: Package ipa
         run: |
           mkdir Payload
-          cp -r build/Cubari.xcarchive/Products/Applications/Cubari.app Payload
-          zip -r Cubari-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa Payload
+          cp -r build/Asobi.xcarchive/Products/Applications/Asobi.app Payload
+          zip -r Asobi-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa Payload
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Cubari-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa
-          path: Cubari-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa
+          name: Asobi-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa
+          path: Asobi-iOS_nightly-${{ steps.commitinfo.outputs.sha_short }}.ipa
           if-no-files-found: error

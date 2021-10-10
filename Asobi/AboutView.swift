@@ -13,7 +13,7 @@ struct AboutView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("Cubari-iOS is a free and open source browser application developed by Brian Dashore under the Apache-2.0 license.")
+                Text("Asobi is a free and open source browser application developed by Brian Dashore under the Apache-2.0 license.")
                     .padding()
 
                 Image("AppImage")

@@ -21,12 +21,12 @@
 		7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0CC26BC6FBA004D8618 /* HomeButtonView.swift */; };
 		7C20C0CF26BC6FF1004D8618 /* AboutButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0CE26BC6FF1004D8618 /* AboutButtonView.swift */; };
 		7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */; };
-		7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C326B85D0F00AD3D42 /* CubariApp.swift */; };
+		7C2248C426B85D0F00AD3D42 /* AsobiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C326B85D0F00AD3D42 /* AsobiApp.swift */; };
 		7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248C526B85D0F00AD3D42 /* ContentView.swift */; };
 		7C2248C826B85D1000AD3D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C2248C726B85D1000AD3D42 /* Assets.xcassets */; };
 		7C2248CB26B85D1000AD3D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C2248CA26B85D1000AD3D42 /* Preview Assets.xcassets */; };
-		7C2248D626B85D1000AD3D42 /* CubariTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248D526B85D1000AD3D42 /* CubariTests.swift */; };
-		7C2248E126B85D1000AD3D42 /* CubariUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248E026B85D1000AD3D42 /* CubariUITests.swift */; };
+		7C2248D626B85D1000AD3D42 /* AsobiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248D526B85D1000AD3D42 /* AsobiTests.swift */; };
+		7C2248E126B85D1000AD3D42 /* AsobiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248E026B85D1000AD3D42 /* AsobiUITests.swift */; };
 		7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2248EE26B85D8C00AD3D42 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +52,7 @@
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
-		0C908C3F271088BA00CD6236 /* Cubari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cubari.entitlements; sourceTree = "<group>"; };
+		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -63,17 +63,17 @@
 		7C20C0CC26BC6FBA004D8618 /* HomeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonView.swift; sourceTree = "<group>"; };
 		7C20C0CE26BC6FF1004D8618 /* AboutButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutButtonView.swift; sourceTree = "<group>"; };
 		7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonView.swift; sourceTree = "<group>"; };
-		7C2248C026B85D0F00AD3D42 /* Cubari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubari.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C2248C326B85D0F00AD3D42 /* CubariApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariApp.swift; sourceTree = "<group>"; };
+		7C2248C026B85D0F00AD3D42 /* Asobi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Asobi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C2248C326B85D0F00AD3D42 /* AsobiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsobiApp.swift; sourceTree = "<group>"; };
 		7C2248C526B85D0F00AD3D42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7C2248C726B85D1000AD3D42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C2248CA26B85D1000AD3D42 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C2248CC26B85D1000AD3D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C2248D126B85D1000AD3D42 /* CubariTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CubariTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C2248D526B85D1000AD3D42 /* CubariTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariTests.swift; sourceTree = "<group>"; };
+		7C2248D126B85D1000AD3D42 /* AsobiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsobiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C2248D526B85D1000AD3D42 /* AsobiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsobiTests.swift; sourceTree = "<group>"; };
 		7C2248D726B85D1000AD3D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C2248DC26B85D1000AD3D42 /* CubariUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CubariUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C2248E026B85D1000AD3D42 /* CubariUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubariUITests.swift; sourceTree = "<group>"; };
+		7C2248DC26B85D1000AD3D42 /* AsobiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsobiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C2248E026B85D1000AD3D42 /* AsobiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsobiUITests.swift; sourceTree = "<group>"; };
 		7C2248E226B85D1000AD3D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C2248EE26B85D8C00AD3D42 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,9 +136,9 @@
 		7C2248B726B85D0F00AD3D42 = {
 			isa = PBXGroup;
 			children = (
-				7C2248C226B85D0F00AD3D42 /* Cubari */,
-				7C2248D426B85D1000AD3D42 /* CubariTests */,
-				7C2248DF26B85D1000AD3D42 /* CubariUITests */,
+				7C2248C226B85D0F00AD3D42 /* Asobi */,
+				7C2248D426B85D1000AD3D42 /* AsobiTests */,
+				7C2248DF26B85D1000AD3D42 /* AsobiUITests */,
 				7C2248C126B85D0F00AD3D42 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -146,22 +146,22 @@
 		7C2248C126B85D0F00AD3D42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C2248C026B85D0F00AD3D42 /* Cubari.app */,
-				7C2248D126B85D1000AD3D42 /* CubariTests.xctest */,
-				7C2248DC26B85D1000AD3D42 /* CubariUITests.xctest */,
+				7C2248C026B85D0F00AD3D42 /* Asobi.app */,
+				7C2248D126B85D1000AD3D42 /* AsobiTests.xctest */,
+				7C2248DC26B85D1000AD3D42 /* AsobiUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7C2248C226B85D0F00AD3D42 /* Cubari */ = {
+		7C2248C226B85D0F00AD3D42 /* Asobi */ = {
 			isa = PBXGroup;
 			children = (
-				0C908C3F271088BA00CD6236 /* Cubari.entitlements */,
+				0C908C3F271088BA00CD6236 /* Asobi.entitlements */,
 				0CB54E81270682690091897E /* Extensions */,
 				7C20C0C826BC6F96004D8618 /* NavigationBarViews */,
 				7C20C0C226BC3BC2004D8618 /* CommonViews */,
 				7C20C0C026BC3B4B004D8618 /* AboutView.swift */,
-				7C2248C326B85D0F00AD3D42 /* CubariApp.swift */,
+				7C2248C326B85D0F00AD3D42 /* AsobiApp.swift */,
 				7C2248C526B85D0F00AD3D42 /* ContentView.swift */,
 				7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */,
 				7C2248C726B85D1000AD3D42 /* Assets.xcassets */,
@@ -172,7 +172,7 @@
 				7C20C0C626BC6E38004D8618 /* SettingsView.swift */,
 				0C58C77127064209008D8A79 /* blocklist.json */,
 			);
-			path = Cubari;
+			path = Asobi;
 			sourceTree = "<group>";
 		};
 		7C2248C926B85D1000AD3D42 /* Preview Content */ = {
@@ -183,30 +183,30 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		7C2248D426B85D1000AD3D42 /* CubariTests */ = {
+		7C2248D426B85D1000AD3D42 /* AsobiTests */ = {
 			isa = PBXGroup;
 			children = (
-				7C2248D526B85D1000AD3D42 /* CubariTests.swift */,
+				7C2248D526B85D1000AD3D42 /* AsobiTests.swift */,
 				7C2248D726B85D1000AD3D42 /* Info.plist */,
 			);
-			path = CubariTests;
+			path = AsobiTests;
 			sourceTree = "<group>";
 		};
-		7C2248DF26B85D1000AD3D42 /* CubariUITests */ = {
+		7C2248DF26B85D1000AD3D42 /* AsobiUITests */ = {
 			isa = PBXGroup;
 			children = (
-				7C2248E026B85D1000AD3D42 /* CubariUITests.swift */,
+				7C2248E026B85D1000AD3D42 /* AsobiUITests.swift */,
 				7C2248E226B85D1000AD3D42 /* Info.plist */,
 			);
-			path = CubariUITests;
+			path = AsobiUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7C2248BF26B85D0F00AD3D42 /* Cubari */ = {
+		7C2248BF26B85D0F00AD3D42 /* Asobi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C2248E526B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "Cubari" */;
+			buildConfigurationList = 7C2248E526B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "Asobi" */;
 			buildPhases = (
 				7C2248BC26B85D0F00AD3D42 /* Sources */,
 				7C2248BD26B85D0F00AD3D42 /* Frameworks */,
@@ -216,16 +216,16 @@
 			);
 			dependencies = (
 			);
-			name = Cubari;
+			name = Asobi;
 			packageProductDependencies = (
 			);
 			productName = Cubari;
-			productReference = 7C2248C026B85D0F00AD3D42 /* Cubari.app */;
+			productReference = 7C2248C026B85D0F00AD3D42 /* Asobi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7C2248D026B85D1000AD3D42 /* CubariTests */ = {
+		7C2248D026B85D1000AD3D42 /* AsobiTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C2248E826B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "CubariTests" */;
+			buildConfigurationList = 7C2248E826B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "AsobiTests" */;
 			buildPhases = (
 				7C2248CD26B85D1000AD3D42 /* Sources */,
 				7C2248CE26B85D1000AD3D42 /* Frameworks */,
@@ -236,14 +236,14 @@
 			dependencies = (
 				7C2248D326B85D1000AD3D42 /* PBXTargetDependency */,
 			);
-			name = CubariTests;
+			name = AsobiTests;
 			productName = CubariTests;
-			productReference = 7C2248D126B85D1000AD3D42 /* CubariTests.xctest */;
+			productReference = 7C2248D126B85D1000AD3D42 /* AsobiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7C2248DB26B85D1000AD3D42 /* CubariUITests */ = {
+		7C2248DB26B85D1000AD3D42 /* AsobiUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C2248EB26B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "CubariUITests" */;
+			buildConfigurationList = 7C2248EB26B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "AsobiUITests" */;
 			buildPhases = (
 				7C2248D826B85D1000AD3D42 /* Sources */,
 				7C2248D926B85D1000AD3D42 /* Frameworks */,
@@ -254,9 +254,9 @@
 			dependencies = (
 				7C2248DE26B85D1000AD3D42 /* PBXTargetDependency */,
 			);
-			name = CubariUITests;
+			name = AsobiUITests;
 			productName = CubariUITests;
-			productReference = 7C2248DC26B85D1000AD3D42 /* CubariUITests.xctest */;
+			productReference = 7C2248DC26B85D1000AD3D42 /* AsobiUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -281,7 +281,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7C2248BB26B85D0F00AD3D42 /* Build configuration list for PBXProject "Cubari" */;
+			buildConfigurationList = 7C2248BB26B85D0F00AD3D42 /* Build configuration list for PBXProject "Asobi" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -296,9 +296,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7C2248BF26B85D0F00AD3D42 /* Cubari */,
-				7C2248D026B85D1000AD3D42 /* CubariTests */,
-				7C2248DB26B85D1000AD3D42 /* CubariUITests */,
+				7C2248BF26B85D0F00AD3D42 /* Asobi */,
+				7C2248D026B85D1000AD3D42 /* AsobiTests */,
+				7C2248DB26B85D1000AD3D42 /* AsobiUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -343,7 +343,7 @@
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
-				7C2248C426B85D0F00AD3D42 /* CubariApp.swift in Sources */,
+				7C2248C426B85D0F00AD3D42 /* AsobiApp.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C5CBB8C270D39350045E2FE /* Color.swift in Sources */,
 				7C20C0CF26BC6FF1004D8618 /* AboutButtonView.swift in Sources */,
@@ -358,7 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C2248D626B85D1000AD3D42 /* CubariTests.swift in Sources */,
+				7C2248D626B85D1000AD3D42 /* AsobiTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,7 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C2248E126B85D1000AD3D42 /* CubariUITests.swift in Sources */,
+				7C2248E126B85D1000AD3D42 /* AsobiUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,12 +375,12 @@
 /* Begin PBXTargetDependency section */
 		7C2248D326B85D1000AD3D42 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7C2248BF26B85D0F00AD3D42 /* Cubari */;
+			target = 7C2248BF26B85D0F00AD3D42 /* Asobi */;
 			targetProxy = 7C2248D226B85D1000AD3D42 /* PBXContainerItemProxy */;
 		};
 		7C2248DE26B85D1000AD3D42 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7C2248BF26B85D0F00AD3D42 /* Cubari */;
+			target = 7C2248BF26B85D0F00AD3D42 /* Asobi */;
 			targetProxy = 7C2248DD26B85D1000AD3D42 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -507,20 +507,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Cubari/Cubari.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Asobi/Asobi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Asobi/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Cubari/Info.plist;
+				INFOPLIST_FILE = Asobi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.asobi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -534,20 +534,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Cubari/Cubari.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Asobi/Asobi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
-				DEVELOPMENT_ASSET_PATHS = "\"Cubari/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Asobi/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Cubari/Info.plist;
+				INFOPLIST_FILE = Asobi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
-				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.cubari.ios;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.kingbri.asobi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -574,7 +574,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cubari.app/Cubari";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Asobi.app/Asobi";
 			};
 			name = Debug;
 		};
@@ -596,7 +596,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cubari.app/Cubari";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Asobi.app/Asobi";
 			};
 			name = Release;
 		};
@@ -643,7 +643,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C2248BB26B85D0F00AD3D42 /* Build configuration list for PBXProject "Cubari" */ = {
+		7C2248BB26B85D0F00AD3D42 /* Build configuration list for PBXProject "Asobi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C2248E326B85D1000AD3D42 /* Debug */,
@@ -652,7 +652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C2248E526B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "Cubari" */ = {
+		7C2248E526B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "Asobi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C2248E626B85D1000AD3D42 /* Debug */,
@@ -661,7 +661,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C2248E826B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "CubariTests" */ = {
+		7C2248E826B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "AsobiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C2248E926B85D1000AD3D42 /* Debug */,
@@ -670,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C2248EB26B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "CubariUITests" */ = {
+		7C2248EB26B85D1000AD3D42 /* Build configuration list for PBXNativeTarget "AsobiUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C2248EC26B85D1000AD3D42 /* Debug */,
