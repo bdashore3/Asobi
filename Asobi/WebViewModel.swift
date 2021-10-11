@@ -19,7 +19,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("changeUserAgent") var changeUserAgent = false
     
     // Make a non mutable fallback URL
-    private let fallbackUrl = URL(string: "https://cubari.moe")!
+    private let fallbackUrl = URL(string: "https://duckduckgo.com/")!
 
     init() {
         let prefs = WKWebpagePreferences()
