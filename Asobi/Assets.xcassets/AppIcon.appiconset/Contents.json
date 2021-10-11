@@ -1,109 +1,109 @@
 {
   "images" : [
     {
-      "filename" : "cubari-ios-40px-2.png",
+      "filename" : "Asobi-42.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "cubari-ios-60px.png",
+      "filename" : "Asobi-60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "cubari-ios-58px-1.png",
+      "filename" : "Asobi-59.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "cubari-ios-87px.png",
+      "filename" : "Asobi-87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "cubari-ios-80px-1.png",
+      "filename" : "Asobi-81.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "cubari-ios-120px.png",
+      "filename" : "Asobi-121.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "cubari-ios-120px-1.png",
+      "filename" : "Asobi-120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "cubari-ios-180px.png",
+      "filename" : "Asobi-180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "cubari-ios-20px.png",
+      "filename" : "Asobi-20.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "20x20"
     },
     {
-      "filename" : "cubari-ios-40px-1.png",
+      "filename" : "Asobi-41.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "cubari-ios-29px.png",
+      "filename" : "Asobi-29.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
-      "filename" : "cubari-ios-58px.png",
+      "filename" : "Asobi-58.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "cubari-ios-40px.png",
+      "filename" : "Asobi-40.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
-      "filename" : "cubari-ios-80px.png",
+      "filename" : "Asobi-80.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "cubari-ios-76px.png",
+      "filename" : "Asobi-76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
-      "filename" : "cubari-ios-152px.png",
+      "filename" : "Asobi-152.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
-      "filename" : "cubari-ios-167px.png",
+      "filename" : "Asobi-167.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "cubari-ios-1024px.png",
+      "filename" : "Asobi-1024.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
