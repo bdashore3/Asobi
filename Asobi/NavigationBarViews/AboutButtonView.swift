@@ -8,16 +8,29 @@
 import SwiftUI
 
 struct AboutButtonView: View {
-    @State var showAbout: Bool = false
+    @EnvironmentObject var model: WebViewModel
+    @State var showBookmarks: Bool = false
+    @State var showBookmarkAdd: Bool = false
     
     var body: some View {
         Button(action: {
-            showAbout.toggle()
+            showBookmarks.toggle()
         }, label: {
-            Image(systemName: "info.circle")
+            Image(systemName: "book")
         })
-        .sheet(isPresented: $showAbout) {
-            AboutView()
+        .contextMenu() {
+            Button {
+                showBookmarkAdd.toggle()
+            } label: {
+                Text("Add bookmark")
+                Image(systemName: "plus.circle")
+            }
+        }
+        .sheet(isPresented: $showBookmarkAdd) {
+            EditBookmarkView()
+        }
+        .sheet(isPresented: $showBookmarks) {
+            BookmarkView()
         }
     }
 }

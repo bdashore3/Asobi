@@ -20,6 +20,9 @@ class WebViewModel: ObservableObject {
     
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://duckduckgo.com/")!
+    
+    // Has the page loaded once?
+    private var firstLoad: Bool = false
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -46,9 +49,10 @@ class WebViewModel: ObservableObject {
         
         if blockAds {
             enableBlocker()
-        } else {
-            loadUrl()
         }
+        
+        loadUrl()
+        firstLoad = false
         
         setupBindings()
     }
@@ -59,7 +63,9 @@ class WebViewModel: ObservableObject {
     @Published var showProgress: Bool = false
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
-    
+    @Published var bookmarkName: String? = nil
+    @Published var bookmarkUrl: String? = nil
+
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
             .assign(to: &$canGoBack)
@@ -90,10 +96,15 @@ class WebViewModel: ObservableObject {
                 
                 self.webView.configuration.userContentController.add(contentRuleList!)
                 
-                self.loadUrl()
+                // Place load here to make sure the webpage reloads after adblock is enabled
+                if !self.firstLoad {
+                    self.webView.reload()
+                }
             }
         } catch {
-            loadUrl()
+            if !self.firstLoad {
+                self.webView.reload()
+            }
 
             debugPrint("Blocklist loading failed. Loading the URL anyway")
         }
@@ -107,24 +118,33 @@ class WebViewModel: ObservableObject {
         self.webView.reload()
     }
     
-    // Force the home URL if the user wants to go home
-    // Otherwise, use the current URL with the home URL as a fallback
-    func loadUrl(goHome: Bool = false) {
-        let url = goHome ? buildHomeUrl() : webView.url ?? buildHomeUrl()
+    // Loads a URL. URL built in the buildURL function
+    // TODO: store loaded URLs in history
+    func loadUrl(_ urlString: String? = nil) {
+        let url = buildUrl(urlString)
         let urlRequest = URLRequest(url: url)
 
         self.webView.load(urlRequest)
     }
     
-    // Builds homepage URL from settings
-    func buildHomeUrl() -> URL {
-        if defaultUrl == "" {
+    /*
+     Builds the URL from loadUrl
+     If the provided string is nil, fall back to the default URL.
+     Always prefix a URL with https if not present
+     If the default URL is empty, return the fallback URL.
+     */
+    func buildUrl(_ testString: String?) -> URL {
+        if testString == nil && defaultUrl.isEmpty {
             return fallbackUrl
-        } else if defaultUrl.hasPrefix("https://") || defaultUrl.hasPrefix("http://") {
-            return URL(string: defaultUrl)!
-        } else {
-            return URL(string: "https://\(defaultUrl)")!
         }
+        
+        var urlString = testString ?? defaultUrl
+        
+        if !(urlString.hasPrefix("http://") || urlString.hasPrefix("https://")) {
+            urlString = "https://\(urlString)"
+        }
+
+        return URL(string: urlString)!
     }
     
     func goForward() {
@@ -136,14 +156,14 @@ class WebViewModel: ObservableObject {
     }
     
     func goHome() {
-        loadUrl(goHome: true)
+        loadUrl()
     }
 
     func setUserAgent(changeUserAgent: Bool) {
         if changeUserAgent && UIDevice.current.userInterfaceIdiom == .phone {
             webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko)"
         }
-        else if changeUserAgent && (UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac) {
+        else if changeUserAgent && UIDevice.current.userInterfaceIdiom == .pad {
             webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
         } else {
             webView.customUserAgent = nil

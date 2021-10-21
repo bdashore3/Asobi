@@ -11,18 +11,24 @@ import SwiftUI
 
 // View alias for a list row with an external link
 struct ListRowLinkView: View {
+    @EnvironmentObject var model: WebViewModel
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.presentationMode) var presentationMode
+    
     private var text: String
-    private var link: URL
+    private var link: String
     
     init(displayText: String, innerLink: String) {
-        link = URL(string: innerLink)!
+        link = innerLink
         text = displayText
     }
     
     var body: some View {
         HStack {
-            Link(text, destination: link)
-                .foregroundColor(.primary)
+            Button(text) {
+                model.loadUrl(link)
+            }
+            .foregroundColor(colorScheme == .light ? Color.black : Color.white)
                 
             Spacer()
                 

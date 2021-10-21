@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftUIX
 
 struct ContentView: View {
-    @StateObject var model = WebViewModel()
+    @EnvironmentObject var model: WebViewModel
     
     var body: some View {
         ZStack {
@@ -20,10 +21,13 @@ struct ContentView: View {
             if model.showProgress {
                 GroupBox {
                     VStack {
+                        CircularProgressBar(model.webView.estimatedProgress)
+                            .lineWidth(6)
+                            .foregroundColor(.blue)
+                            .frame(width: 60, height: 60)
+                        
                         Text("Loading...")
-                        ProgressView()
-                            .scaleEffect(2.0, anchor: .center)
-                            .padding()
+                            .font(.title2)
                     }
                 }
                 .zIndex(1)
@@ -46,7 +50,6 @@ struct ContentView: View {
                     .zIndex(3)
             }
         }
-        .environmentObject(model)
     }
 }
 
