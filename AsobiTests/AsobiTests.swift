@@ -1,14 +1,14 @@
 //
-//  CubariTests.swift
-//  CubariTests
+//  AsobiTests.swift
+//  AsobiTests
 //
 //  Created by Brian Dashore on 8/2/21.
 //
 
 import XCTest
-@testable import Cubari
+@testable import Asobi
 
-class CubariTests: XCTestCase {
+class AsobiTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

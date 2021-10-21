@@ -80,12 +80,12 @@ struct SettingsView: View {
                     TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                         if !begin && UIDevice.current.deviceType != .mac {
                             showUrlChangeAlert.toggle()
-                            model.loadUrl(goHome: true)
+                            model.loadUrl()
                         }
                     }, onCommit: {
                         if UIDevice.current.deviceType == .mac {
                             showUrlChangeAlert.toggle()
-                            model.loadUrl(goHome: true)
+                            model.loadUrl()
                         }
                     })
                     .textCase(.lowercase)
@@ -98,6 +98,11 @@ struct SettingsView: View {
                             message: Text("Your page should have refreshed to the new URL"),
                             dismissButton: .cancel(Text("OK!"))
                         )
+                    }
+                }
+                Section {
+                    NavigationLink(destination: AboutView()) {
+                        Text("About")
                     }
                 }
             }

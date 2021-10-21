@@ -13,9 +13,8 @@ struct NavigationBarView: View {
     
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    @State private var showAbout = false
     
-    var body: some View {
+    var body: some View { 
         VStack {
             Spacer()
 
@@ -29,7 +28,7 @@ struct NavigationBarView: View {
                     Spacer()
                     SettingsButtonView()
                     Spacer()
-                    if UIDevice.current.userInterfaceIdiom == .mac || UIDevice.current.userInterfaceIdiom == .pad {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
                     }
@@ -47,7 +46,7 @@ struct NavigationBarView: View {
                     Spacer()
                     HomeButtonView()
                     Spacer()
-                    if UIDevice.current.userInterfaceIdiom == .mac || UIDevice.current.userInterfaceIdiom == .pad {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
                     }
