@@ -63,8 +63,6 @@ class WebViewModel: ObservableObject {
     @Published var showProgress: Bool = false
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
-    @Published var bookmarkName: String? = nil
-    @Published var bookmarkUrl: String? = nil
 
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
