@@ -34,7 +34,7 @@ struct NavigationBarView: View {
                     }
                     HomeButtonView()
                     Spacer()
-                    AboutButtonView()
+                    LibraryButtonView()
                     if horizontalSizeClass == .regular {
                         Spacer()
                     }
@@ -42,7 +42,7 @@ struct NavigationBarView: View {
                     if horizontalSizeClass == .regular {
                         Spacer()
                     }
-                    AboutButtonView()
+                    LibraryButtonView()
                     Spacer()
                     HomeButtonView()
                     Spacer()

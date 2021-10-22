@@ -7,13 +7,13 @@
 
 import SwiftUI
 import CoreData
-import SwiftUIX
 
-struct BookmarkView: View {
+struct LibraryView: View {
     @EnvironmentObject var model: WebViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var tabSelect = 0
     @State private var showEditing = false
+    @State private var currentBookmark: Bookmark?
     
     @Environment(\.managedObjectContext) var context
     @FetchRequest(
@@ -45,21 +45,34 @@ struct BookmarkView: View {
                 
                 Spacer()
             }
-            .background(NavigationLink("", destination: EditBookmarkView(), isActive: $showEditing))
+            .background(NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark), isActive: $showEditing))
             .navigationBarTitle(tabSelect == 0 ? "Bookmarks": "History", displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
-                    NavigationLink(destination: EditBookmarkView()) {
-                        Text("Add")
+                    
+                    if tabSelect == 0 {
+                        Button("Add") {
+                            showEditing.toggle()
+                        }
+                    } else {
+                        Button("Actions") {
+                            print("Actions pressed")
+                        }
                     }
-                    .disabled(tabSelect != 0)
 
                     Spacer()
                     
                     EditButton()
                 }
                 
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .environment(\.editMode, $editMode)
         }
     }
@@ -75,8 +88,8 @@ struct BookmarkView: View {
                         ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url!)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button("Edit") {
-                                    model.bookmarkName = bookmark.name
-                                    model.bookmarkUrl = bookmark.url
+                                    currentBookmark = bookmark
+
                                     showEditing = true
                                 }
                                 .tint(.blue)
@@ -87,22 +100,26 @@ struct BookmarkView: View {
                                 .tint(.red)
                             }
                     } else {
-                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url!)
+                        // Clicking outside the text doesn't dismiss the
+                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "Unknown")
                             .contextMenu {
                                 Button {
-                                    model.bookmarkName = bookmark.name
-                                    model.bookmarkUrl = bookmark.url
+                                    currentBookmark = bookmark
+
                                     showEditing = true
                                 } label: {
                                     Label("Edit bookmark", systemImage: "pencil")
+                                }
+                                
+                                Button {
+                                    PersistenceController.shared.delete(bookmark)
+                                } label: {
+                                    Label("Delete bookmark", systemImage: "trash")
                                 }
                             }
                     }
                 }
                 .onDelete(perform: removeItem)
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
             }
         }
     }
@@ -119,8 +136,8 @@ struct BookmarkView: View {
     }
 }
 
-struct BookmarkView_Previews: PreviewProvider {
+struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkView()
+        LibraryView()
     }
 }

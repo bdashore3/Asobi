@@ -13,7 +13,6 @@ import SwiftUI
 struct ListRowLinkView: View {
     @EnvironmentObject var model: WebViewModel
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @Environment(\.presentationMode) var presentationMode
     
     private var text: String
     private var link: String
@@ -24,16 +23,21 @@ struct ListRowLinkView: View {
     }
     
     var body: some View {
-        HStack {
-            Button(text) {
-                model.loadUrl(link)
+        ZStack {
+            Color.clear
+            HStack {
+                Text(text)
+                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                    
+                Spacer()
+                    
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
             }
-            .foregroundColor(colorScheme == .light ? Color.black : Color.white)
-                
-            Spacer()
-                
-            Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            model.loadUrl(link)
         }
     }
 }

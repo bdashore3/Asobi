@@ -14,8 +14,10 @@ struct EditBookmarkView: View {
 
     @EnvironmentObject var model: WebViewModel
 
-    @State var bookmarkName = ""
-    @State var bookmarkUrl = ""
+    @State private var bookmarkName = ""
+    @State private var bookmarkUrl = ""
+    @Binding var bookmark: Bookmark?
+    @State private var showUrlError = false
 
     var body: some View {
         NavigationView {
@@ -30,18 +32,41 @@ struct EditBookmarkView: View {
                         .autocapitalization(.none)
                 }
                 .onAppear {
-                    bookmarkName = model.bookmarkName ?? model.webView.title ?? ""
-                    bookmarkUrl = model.bookmarkUrl ?? model.webView.url?.absoluteString ?? ""
+                    bookmarkName = bookmark?.name ?? model.webView.title ?? ""
+                    bookmarkUrl = bookmark?.url ?? model.webView.url?.absoluteString ?? ""
+                    
+                    if !(bookmarkUrl.hasPrefix("http://") || bookmarkUrl.hasPrefix("https://")) {
+                        bookmarkUrl = "https://\(bookmarkUrl)"
+                    }
                 }
+            }
+            .alert(isPresented: $showUrlError) {
+                Alert(
+                    title:Text("Empty URL"),
+                    message: Text("The bookmark title and URL cannot be empty. Please input the valid fields"),
+                    dismissButton: .default(Text("OK"))
+                )
             }
             .navigationBarTitle("Editing Bookmark", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        // Do saving here
-                        let bookmark = Bookmark(context: context)
-                        bookmark.name = bookmarkName
-                        bookmark.url = bookmarkUrl
+                        if bookmarkUrl == "" || bookmarkName == "" {
+                            showUrlError.toggle()
+                            
+                            return
+                        }
+                        
+                        if let unwrappedBookmark = bookmark {
+                            // Update an existing bookmark
+                            unwrappedBookmark.name = bookmarkName
+                            unwrappedBookmark.url = bookmarkUrl
+                        } else {
+                            // Set a new bookmark
+                            let bookmark = Bookmark(context: context)
+                            bookmark.name = bookmarkName
+                            bookmark.url = bookmarkUrl
+                        }
                         
                         do {
                             try context.save()
@@ -50,15 +75,18 @@ struct EditBookmarkView: View {
                         } catch {
                             print("Coredata Error: \(error.localizedDescription)")
                         }
+                        
+                        bookmark = nil
                     }
                 }
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
 struct EditBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookmarkView()
+        EditBookmarkView(bookmark: .constant(nil))
     }
 }
