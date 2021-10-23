@@ -11,14 +11,14 @@ import CoreData
 struct LibraryView: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @State var currentUrl: String?
+    
     @State private var dismissSelf = false
     @State private var tabSelect = 0
     @State private var showEditing = false
     @State private var currentBookmark: Bookmark?
-    @State var currentUrl: String?
     @State private var isCopiedButton = false
-    
-    @State var editMode: EditMode = .inactive
+    @State private var editMode: EditMode = .inactive
     
     var body: some View {
         NavigationView {
@@ -61,9 +61,7 @@ struct LibraryView: View {
                 
                 Spacer()
             }
-            .onChange(of: dismissSelf) { _ in
-                print("Change of library dismiss detected")
-                
+            .onChange(of: dismissSelf) { _ in                
                 presentationMode.wrappedValue.dismiss()
             }
             .background(
