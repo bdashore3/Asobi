@@ -9,17 +9,14 @@ import SwiftUI
 import CoreData
 
 struct LibraryView: View {
-    @EnvironmentObject var model: WebViewModel
     @Environment(\.presentationMode) var presentationMode
+    
+    @State private var dismissSelf = false
     @State private var tabSelect = 0
     @State private var showEditing = false
     @State private var currentBookmark: Bookmark?
-    
-    @Environment(\.managedObjectContext) var context
-    @FetchRequest(
-        entity: Bookmark.entity(),
-        sortDescriptors: []
-    ) var bookmarks: FetchedResults<Bookmark>
+    @State var currentUrl: String?
+    @State private var isCopiedButton = false
     
     @State var editMode: EditMode = .inactive
     
@@ -36,27 +33,52 @@ struct LibraryView: View {
                 Spacer()
                 
                 if tabSelect == 0 {
-                    listView
+                    BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing, dismissLibraryView: $dismissSelf)
                 } else {
-                    VStack {
-                        Text("History")
+                    Form {
+                        Section(header: "Current URL", footer: "Tap the textbox to copy the URL!") {
+                            HStack {
+                                Text(currentUrl ?? "No URL found")
+                                
+                                Spacer()
+                                
+                                Text(isCopiedButton ? "Copied!" : "Copy")
+                                    .opacity(0.6)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                isCopiedButton = true
+                                
+                                UIPasteboard.general.string = currentUrl
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                    isCopiedButton = false
+                                }
+                            }
+                        }
                     }
                 }
                 
                 Spacer()
             }
-            .background(NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark), isActive: $showEditing))
+            .onChange(of: dismissSelf) { _ in
+                print("Change of library dismiss detected")
+                
+                presentationMode.wrappedValue.dismiss()
+            }
+            .background(
+                navigationSwitchView
+            )
             .navigationBarTitle(tabSelect == 0 ? "Bookmarks": "History", displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
-                    
                     if tabSelect == 0 {
                         Button("Add") {
                             showEditing.toggle()
                         }
                     } else {
                         Button("Actions") {
-                            print("Actions pressed")
+                            showEditing.toggle()
                         }
                     }
 
@@ -76,68 +98,19 @@ struct LibraryView: View {
             .environment(\.editMode, $editMode)
         }
     }
-    
+
     @ViewBuilder
-    var listView: some View {
-        if bookmarks.isEmpty {
-            Text("It looks like your bookmarks are empty. Try adding some!")
+    var navigationSwitchView: some View {
+        if tabSelect == 0 {
+            NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark), isActive: $showEditing)
         } else {
-            List {
-                ForEach(bookmarks, id: \.self) { bookmark in
-                    if #available(iOS 15.0, *) {
-                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url!)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button("Edit") {
-                                    currentBookmark = bookmark
-
-                                    showEditing = true
-                                }
-                                .tint(.blue)
-                                
-                                Button("Delete") {
-                                    PersistenceController.shared.delete(bookmark)
-                                }
-                                .tint(.red)
-                            }
-                    } else {
-                        // Clicking outside the text doesn't dismiss the
-                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "Unknown")
-                            .contextMenu {
-                                Button {
-                                    currentBookmark = bookmark
-
-                                    showEditing = true
-                                } label: {
-                                    Label("Edit bookmark", systemImage: "pencil")
-                                }
-                                
-                                Button {
-                                    PersistenceController.shared.delete(bookmark)
-                                } label: {
-                                    Label("Delete bookmark", systemImage: "trash")
-                                }
-                            }
-                    }
-                }
-                .onDelete(perform: removeItem)
-            }
-        }
-    }
-    
-    func removeItem(at offsets: IndexSet) {
-        print("Offsets: \(offsets)")
-        
-        for index in offsets {
-            print("Offset index: \(index)")
-            
-            let item = bookmarks[index]
-            PersistenceController.shared.delete(item)
+            NavigationLink("", destination: AboutView(), isActive: $showEditing)
         }
     }
 }
 
 struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryView()
+        LibraryView(currentUrl: "")
     }
 }

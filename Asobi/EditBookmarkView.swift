@@ -42,7 +42,7 @@ struct EditBookmarkView: View {
             }
             .alert(isPresented: $showUrlError) {
                 Alert(
-                    title:Text("Empty URL"),
+                    title:Text("Empty fields"),
                     message: Text("The bookmark title and URL cannot be empty. Please input the valid fields"),
                     dismissButton: .default(Text("OK"))
                 )

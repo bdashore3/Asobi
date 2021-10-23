@@ -31,6 +31,13 @@ struct LibraryButtonView: View {
         })
         .contextMenu() {
             Button {
+                UIPasteboard.general.string = model.webView.url?.absoluteString
+            } label: {
+                Text("Copy current URL")
+                Image(systemName: "doc.on.doc")
+            }
+            
+            Button {
                 libraryViewType = .editing
                 showBookmarks.toggle()
             } label: {
@@ -42,7 +49,7 @@ struct LibraryButtonView: View {
             if item == .editing {
                 EditBookmarkView(bookmark: .constant(nil))
             } else {
-                LibraryView()
+                LibraryView(currentUrl: model.webView.url?.absoluteString)
             }
         }
     }
