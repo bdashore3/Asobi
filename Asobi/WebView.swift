@@ -88,7 +88,7 @@ struct WebView: UIViewRepresentable {
         tapGesture.numberOfTapsRequired = 3
         tapGesture.delegate = context.coordinator
         webView.addGestureRecognizer(tapGesture)
-
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(context.coordinator, action: #selector(context.coordinator.refreshWebView), for: .valueChanged)
         webView.scrollView.addSubview(refreshControl)
