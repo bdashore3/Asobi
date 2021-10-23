@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
-    @EnvironmentObject var model: WebViewModel
-    
+    @StateObject var model: WebViewModel = WebViewModel()
+
     var body: some View {
         ZStack {
             // Open cubari on launch
@@ -50,6 +50,7 @@ struct ContentView: View {
                     .zIndex(3)
             }
         }
+        .environmentObject(model)
     }
 }
 

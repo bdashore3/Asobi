@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct AsobiApp: App {
     @Environment(\.scenePhase) var scenePhase
-    @StateObject var model: WebViewModel = WebViewModel()
 
     let persistenceController = PersistenceController.shared
     
@@ -18,7 +17,6 @@ struct AsobiApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(model)
         }
         .onChange(of: scenePhase) { _ in
             persistenceController.save()

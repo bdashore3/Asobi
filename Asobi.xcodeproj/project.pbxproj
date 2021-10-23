@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C070D77271A3638001F5327 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = 0C070D76271A3638001F5327 /* FaviconFinder */; };
 		0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C070D78271A3B54001F5327 /* LibraryView.swift */; };
+		0C21519027237E0900C3976A /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C21518F27237E0900C3976A /* BookmarkView.swift */; };
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
 		0C5CBB8C270D39350045E2FE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CBB8B270D39350045E2FE /* Color.swift */; };
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		0C070D78271A3B54001F5327 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				0C7D3FB02717D87D000A4534 /* PersistenceController.swift */,
 				0C070D78271A3B54001F5327 /* LibraryView.swift */,
 				0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */,
+				0C21518F27237E0900C3976A /* BookmarkView.swift */,
 			);
 			path = Asobi;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
+				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
