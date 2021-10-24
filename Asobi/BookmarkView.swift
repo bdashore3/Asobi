@@ -10,12 +10,13 @@ import SwiftUI
 struct BookmarkView: View {
     @EnvironmentObject var model: WebViewModel
     @Environment(\.presentationMode) var presentationMode
+    @AppStorage("defaultUrl") var defaultUrl = ""
     
     @FetchRequest(
         entity: Bookmark.entity(),
         sortDescriptors: []
     ) var bookmarks: FetchedResults<Bookmark>
-    
+
     @Binding var currentBookmark: Bookmark?
     @Binding var showEditing: Bool
     @Binding var dismissLibraryView: Bool
@@ -56,6 +57,14 @@ struct BookmarkView: View {
                             }
                             .tint(.red)
                         }
+                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                            Button("Set as default") {
+                                if let bookmarkUrl = bookmark.url {
+                                    defaultUrl = bookmarkUrl
+                                }
+                            }
+                            .tint(.green)
+                        }
                     } else {
                         // Clicking outside the text doesn't dismiss the
                         HStack {
@@ -86,8 +95,16 @@ struct BookmarkView: View {
                                 } label: {
                                     Label("Delete bookmark", systemImage: "trash")
                                 }
-                            }
-                   }
+                            
+                                Button {
+                                    if let bookmarkUrl = bookmark.url {
+                                        defaultUrl = bookmarkUrl
+                                    }
+                                } label: {
+                                    Label("Set as default URL", systemImage: "archivebox")
+                                }
+                        }
+                    }
                 }
                 .onDelete(perform: removeItem)
             }
