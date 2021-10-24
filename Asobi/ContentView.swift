@@ -10,11 +10,13 @@ import SwiftUIX
 
 struct ContentView: View {
     @StateObject var model: WebViewModel = WebViewModel()
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
     var body: some View {
         ZStack {
             // Open cubari on launch
             WebView(webView: model.webView, errorDescription: $model.errorDescription, showError: $model.showError, showNavigation: $model.showNavigation, showProgress: $model.showProgress)
+                .edgesIgnoringSafeArea(.bottom)
                 .zIndex(0)
             
             // ProgressView for loading
@@ -23,7 +25,7 @@ struct ContentView: View {
                     VStack {
                         CircularProgressBar(model.webView.estimatedProgress)
                             .lineWidth(6)
-                            .foregroundColor(.blue)
+                            .foregroundColor(navigationAccent)
                             .frame(width: 60, height: 60)
                         
                         Text("Loading...")
@@ -33,22 +35,32 @@ struct ContentView: View {
                 .zIndex(1)
             }
             
-            // Error description view
-            if model.showError {
-                GroupBox {
+            VStack {
+                Spacer()
+                
+                // Error description view
+                if model.showError {
                     VStack {
-                        Text("Error: \(model.errorDescription!)")
-                        Text("Make sure the default URL in settings is correct!")
+                        GroupBox {
+                            Text("Error: \(model.errorDescription!)")
+                        }
                     }
+                    .transition(AnyTransition.move(edge: .bottom))
+                    .animation(.easeInOut(duration: 0.3))
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            model.showError = false
+                        }
+                    }
+                    .padding()
                 }
-                .zIndex(2)
+                
+                if model.showNavigation {
+                    NavigationBarView()
+                }
             }
-            
-            // Navigation bar view
-            if model.showNavigation {
-                NavigationBarView()
-                    .zIndex(3)
-            }
+            .edgesIgnoringSafeArea(.bottom)
+            .zIndex(2)
         }
         .environmentObject(model)
     }

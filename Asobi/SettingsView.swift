@@ -26,7 +26,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Navigation Bar"),
+                Section(header: Text("Appearance"),
                         footer: Text("Some of these settings will cause the menu to close. This is because the parent navigation bar is refreshing.")) {
                     Toggle(isOn: $leftHandMode) {
                         Text("Left handed mode")
@@ -34,7 +34,7 @@ struct SettingsView: View {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
-                    ColorPicker("Navigation bar accent color", selection: $navigationAccent, supportsOpacity: false)
+                    ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Blockers"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {
