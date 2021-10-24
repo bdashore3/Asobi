@@ -44,6 +44,7 @@ class WebViewModel: ObservableObject {
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.scrollView.backgroundColor = UIColor.clear
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         setUserAgent(changeUserAgent: changeUserAgent)
         
