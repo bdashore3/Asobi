@@ -16,8 +16,6 @@ struct NavigationBarView: View {
     
     var body: some View { 
         VStack {
-            Spacer()
-
             // Sets button position depending on hand mode setting
             HStack {
                 if leftHandMode {
@@ -32,9 +30,9 @@ struct NavigationBarView: View {
                         RefreshButtonView()
                         Spacer()
                     }
-                    HomeButtonView()
-                    Spacer()
                     LibraryButtonView()
+                    Spacer()
+                    HomeButtonView()
                     if horizontalSizeClass == .regular {
                         Spacer()
                     }
@@ -42,9 +40,9 @@ struct NavigationBarView: View {
                     if horizontalSizeClass == .regular {
                         Spacer()
                     }
-                    LibraryButtonView()
-                    Spacer()
                     HomeButtonView()
+                    Spacer()
+                    LibraryButtonView()
                     Spacer()
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
@@ -59,6 +57,7 @@ struct NavigationBarView: View {
                 }
             }
             .padding()
+            .padding(.bottom, UIDevice.current.hasNotch ? 30 : 0)
             .background(colorScheme == .light ? Color.white : Color.black)
             .accentColor(navigationAccent)
         }
