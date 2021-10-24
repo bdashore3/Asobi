@@ -18,6 +18,7 @@ struct SettingsView: View {
     @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    @AppStorage("autoHideNavigation") var autoHideNavigation = false
     
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -33,6 +34,9 @@ struct SettingsView: View {
                     }
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
+                    }
+                    Toggle(isOn: $autoHideNavigation) {
+                        Text("Auto hide navigation bar")
                     }
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }

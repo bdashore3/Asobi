@@ -10,7 +10,8 @@ import WebKit
 
 struct WebView: UIViewRepresentable {
     let webView: WKWebView
-
+    
+    @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
     @Binding var errorDescription: String?
     @Binding var showError: Bool
@@ -85,7 +86,7 @@ struct WebView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> WKWebView {
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
-        tapGesture.numberOfTapsRequired = 3
+        tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
         tapGesture.delegate = context.coordinator
         webView.addGestureRecognizer(tapGesture)
         
@@ -102,8 +103,11 @@ struct WebView: UIViewRepresentable {
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
         // Tap gesture
-        let tapGesture = uiView.gestureRecognizers?.last
-        
-        tapGesture!.isEnabled = !persistNavigation
+        if let lastGestureRecognizer = uiView.gestureRecognizers?.last {
+            let tapGesture: UITapGestureRecognizer = lastGestureRecognizer as! UITapGestureRecognizer
+
+            tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
+            tapGesture.isEnabled = !persistNavigation
+        }
     }
 }
