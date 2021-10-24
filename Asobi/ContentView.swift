@@ -11,6 +11,7 @@ import SwiftUIX
 struct ContentView: View {
     @StateObject var model: WebViewModel = WebViewModel()
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    @AppStorage("autoHideNavigation") var autoHideNavigation = false
 
     var body: some View {
         ZStack {
@@ -57,6 +58,13 @@ struct ContentView: View {
                 
                 if model.showNavigation {
                     NavigationBarView()
+                        .onAppear {
+                            if autoHideNavigation {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    model.showNavigation = false
+                                }
+                            }
+                        }
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
