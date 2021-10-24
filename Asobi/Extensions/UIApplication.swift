@@ -1,6 +1,6 @@
 //
 //  UIApplicationView.swift
-//  Cubari
+//  Asobi
 //
 //  Created by Brian Dashore on 9/30/21.
 //

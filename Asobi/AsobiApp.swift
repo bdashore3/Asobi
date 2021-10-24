@@ -1,6 +1,6 @@
 //
-//  CubariApp.swift
-//  Cubari
+//  AsobiApp.swift
+//  Asobi
 //
 //  Created by Brian Dashore on 8/2/21.
 //
