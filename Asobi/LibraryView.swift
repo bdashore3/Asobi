@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct LibraryView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var navView: NavigationViewModel
     
     @State var currentUrl: String?
     
@@ -33,7 +33,7 @@ struct LibraryView: View {
                 Spacer()
                 
                 if tabSelect == 0 {
-                    BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing, dismissLibraryView: $dismissSelf)
+                    BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
                 } else {
                     Form {
                         Section(header: "Current URL", footer: "Tap the textbox to copy the URL!") {
@@ -61,9 +61,6 @@ struct LibraryView: View {
                 
                 Spacer()
             }
-            .onChange(of: dismissSelf) { _ in                
-                presentationMode.wrappedValue.dismiss()
-            }
             .background(
                 navigationSwitchView
             )
@@ -87,7 +84,7 @@ struct LibraryView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        presentationMode.wrappedValue.dismiss()
+                        navView.currentSheet = nil
                     }
                 }
                 
