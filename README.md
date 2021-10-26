@@ -4,7 +4,7 @@ An immersive browser application for iOS, iPadOS, and MacCatalyst.
 
 ## Join the beta
 
-Not yet.
+[https://testflight.apple.com/join/tOiaybb5](https://testflight.apple.com/join/tOiaybb5)
 
 ## Why did I make this?
 
