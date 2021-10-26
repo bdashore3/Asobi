@@ -9,22 +9,24 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
-    @StateObject var model: WebViewModel = WebViewModel()
+    @StateObject var webModel: WebViewModel = WebViewModel()
+    @StateObject var navModel: NavigationViewModel = NavigationViewModel()
+
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
 
     var body: some View {
         ZStack {
             // Open cubari on launch
-            WebView(webView: model.webView, errorDescription: $model.errorDescription, showError: $model.showError, showNavigation: $model.showNavigation, showProgress: $model.showProgress)
+            WebView(webView: webModel.webView, errorDescription: $webModel.errorDescription, showError: $webModel.showError, showNavigation: $webModel.showNavigation, showProgress: $webModel.showProgress)
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(0)
             
             // ProgressView for loading
-            if model.showProgress {
+            if webModel.showProgress {
                 GroupBox {
                     VStack {
-                        CircularProgressBar(model.webView.estimatedProgress)
+                        CircularProgressBar(webModel.webView.estimatedProgress)
                             .lineWidth(6)
                             .foregroundColor(navigationAccent)
                             .frame(width: 60, height: 60)
@@ -40,37 +42,48 @@ struct ContentView: View {
                 Spacer()
                 
                 // Error description view
-                if model.showError {
+                if webModel.showError {
                     VStack {
                         GroupBox {
-                            Text("Error: \(model.errorDescription!)")
+                            Text("Error: \(webModel.errorDescription!)")
                         }
                     }
                     .transition(AnyTransition.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.3))
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                            model.showError = false
+                            webModel.showError = false
                         }
                     }
                     .padding()
                 }
                 
-                if model.showNavigation {
+                if webModel.showNavigation {
                     NavigationBarView()
                         .onAppear {
                             if autoHideNavigation {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                    model.showNavigation = false
+                                    webModel.showNavigation = false
                                 }
                             }
                         }
                 }
             }
+            .sheet(item: $navModel.currentSheet) { item in
+                switch item {
+                case .library:
+                    LibraryView(currentUrl: webModel.webView.url?.absoluteString)
+                case .settings:
+                    SettingsView()
+                case .bookmarkEditing:
+                    EditBookmarkView(bookmark: .constant(nil))
+                }
+            }
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(2)
         }
-        .environmentObject(model)
+        .environmentObject(webModel)
+        .environmentObject(navModel)
     }
 }
 

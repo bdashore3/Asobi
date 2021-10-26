@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct BookmarkView: View {
-    @EnvironmentObject var model: WebViewModel
-    @Environment(\.presentationMode) var presentationMode
     @AppStorage("defaultUrl") var defaultUrl = ""
+    
+    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
     
     @FetchRequest(
         entity: Bookmark.entity(),
@@ -19,7 +20,6 @@ struct BookmarkView: View {
 
     @Binding var currentBookmark: Bookmark?
     @Binding var showEditing: Bool
-    @Binding var dismissLibraryView: Bool
     
     var body: some View {
         if bookmarks.isEmpty {
@@ -27,83 +27,56 @@ struct BookmarkView: View {
                 .padding()
         } else {
             List {
-                // Add NavigationModel to use the common ListRowLink views
                 ForEach(bookmarks, id: \.self) { bookmark in
-                    if #available(iOS 15.0, *) {
-                        HStack {
-                            Text(bookmark.name ?? "Unknown")
-                                
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            model.loadUrl(bookmark.url ?? "")
-                            
-                            dismissLibraryView.toggle()
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            Button("Edit") {
-                                currentBookmark = bookmark
-
-                                showEditing = true
-                            }
-                            .tint(.blue)
-                                
-                            Button("Delete") {
-                                PersistenceController.shared.delete(bookmark)
-                            }
-                            .tint(.red)
-                        }
-                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                            Button("Set as default") {
-                                if let bookmarkUrl = bookmark.url {
-                                    defaultUrl = bookmarkUrl
-                                }
-                            }
-                            .tint(.green)
-                        }
-                    } else {
-                        // Clicking outside the text doesn't dismiss the
-                        HStack {
-                            Text(bookmark.name ?? "Unknown")
-                                
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            model.loadUrl(bookmark.url ?? "")
-                            
-                            dismissLibraryView.toggle()
-                        }
-                        .contextMenu {
-                                Button {
+                    // Check for iOS 15 and ONLY iOS 15
+                    if #available(iOS 15.0, *), ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 15 {
+                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "")
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button("Edit") {
                                     currentBookmark = bookmark
 
                                     showEditing = true
-                                } label: {
-                                    Label("Edit bookmark", systemImage: "pencil")
                                 }
-                                
-                                Button {
+                                .tint(.blue)
+                                    
+                                Button("Delete") {
                                     PersistenceController.shared.delete(bookmark)
-                                } label: {
-                                    Label("Delete bookmark", systemImage: "trash")
                                 }
-                            
-                                Button {
+                                .tint(.red)
+                            }
+                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                Button("Set as default") {
                                     if let bookmarkUrl = bookmark.url {
                                         defaultUrl = bookmarkUrl
                                     }
-                                } label: {
-                                    Label("Set as default URL", systemImage: "archivebox")
                                 }
-                        }
+                                .tint(.green)
+                            }
+                    } else {
+                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "")
+                            .contextMenu {
+                                    Button {
+                                        currentBookmark = bookmark
+
+                                        showEditing = true
+                                    } label: {
+                                        Label("Edit bookmark", systemImage: "pencil")
+                                    }
+                                    
+                                    Button {
+                                        PersistenceController.shared.delete(bookmark)
+                                    } label: {
+                                        Label("Delete bookmark", systemImage: "trash")
+                                    }
+                                
+                                    Button {
+                                        if let bookmarkUrl = bookmark.url {
+                                            defaultUrl = bookmarkUrl
+                                        }
+                                    } label: {
+                                        Label("Set as default URL", systemImage: "archivebox")
+                                    }
+                            }
                     }
                 }
                 .onDelete(perform: removeItem)
@@ -122,6 +95,6 @@ struct BookmarkView: View {
 
 struct BookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkView(currentBookmark: .constant(nil), showEditing: .constant(false), dismissLibraryView: .constant(false))
+        BookmarkView(currentBookmark: .constant(nil), showEditing: .constant(false))
     }
 }

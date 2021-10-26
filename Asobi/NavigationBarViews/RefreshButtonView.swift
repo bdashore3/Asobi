@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RefreshButtonView: View {
-    @EnvironmentObject var model: WebViewModel
+    @EnvironmentObject var webModel: WebViewModel
     
     var body: some View {
         Button(action: {
-            model.showError = false
-            model.webView.reload()
-            model.showProgress = true
+            webModel.showError = false
+            webModel.webView.reload()
+            webModel.showProgress = true
         }, label: {
             Image(systemName: "arrow.clockwise")
         })

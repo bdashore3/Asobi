@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HomeButtonView: View {
-    @EnvironmentObject var model: WebViewModel
+    @EnvironmentObject var webModel: WebViewModel
     
     var body: some View {
         Button(action: {
-            model.goHome()
+            webModel.goHome()
         }, label: {
             Image(systemName: "house")
         })

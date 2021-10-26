@@ -10,9 +10,9 @@ import SwiftUI
 
 struct EditBookmarkView: View {
     @Environment(\.managedObjectContext) var context
-    @Environment(\.presentationMode) var presentationMode
 
-    @EnvironmentObject var model: WebViewModel
+    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     @State private var bookmarkName = ""
     @State private var bookmarkUrl = ""
@@ -32,8 +32,8 @@ struct EditBookmarkView: View {
                         .autocapitalization(.none)
                 }
                 .onAppear {
-                    bookmarkName = bookmark?.name ?? model.webView.title ?? ""
-                    bookmarkUrl = bookmark?.url ?? model.webView.url?.absoluteString ?? ""
+                    bookmarkName = bookmark?.name ?? webModel.webView.title ?? ""
+                    bookmarkUrl = bookmark?.url ?? webModel.webView.url?.absoluteString ?? ""
                     
                     if !(bookmarkUrl.hasPrefix("http://") || bookmarkUrl.hasPrefix("https://")) {
                         bookmarkUrl = "https://\(bookmarkUrl)"
@@ -71,7 +71,7 @@ struct EditBookmarkView: View {
                         do {
                             try context.save()
 
-                            presentationMode.wrappedValue.dismiss()
+                            navModel.currentSheet = nil
                         } catch {
                             print("Coredata Error: \(error.localizedDescription)")
                         }

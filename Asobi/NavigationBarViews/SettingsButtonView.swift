@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct SettingsButtonView: View {
-    @EnvironmentObject var model: WebViewModel
-    @State private var showSettings = false
+    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
     
     var body: some View {
         Button(action: {
-            showSettings.toggle()
+            navModel.currentSheet = .settings
         }, label: {
             Image(systemName: "gear")
         })
-        .sheet(isPresented: $showSettings) {
-            SettingsView(showView: $showSettings)
-        }
     }
 }
 

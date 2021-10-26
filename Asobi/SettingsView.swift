@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var model: WebViewModel
-    @Binding var showView: Bool
+    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     // All settings here
     @AppStorage("leftHandMode") var leftHandMode = false
@@ -47,9 +47,9 @@ struct SettingsView: View {
                         }
                         .onChange(of: blockAds) { changed in
                             if changed {
-                                model.enableBlocker()
+                                webModel.enableBlocker()
                             } else {
-                                model.disableBlocker()
+                                webModel.disableBlocker()
                             }
                             
                             showAdblockAlert.toggle()
@@ -67,8 +67,8 @@ struct SettingsView: View {
                         Text("Request \(UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac ? "mobile" : "desktop") website")
                     }
                     .onChange(of: changeUserAgent) { changed in
-                        model.setUserAgent(changeUserAgent: changed)
-                        model.webView.reload()
+                        webModel.setUserAgent(changeUserAgent: changed)
+                        webModel.webView.reload()
                     }
                 }
                 Section(header: Text("Default URL"),
@@ -84,12 +84,12 @@ struct SettingsView: View {
                     TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                         if !begin && UIDevice.current.deviceType != .mac {
                             showUrlChangeAlert.toggle()
-                            model.loadUrl()
+                            webModel.loadUrl()
                         }
                     }, onCommit: {
                         if UIDevice.current.deviceType == .mac {
                             showUrlChangeAlert.toggle()
-                            model.loadUrl()
+                            webModel.loadUrl()
                         }
                     })
                     .textCase(.lowercase)
@@ -114,7 +114,7 @@ struct SettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        showView.toggle()
+                        navModel.currentSheet = nil
                     }
                 }
             }
@@ -125,7 +125,7 @@ struct SettingsView: View {
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(showView: .constant(true))
+        SettingsView()
     }
 }
 #endif

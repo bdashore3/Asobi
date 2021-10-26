@@ -8,24 +8,24 @@
 import SwiftUI
 
 struct ForwardBackButtonView: View {
-    @EnvironmentObject var model: WebViewModel
+    @EnvironmentObject var webModel: WebViewModel
     
     var body: some View {
         Button(action: {
-            model.goBack()
+            webModel.goBack()
         }, label: {
             Image(systemName: "arrow.left")
         })
-        .disabled(!model.canGoBack)
+        .disabled(!webModel.canGoBack)
         
         Spacer()
         
         Button(action: {
-            model.goForward()
+            webModel.goForward()
         }, label: {
             Image(systemName: "arrow.right")
         })
-        .disabled(!model.canGoForward)
+        .disabled(!webModel.canGoForward)
     }
 }
 
