@@ -19,6 +19,7 @@
 		0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */; };
 		0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 0CB4DBA2271BB58700ADBE5A /* SwiftUIX */; };
 		0CB54E83270682AF0091897E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB54E82270682AF0091897E /* UIApplication.swift */; };
+		0CC1C8D1272CAF890076C125 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC1C8D0272CAF890076C125 /* UIColor.swift */; };
 		0CC4B4F327277CEC00E258B7 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */; };
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
 		7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */; };
@@ -67,6 +68,7 @@
 		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
 		0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		0CC1C8D0272CAF890076C125 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				0CB54E82270682AF0091897E /* UIApplication.swift */,
 				0C5CBB8B270D39350045E2FE /* Color.swift */,
 				0C615B89271214C80090198B /* UIDevice.swift */,
+				0CC1C8D0272CAF890076C125 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* AsobiApp.swift in Sources */,
+				0CC1C8D1272CAF890076C125 /* UIColor.swift in Sources */,
 				0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */,
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,

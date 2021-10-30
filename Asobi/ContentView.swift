@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
+    @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
+    
     @StateObject var webModel: WebViewModel = WebViewModel()
     @StateObject var navModel: NavigationViewModel = NavigationViewModel()
 
@@ -17,10 +19,18 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            // Open cubari on launch
-            WebView(webView: webModel.webView, errorDescription: $webModel.errorDescription, showError: $webModel.showError, showNavigation: $webModel.showNavigation, showProgress: $webModel.showProgress)
-                .edgesIgnoringSafeArea(.bottom)
+            // If the device is landscape, set the background color to the computed UIColor
+            Color(orientation.isLandscape ? webModel.backgroundColor ?? .clear : .clear)
+                .onReceive(NotificationCenter.Publisher(center: .default, name: UIDevice.orientationDidChangeNotification)) { _ in
+                  self.orientation = UIDevice.current.orientation
+                }
+                .ignoresSafeArea()
                 .zIndex(0)
+
+            // Open cubari on launch
+            WebView()
+                .edgesIgnoringSafeArea(.bottom)
+                .zIndex(1)
             
             // ProgressView for loading
             if webModel.showProgress {
@@ -35,7 +45,7 @@ struct ContentView: View {
                             .font(.title2)
                     }
                 }
-                .zIndex(1)
+                .zIndex(2)
             }
             
             VStack {
@@ -80,7 +90,7 @@ struct ContentView: View {
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
-            .zIndex(2)
+            .zIndex(3)
         }
         .environmentObject(webModel)
         .environmentObject(navModel)

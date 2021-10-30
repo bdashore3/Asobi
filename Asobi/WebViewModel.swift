@@ -42,8 +42,6 @@ class WebViewModel: ObservableObject {
 
         // Clears the white background on webpage load
         webView.isOpaque = false
-        webView.backgroundColor = .clear
-        webView.scrollView.backgroundColor = UIColor.clear
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         setUserAgent(changeUserAgent: changeUserAgent)
@@ -64,6 +62,7 @@ class WebViewModel: ObservableObject {
     @Published var showProgress: Bool = false
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
+    @Published var backgroundColor: UIColor?
 
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
