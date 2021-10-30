@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import UIKit
 
 // From zane-carter: https://gist.github.com/zane-carter/fc2bf8f5f5ac45196b4c9b01d54aca80
 extension Color: RawRepresentable {
