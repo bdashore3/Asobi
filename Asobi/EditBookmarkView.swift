@@ -10,9 +10,9 @@ import SwiftUI
 
 struct EditBookmarkView: View {
     @Environment(\.managedObjectContext) var context
+    @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var webModel: WebViewModel
-    @EnvironmentObject var navModel: NavigationViewModel
 
     @State private var bookmarkName = ""
     @State private var bookmarkUrl = ""
@@ -71,7 +71,7 @@ struct EditBookmarkView: View {
                         do {
                             try context.save()
 
-                            navModel.currentSheet = nil
+                            presentationMode.wrappedValue.dismiss()
                         } catch {
                             print("Coredata Error: \(error.localizedDescription)")
                         }
