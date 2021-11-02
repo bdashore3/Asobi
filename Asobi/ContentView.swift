@@ -71,8 +71,9 @@ struct ContentView: View {
                 if webModel.showNavigation {
                     NavigationBarView()
                         .onAppear {
+                            // Marker: If auto hiding is enabled
                             if autoHideNavigation {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                     webModel.showNavigation = false
                                 }
                             }
