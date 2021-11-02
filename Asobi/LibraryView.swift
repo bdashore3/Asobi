@@ -86,6 +86,7 @@ struct LibraryView: View {
                     Button("Done") {
                         navView.currentSheet = nil
                     }
+                    .keyboardShortcut(.cancelAction)
                 }
                 
             }
