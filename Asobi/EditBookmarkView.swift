@@ -49,6 +49,12 @@ struct EditBookmarkView: View {
             }
             .navigationBarTitle("Editing Bookmark", displayMode: .inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .keyboardShortcut(.cancelAction)
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         if bookmarkUrl == "" || bookmarkName == "" {
@@ -78,6 +84,7 @@ struct EditBookmarkView: View {
                         
                         bookmark = nil
                     }
+                    .keyboardShortcut(.defaultAction)
                 }
             }
         }

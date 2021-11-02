@@ -27,6 +27,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
+                // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
+                // Reported this bug to Apple
                 Section(header: Text("Appearance"),
                         footer: Text("Some of these settings will cause the menu to close. This is because the parent navigation bar is refreshing.")) {
                     Toggle(isOn: $leftHandMode) {
@@ -116,6 +118,7 @@ struct SettingsView: View {
                     Button("Done") {
                         navModel.currentSheet = nil
                     }
+                    .keyboardShortcut(.cancelAction)
                 }
             }
         }
