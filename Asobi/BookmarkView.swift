@@ -9,13 +9,16 @@ import SwiftUI
 
 struct BookmarkView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
-    
+
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     
     @FetchRequest(
         entity: Bookmark.entity(),
-        sortDescriptors: []
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Bookmark.orderNum, ascending: true),
+            NSSortDescriptor(keyPath: \Bookmark.name, ascending: true)
+        ]
     ) var bookmarks: FetchedResults<Bookmark>
 
     @Binding var currentBookmark: Bookmark?
@@ -79,6 +82,7 @@ struct BookmarkView: View {
                             }
                     }
                 }
+                .onMove(perform: moveItem)
                 .onDelete(perform: removeItem)
             }
             .listStyle(.insetGrouped)
@@ -87,9 +91,21 @@ struct BookmarkView: View {
 
     func removeItem(at offsets: IndexSet) {
         for index in offsets {
-            let item = bookmarks[index]
-            PersistenceController.shared.delete(item)
+            let bookmark = bookmarks[index]
+            PersistenceController.shared.delete(bookmark)
         }
+    }
+    
+    func moveItem(from source: IndexSet, to destination: Int) {
+        var changedBookmarks = bookmarks.map{ $0 }
+        
+        changedBookmarks.move(fromOffsets: source, toOffset: destination)
+        
+        for reverseIndex in stride(from: changedBookmarks.count - 1, through: 0, by: -1) {
+            changedBookmarks[reverseIndex].orderNum = Int16(reverseIndex)
+        }
+        
+        PersistenceController.shared.save()
     }
 }
 

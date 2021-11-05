@@ -74,13 +74,7 @@ struct EditBookmarkView: View {
                             bookmark.url = bookmarkUrl
                         }
                         
-                        do {
-                            try context.save()
-
-                            presentationMode.wrappedValue.dismiss()
-                        } catch {
-                            print("Coredata Error: \(error.localizedDescription)")
-                        }
+                        PersistenceController.shared.save()
                         
                         bookmark = nil
                     }
