@@ -41,7 +41,7 @@ struct PersistenceController {
             }
         }
     }
-    
+
     func delete(_ object: NSManagedObject) {
         let context = container.viewContext
         context.delete(object)
