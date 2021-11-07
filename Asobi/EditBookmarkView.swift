@@ -75,6 +75,8 @@ struct EditBookmarkView: View {
                         }
                         
                         PersistenceController.shared.save()
+
+                        presentationMode.wrappedValue.dismiss()
                         
                         bookmark = nil
                     }
