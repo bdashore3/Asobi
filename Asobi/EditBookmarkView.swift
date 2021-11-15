@@ -65,13 +65,13 @@ struct EditBookmarkView: View {
                         
                         if let unwrappedBookmark = bookmark {
                             // Update an existing bookmark
-                            unwrappedBookmark.name = bookmarkName
-                            unwrappedBookmark.url = bookmarkUrl
+                            unwrappedBookmark.name = bookmarkName.trimmingCharacters(in: .whitespaces)
+                            unwrappedBookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         } else {
                             // Set a new bookmark
                             let bookmark = Bookmark(context: context)
-                            bookmark.name = bookmarkName
-                            bookmark.url = bookmarkUrl
+                            bookmark.name = bookmarkName.trimmingCharacters(in: .whitespaces)
+                            bookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         }
                         
                         PersistenceController.shared.save()

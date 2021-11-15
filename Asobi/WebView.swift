@@ -9,6 +9,8 @@ import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
+    @Environment(\.managedObjectContext) var context
+    
     @EnvironmentObject var webModel: WebViewModel
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
@@ -55,6 +57,20 @@ struct WebView: UIViewRepresentable {
                     self.parent.webModel.backgroundColor = nil
                 }
             }
+            
+            // Save in history
+            let newHistoryEntry = HistoryEntry(context: parent.context)
+            newHistoryEntry.name = parent.webModel.webView.title
+            newHistoryEntry.url = parent.webModel.webView.url?.absoluteString
+            
+            let now = Date()
+            
+            newHistoryEntry.timestamp = now.timeIntervalSince1970
+            newHistoryEntry.parentHistory = History(context: parent.context)
+            newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
+            newHistoryEntry.parentHistory?.date = now
+            
+            PersistenceController.shared.save()
         }
         
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {

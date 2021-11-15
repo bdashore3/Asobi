@@ -121,7 +121,6 @@ class WebViewModel: ObservableObject {
     }
     
     // Loads a URL. URL built in the buildURL function
-    // TODO: store loaded URLs in history
     func loadUrl(_ urlString: String? = nil) {
         let url = buildUrl(urlString)
         let urlRequest = URLRequest(url: url)

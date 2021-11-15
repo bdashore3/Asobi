@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct LibraryView: View {
+struct LibraryView: View {    
     @EnvironmentObject var navView: NavigationViewModel
     
     @State var currentUrl: String?
@@ -35,28 +35,7 @@ struct LibraryView: View {
                 if tabSelect == 0 {
                     BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
                 } else {
-                    Form {
-                        Section(header: "Current URL", footer: "Tap the textbox to copy the URL!") {
-                            HStack {
-                                Text(currentUrl ?? "No URL found")
-                                
-                                Spacer()
-                                
-                                Text(isCopiedButton ? "Copied!" : "Copy")
-                                    .opacity(0.6)
-                            }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                isCopiedButton = true
-                                
-                                UIPasteboard.general.string = currentUrl
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                    isCopiedButton = false
-                                }
-                            }
-                        }
-                    }
+                    HistoryView()
                 }
                 
                 Spacer()
@@ -68,13 +47,13 @@ struct LibraryView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     if tabSelect == 0 {
+                        // Showing bookmark view
                         Button("Add") {
                             showEditing.toggle()
                         }
                     } else {
-                        Button("Actions") {
-                            showEditing.toggle()
-                        }
+                        // Showing history view
+                        HistoryActionView()
                     }
 
                     Spacer()
