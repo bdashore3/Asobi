@@ -19,6 +19,7 @@ struct SettingsView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("incognitoMode") var incognitoMode = false
     
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -42,8 +43,11 @@ struct SettingsView: View {
                     }
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
-                Section(header: Text("Blockers"),
+                Section(header: Text("Privacy"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {
+                        Toggle(isOn: $incognitoMode) {
+                            Text("Incognito mode")
+                        }
                         Toggle(isOn: $blockAds) {
                             Text("Block ads")
                         }
