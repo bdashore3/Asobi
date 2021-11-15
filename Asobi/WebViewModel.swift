@@ -31,6 +31,10 @@ class WebViewModel: ObservableObject {
         let config = WKWebViewConfiguration()
         config.defaultWebpagePreferences = prefs
         
+        // For airplay options to be shown and interacted with
+        config.allowsAirPlayForMediaPlayback = true
+        config.allowsInlineMediaPlayback = true
+        
         // Clears the disk and in-memory cache. Doesn't harm accounts.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
         
@@ -43,7 +47,7 @@ class WebViewModel: ObservableObject {
         // Clears the white background on webpage load
         webView.isOpaque = false
         webView.scrollView.contentInsetAdjustmentBehavior = .never
-        
+
         setUserAgent(changeUserAgent: changeUserAgent)
         
         if blockAds {
@@ -157,13 +161,25 @@ class WebViewModel: ObservableObject {
         loadUrl()
     }
 
+    // The user agent will be a variant of safari to enable airplay support everywhere
     func setUserAgent(changeUserAgent: Bool) {
-        if changeUserAgent && UIDevice.current.userInterfaceIdiom == .phone {
-            webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko)"
-        }
-        else if changeUserAgent && UIDevice.current.userInterfaceIdiom == .pad {
-            webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
-        } else {
+        let mobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+        let desktopUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15"
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            if changeUserAgent {
+                webView.customUserAgent = desktopUserAgent
+            } else {
+                webView.customUserAgent = mobileUserAgent
+            }
+        case .pad:
+            if changeUserAgent {
+                webView.customUserAgent = mobileUserAgent
+            } else {
+                webView.customUserAgent = desktopUserAgent
+            }
+        default:
             webView.customUserAgent = nil
         }
     }
