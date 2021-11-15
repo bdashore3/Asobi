@@ -84,11 +84,14 @@ struct WebView: UIViewRepresentable {
             
             parent.webModel.showProgress = false
 
-            // Error -1022 can be ignored because we don't want popup ads
-            if error.code != -1022 {
+            // Error -1022 has a special message because we don't allow insecure webpage loads
+            if error.code == -1022 {
+                parent.webModel.errorDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
+            } else {
                 parent.webModel.errorDescription = error.localizedDescription
-                parent.webModel.showError = true
             }
+            
+            parent.webModel.showError = true
         }
         
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
