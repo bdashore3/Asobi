@@ -15,6 +15,7 @@ struct WebView: UIViewRepresentable {
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
+    @AppStorage("incognitoMode") var incognitoMode = false
     
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
@@ -58,6 +59,11 @@ struct WebView: UIViewRepresentable {
                 }
             }
             
+            // Only log history if incognito mode is off
+            if parent.incognitoMode {
+                return
+            }
+
             // Save in history
             let newHistoryEntry = HistoryEntry(context: parent.context)
             newHistoryEntry.name = parent.webModel.webView.title
