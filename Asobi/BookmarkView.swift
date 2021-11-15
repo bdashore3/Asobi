@@ -33,7 +33,7 @@ struct BookmarkView: View {
                 ForEach(bookmarks, id: \.self) { bookmark in
                     // Check for iOS 15 and ONLY iOS 15
                     if #available(iOS 15.0, *), ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 15 {
-                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "")
+                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button("Edit") {
                                     currentBookmark = bookmark
@@ -56,7 +56,7 @@ struct BookmarkView: View {
                                 .tint(.green)
                             }
                     } else {
-                        ListRowLinkView(displayText: bookmark.name ?? "Unknown", innerLink: bookmark.url ?? "")
+                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
                             .contextMenu {
                                     Button {
                                         currentBookmark = bookmark
@@ -85,7 +85,7 @@ struct BookmarkView: View {
                 .onMove(perform: moveItem)
                 .onDelete(perform: removeItem)
             }
-            .listStyle(.insetGrouped)
+            .listStyle(.grouped)
         }
     }
 

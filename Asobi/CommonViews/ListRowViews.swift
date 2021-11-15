@@ -13,23 +13,30 @@ import SwiftUI
 struct ListRowLinkView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
-    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var model: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     
-    private var text: String
-    private var link: String
-    
-    init(displayText: String, innerLink: String) {
-        link = innerLink
-        text = displayText
-    }
+    @State var text: String
+    @State var link: String
+    @State var subText: String?
     
     var body: some View {
         ZStack {
             Color.clear
             HStack {
-                Text(text)
-                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                VStack (alignment: .leading) {
+                    Text(text)
+                        .font(subText != nil ? .subheadline : .body)
+                        .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                        .lineLimit(1)
+                    
+                    if let subText = subText {
+                        Text(subText)
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                    }
+                }
                     
                 Spacer()
                     
@@ -39,7 +46,7 @@ struct ListRowLinkView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            webModel.loadUrl(link)
+            model.loadUrl(link)
             
             navModel.currentSheet = nil
         }
