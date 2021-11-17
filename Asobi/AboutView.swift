@@ -21,8 +21,8 @@ struct AboutView: View {
                 .padding()
 
             List {
-                ListRowTextView(leftText: "Version", rightText: UIApplication.appVersion(), rightSymbol: nil)
-                ListRowTextView(leftText: "Build Number", rightText: UIApplication.appBuild(), rightSymbol: nil)
+                ListRowTextView(leftText: "Version", rightText: UIApplication.appVersion())
+                ListRowTextView(leftText: "Build Number", rightText: UIApplication.appBuild())
                 ListRowLinkView(text: "GitHub Repository", link: "https://github.com/bdashore3/Cubari-iOS")
                 ListRowLinkView(text: "Discord Support", link: "https://discord.gg/pswt7by")
             }

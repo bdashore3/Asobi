@@ -54,15 +54,9 @@ struct ListRowLinkView: View {
 }
 
 struct ListRowTextView: View {
-    private var leftText: String
-    private var rightText: String?
-    private var rightSymbol: String?
-    
-    init(leftText: String, rightText: String?, rightSymbol: String?) {
-        self.leftText = leftText
-        self.rightText = rightText
-        self.rightSymbol = rightSymbol
-    }
+    let leftText: String
+    var rightText: String?
+    var rightSymbol: String?
     
     var body: some View {
         HStack {
