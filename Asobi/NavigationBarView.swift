@@ -10,10 +10,10 @@ import SwiftUI
 struct NavigationBarView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    
+
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    
+
     var body: some View { 
         VStack {
             // Sets button position depending on hand mode setting

@@ -7,23 +7,21 @@
 
 import SwiftUI
 
-
-
 struct HistoryActionView: View {
     enum HistoryAlertType: Identifiable {
         var id: Int {
             hashValue
         }
-        
+
         case warn
         case error
     }
-    
+
     @State private var currentHistoryAlert: HistoryAlertType?
     @State private var showActionSheet = false
     @State private var historyDeleteRange: HistoryDeleteRange = .day
     @State private var errorMessage: String?
-    
+
     var body: some View {
         Button {
             showActionSheet.toggle()

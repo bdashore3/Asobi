@@ -9,14 +9,14 @@ import SwiftUI
 
 struct AboutView: View {
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
         VStack {
             Image("AppImage")
                 .resizable()
                 .frame(width: 100, height: 100)
                 .cornerRadius(25)
-                
+
             Text("Asobi is a free and open source browser application developed by Brian Dashore under the Apache-2.0 license.")
                 .padding()
 

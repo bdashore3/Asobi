@@ -9,13 +9,13 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
-    @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
-    
     @StateObject var webModel: WebViewModel = WebViewModel()
     @StateObject var navModel: NavigationViewModel = NavigationViewModel()
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    
+    @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
 
     var body: some View {
         ZStack {
@@ -31,7 +31,7 @@ struct ContentView: View {
             WebView()
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(1)
-            
+
             // ProgressView for loading
             if webModel.showProgress {
                 GroupBox {
@@ -47,7 +47,7 @@ struct ContentView: View {
                 }
                 .zIndex(2)
             }
-            
+
             VStack {
                 Spacer()
                 
@@ -67,7 +67,7 @@ struct ContentView: View {
                     }
                     .padding()
                 }
-                
+
                 if webModel.showNavigation {
                     NavigationBarView()
                         .onAppear {

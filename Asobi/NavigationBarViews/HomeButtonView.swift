@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
-    
+
     var body: some View {
         Button(action: {
             webModel.goHome()

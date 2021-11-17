@@ -10,16 +10,16 @@ import CoreData
 
 struct LibraryView: View {    
     @EnvironmentObject var navView: NavigationViewModel
-    
+
     @State var currentUrl: String?
-    
+
     @State private var dismissSelf = false
     @State private var tabSelect = 0
     @State private var showEditing = false
     @State private var currentBookmark: Bookmark?
     @State private var isCopiedButton = false
     @State private var editMode: EditMode = .inactive
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -60,14 +60,12 @@ struct LibraryView: View {
                     
                     EditButton()
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
                         navView.currentSheet = nil
                     }
                     .keyboardShortcut(.cancelAction)
                 }
-                
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .environment(\.editMode, $editMode)

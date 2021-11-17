@@ -22,7 +22,7 @@ extension History {
 
     public var entryArray: [HistoryEntry] {
         let entrySet = entries as? Set<HistoryEntry> ?? []
-        
+
         return entrySet.sorted {
             $0.timestamp > $1.timestamp
         }

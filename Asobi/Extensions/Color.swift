@@ -15,14 +15,13 @@ extension Color: RawRepresentable {
             self = .black
             return
         }
-        
+
         do {
             let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor ?? .red
             self = Color(color)
         } catch {
             self = .red
         }
-        
     }
 
     public var rawValue: String {

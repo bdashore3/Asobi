@@ -11,7 +11,7 @@ extension DateFormatter {
     static let historyDateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateFormat = "ddMMyyyy"
-        
+
         return df
     }()
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RefreshButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
-    
+
     var body: some View {
         Button(action: {
             webModel.showError = false
