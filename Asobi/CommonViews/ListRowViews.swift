@@ -16,10 +16,10 @@ struct ListRowLinkView: View {
     @EnvironmentObject var model: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     
-    @State var text: String
-    @State var link: String
-    @State var subText: String?
-    
+    let text: String
+    let link: String
+    var subText: String?
+
     var body: some View {
         ZStack {
             Color.clear
