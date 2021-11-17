@@ -44,7 +44,7 @@ struct PersistenceController {
     
     func save() {
         let context = container.viewContext
-        
+
         if context.hasChanges {
             do {
                 try context.save()
@@ -57,7 +57,7 @@ struct PersistenceController {
     func delete(_ object: NSManagedObject) {
         let context = container.viewContext
         context.delete(object)
-        
+
         save()
     }
     
@@ -65,12 +65,12 @@ struct PersistenceController {
         if range == .allTime {
             return nil
         }
-        
+
         var components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
         components.hour = 0
         components.minute = 0
         components.second = 0
-        
+
         guard let today = Calendar.current.date(from: components) else {
             return nil
         }
@@ -94,13 +94,13 @@ struct PersistenceController {
         guard var offsetDate = Calendar.current.date(byAdding: offsetComponents, to: today) else {
             return nil
         }
-        
+
         if TimeZone.current.isDaylightSavingTime(for: offsetDate) {
             offsetDate = offsetDate.addingTimeInterval(3600)
         }
 
         let predicate = NSPredicate(format: "date >= %@ && date < %@", range == .day ? today as NSDate : offsetDate as NSDate, tomorrow as NSDate)
-        
+
         return predicate
     }
     
@@ -108,18 +108,18 @@ struct PersistenceController {
     func batchDeleteHistory(range: HistoryDeleteRange) throws {
         let context = container.viewContext
         let predicate = getHistoryPredicate(range: range)
-        
+
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "History")
-        
+
         if let predicate = predicate  {
             fetchRequest.predicate = predicate
         }
         else if range != .allTime {
             throw HistoryDeleteError.noDate("No history date range was provided and you weren't trying to clear everything! Try relaunching the app?")
         }
-        
+
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
+
         do {
             try context.executeAndMergeChanges(using: deleteRequest)
         } catch {

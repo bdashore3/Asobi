@@ -10,20 +10,20 @@ import WebKit
 
 struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
-    
+
     @EnvironmentObject var webModel: WebViewModel
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("incognitoMode") var incognitoMode = false
-    
+
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
-        
+
         init(_ parent: WebView) {
             self.parent = parent
         }
-        
+
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
             if let frame = navigationAction.targetFrame,
                 frame.isMainFrame {
@@ -32,13 +32,13 @@ struct WebView: UIViewRepresentable {
             webView.load(navigationAction.request)
             return nil
         }
-        
+
         // Navigation delegate methods for ProgressView/errors
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.webModel.showError = false
             parent.webModel.showProgress = true
         }
-        
+
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             print("Failed navigation! Error: \(error.localizedDescription)")
             
@@ -46,7 +46,7 @@ struct WebView: UIViewRepresentable {
             parent.webModel.errorDescription = error.localizedDescription
             parent.webModel.showError = true
         }
-        
+
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showProgress = false
             
@@ -58,7 +58,7 @@ struct WebView: UIViewRepresentable {
                     self.parent.webModel.backgroundColor = nil
                 }
             }
-            
+
             // Only log history if incognito mode is off
             if parent.incognitoMode {
                 return
@@ -78,10 +78,10 @@ struct WebView: UIViewRepresentable {
             
             PersistenceController.shared.save()
         }
-        
+
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
             let error = error as NSError
-            
+
             parent.webModel.showProgress = false
 
             // Error -1022 has a special message because we don't allow insecure webpage loads
@@ -90,7 +90,7 @@ struct WebView: UIViewRepresentable {
             } else {
                 parent.webModel.errorDescription = error.localizedDescription
             }
-            
+
             parent.webModel.showError = true
         }
         
@@ -103,23 +103,23 @@ struct WebView: UIViewRepresentable {
                 parent.webModel.showNavigation.toggle()
             }
         }
-        
+
         @objc func refreshWebView(_ sender: UIRefreshControl) {            
             parent.webModel.webView.reload()
             sender.endRefreshing()
         }
     }
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+
     func makeUIView(context: Context) -> WKWebView {
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
         tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
         tapGesture.delegate = context.coordinator
         webModel.webView.addGestureRecognizer(tapGesture)
-        
+
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(context.coordinator, action: #selector(context.coordinator.refreshWebView), for: .valueChanged)
         webModel.webView.scrollView.addSubview(refreshControl)

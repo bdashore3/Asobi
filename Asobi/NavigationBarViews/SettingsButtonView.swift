@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-    
+
     var body: some View {
         Button(action: {
             navModel.currentSheet = .settings

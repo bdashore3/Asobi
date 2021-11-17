@@ -12,7 +12,7 @@ extension UIApplication {
     class func appVersion() -> String {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     }
-  
+
     class func appBuild() -> String {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
     }

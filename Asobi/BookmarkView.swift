@@ -41,7 +41,7 @@ struct BookmarkView: View {
                                     showEditing = true
                                 }
                                 .tint(.blue)
-                                    
+
                                 Button("Delete") {
                                     PersistenceController.shared.delete(bookmark)
                                 }
@@ -65,13 +65,13 @@ struct BookmarkView: View {
                                     } label: {
                                         Label("Edit bookmark", systemImage: "pencil")
                                     }
-                                    
+
                                     Button {
                                         PersistenceController.shared.delete(bookmark)
                                     } label: {
                                         Label("Delete bookmark", systemImage: "trash")
                                     }
-                                
+
                                     Button {
                                         if let bookmarkUrl = bookmark.url {
                                             defaultUrl = bookmarkUrl
@@ -98,13 +98,13 @@ struct BookmarkView: View {
     
     func moveItem(from source: IndexSet, to destination: Int) {
         var changedBookmarks = bookmarks.map{ $0 }
-        
+
         changedBookmarks.move(fromOffsets: source, toOffset: destination)
-        
+
         for reverseIndex in stride(from: changedBookmarks.count - 1, through: 0, by: -1) {
             changedBookmarks[reverseIndex].orderNum = Int16(reverseIndex)
         }
-        
+
         PersistenceController.shared.save()
     }
 }

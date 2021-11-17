@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ForwardBackButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
-    
+
     var body: some View {
         Button(action: {
             webModel.goBack()
@@ -17,9 +17,9 @@ struct ForwardBackButtonView: View {
             Image(systemName: "arrow.left")
         })
         .disabled(!webModel.canGoBack)
-        
+
         Spacer()
-        
+
         Button(action: {
             webModel.goForward()
         }, label: {

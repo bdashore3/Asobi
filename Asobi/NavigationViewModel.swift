@@ -12,7 +12,7 @@ class NavigationViewModel: ObservableObject {
         var id: Int {
             hashValue
         }
-        
+
         case settings
         case library
         case bookmarkEditing

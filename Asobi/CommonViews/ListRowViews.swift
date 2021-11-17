@@ -37,9 +37,9 @@ struct ListRowLinkView: View {
                             .lineLimit(1)
                     }
                 }
-                    
+
                 Spacer()
-                    
+
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
             }
@@ -47,7 +47,7 @@ struct ListRowLinkView: View {
         .contentShape(Rectangle())
         .onTapGesture {
             model.loadUrl(link)
-            
+
             navModel.currentSheet = nil
         }
     }
@@ -61,9 +61,9 @@ struct ListRowTextView: View {
     var body: some View {
         HStack {
             Text(leftText)
-                
+
             Spacer()
-            
+
             if let rightText = rightText {
                 Text(rightText)
             } else {

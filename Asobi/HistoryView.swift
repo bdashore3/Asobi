@@ -10,21 +10,21 @@ import SwiftUI
 struct HistoryView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-    
+
     private var formatter: DateFormatter = DateFormatter()
-    
+
     init() {
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
     }
-    
+
     @FetchRequest(
         entity: History.entity(),
         sortDescriptors: [
             NSSortDescriptor(keyPath: \History.date, ascending: false)
         ]
     ) var history: FetchedResults<History>
-    
+
     @State private var currentUrl: String?
     @State private var isCopiedButton = false
     @State private var historyIndex = 0
@@ -72,9 +72,9 @@ struct HistoryView: View {
     func removeEntry(at offsets: IndexSet) {
         for index in offsets {
             let tempHistory: History = history[historyIndex]
-            
+
             tempHistory.removeFromEntries(tempHistory.entryArray[index])
-            
+
             if tempHistory.entryArray.isEmpty {
                 PersistenceController.shared.delete(tempHistory)
             }

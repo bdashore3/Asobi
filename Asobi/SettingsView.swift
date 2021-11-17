@@ -20,10 +20,10 @@ struct SettingsView: View {
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("incognitoMode") var incognitoMode = false
-    
+
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
-    
+
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
         NavigationView {
@@ -85,7 +85,6 @@ struct SettingsView: View {
                                 Text("If the loading animation keeps going, make sure your URL is correct!")
                             }
                 ) {
-                    
                     // Auto capitalization modifier will be deprecated at some point
                     TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                         if !begin && UIDevice.current.deviceType != .mac {

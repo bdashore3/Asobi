@@ -24,7 +24,7 @@ struct LibraryButtonView: View {
                 Text("Copy current URL")
                 Image(systemName: "doc.on.doc")
             }
-            
+
             Button {
                 navModel.currentSheet = .bookmarkEditing
             } label: {
