@@ -32,8 +32,7 @@ To set a default URL:
 
 Here are features that I have planned for future releases (these are also in the issues)
 
-- A history tab: History is pretty useful for people who want to navigate to previous pages.
-- Bookmarks tab: A way to save/load various PWAs in the browser. However, Asobi itself is single page by design.
+- RPC on mac: Used for Discord to show that you're using Asobi
 
 ## Contribution
 
