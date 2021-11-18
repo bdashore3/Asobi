@@ -21,6 +21,9 @@ struct ContentView: View {
         ZStack {
             // If the device is landscape, set the background color to the computed UIColor
             Color(orientation.isLandscape ? webModel.backgroundColor ?? .clear : .clear)
+                .onTapGesture(count: autoHideNavigation ? 1 : 3) {
+                    webModel.showNavigation.toggle()
+                }
                 .onReceive(NotificationCenter.Publisher(center: .default, name: UIDevice.orientationDidChangeNotification)) { _ in
                   self.orientation = UIDevice.current.orientation
                 }
