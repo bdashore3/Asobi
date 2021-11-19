@@ -15,7 +15,6 @@ struct WebView: UIViewRepresentable {
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
-    @AppStorage("incognitoMode") var incognitoMode = false
 
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
         var parent: WebView
@@ -58,25 +57,22 @@ struct WebView: UIViewRepresentable {
                     self.parent.webModel.backgroundColor = nil
                 }
             }
-
-            // Only log history if incognito mode is off
-            if parent.incognitoMode {
-                return
+            
+            if !parent.webModel.incognitoMode {
+                // Save in history
+                let newHistoryEntry = HistoryEntry(context: parent.context)
+                newHistoryEntry.name = parent.webModel.webView.title
+                newHistoryEntry.url = parent.webModel.webView.url?.absoluteString
+                
+                let now = Date()
+                
+                newHistoryEntry.timestamp = now.timeIntervalSince1970
+                newHistoryEntry.parentHistory = History(context: parent.context)
+                newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
+                newHistoryEntry.parentHistory?.date = now
+                
+                PersistenceController.shared.save()
             }
-
-            // Save in history
-            let newHistoryEntry = HistoryEntry(context: parent.context)
-            newHistoryEntry.name = parent.webModel.webView.title
-            newHistoryEntry.url = parent.webModel.webView.url?.absoluteString
-            
-            let now = Date()
-            
-            newHistoryEntry.timestamp = now.timeIntervalSince1970
-            newHistoryEntry.parentHistory = History(context: parent.context)
-            newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
-            newHistoryEntry.parentHistory?.date = now
-            
-            PersistenceController.shared.save()
         }
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
