@@ -17,6 +17,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("blockAds") var blockAds = false
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("changeUserAgent") var changeUserAgent = false
+    @AppStorage("incognitoMode") var incognitoMode = false
 
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://duckduckgo.com/")!
