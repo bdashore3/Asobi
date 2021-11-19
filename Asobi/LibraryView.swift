@@ -51,8 +51,8 @@ struct LibraryView: View {
                         Button("Add") {
                             showEditing.toggle()
                         }
-                    } else {
-                        // Showing history view
+                    } else if #available(iOS 15, *) {
+                        // Show history action sheet in toolbar if iOS 15 or up
                         HistoryActionView()
                     }
 

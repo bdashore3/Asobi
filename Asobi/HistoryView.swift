@@ -53,6 +53,12 @@ struct HistoryView: View {
                 }
             }
 
+            // Can only use if statements in SwiftUI views. Only show inline button if iOS 14 or below
+            if #available(iOS 15, *) {}
+            else if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
+                HistoryActionView()
+            }
+
             ForEach(history, id: \.self) { history in
                 Section(header: Text(formatter.string(from: history.date ?? Date()))) {
                     ForEach(history.entryArray) { entry in

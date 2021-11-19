@@ -32,7 +32,7 @@ struct BookmarkView: View {
             List {
                 ForEach(bookmarks, id: \.self) { bookmark in
                     // Check for iOS 15 and ONLY iOS 15
-                    if #available(iOS 15.0, *), ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 15 {
+                    if #available(iOS 15.0, *), UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button("Edit") {
