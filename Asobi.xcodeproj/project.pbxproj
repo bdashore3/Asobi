@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */; };
 		0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */; };
-		0C05EB11273B6A94009ADF84 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C05EB0D273B6A94009ADF84 /* HistoryEntry+CoreDataClass.swift */; };
-		0C05EB12273B6A94009ADF84 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C05EB0E273B6A94009ADF84 /* HistoryEntry+CoreDataProperties.swift */; };
-		0C05EB13273B6A94009ADF84 /* History+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C05EB0F273B6A94009ADF84 /* History+CoreDataClass.swift */; };
-		0C05EB14273B6A94009ADF84 /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C05EB10273B6A94009ADF84 /* History+CoreDataProperties.swift */; };
 		0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C070D78271A3B54001F5327 /* LibraryView.swift */; };
 		0C21519027237E0900C3976A /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C21518F27237E0900C3976A /* BookmarkView.swift */; };
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
@@ -27,6 +23,10 @@
 		0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBC61E6273B64B8003A1AAA /* HistoryView.swift */; };
 		0CC1C8D1272CAF890076C125 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC1C8D0272CAF890076C125 /* UIColor.swift */; };
 		0CC4B4F327277CEC00E258B7 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */; };
+		0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */; };
+		0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */; };
+		0CF362B0274BFC5700466CB2 /* History+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */; };
+		0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */; };
 		0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */; };
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
 		7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */; };
@@ -66,10 +66,6 @@
 /* Begin PBXFileReference section */
 		0C02727B2741FA4F007C2CC9 /* AsobiDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AsobiDB.xcdatamodel; sourceTree = "<group>"; };
 		0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		0C05EB0D273B6A94009ADF84 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		0C05EB0E273B6A94009ADF84 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		0C05EB0F273B6A94009ADF84 /* History+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		0C05EB10273B6A94009ADF84 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		0C070D78271A3B54001F5327 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
@@ -84,6 +80,10 @@
 		0CBC61E6273B64B8003A1AAA /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		0CC1C8D0272CAF890076C125 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
+		0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "History+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryActionView.swift; sourceTree = "<group>"; };
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -138,10 +138,10 @@
 		0C05EB0C273B6A60009ADF84 /* DataClasses */ = {
 			isa = PBXGroup;
 			children = (
-				0C05EB0D273B6A94009ADF84 /* HistoryEntry+CoreDataClass.swift */,
-				0C05EB0E273B6A94009ADF84 /* HistoryEntry+CoreDataProperties.swift */,
-				0C05EB0F273B6A94009ADF84 /* History+CoreDataClass.swift */,
-				0C05EB10273B6A94009ADF84 /* History+CoreDataProperties.swift */,
+				0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */,
+				0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */,
+				0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */,
+				0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */,
 			);
 			path = DataClasses;
 			sourceTree = "<group>";
@@ -392,12 +392,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C05EB14273B6A94009ADF84 /* History+CoreDataProperties.swift in Sources */,
+				0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */,
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
-				0C05EB11273B6A94009ADF84 /* HistoryEntry+CoreDataClass.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
@@ -406,16 +405,16 @@
 				7C2248C426B85D0F00AD3D42 /* AsobiApp.swift in Sources */,
 				0CC1C8D1272CAF890076C125 /* UIColor.swift in Sources */,
 				0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */,
-				0C05EB12273B6A94009ADF84 /* HistoryEntry+CoreDataProperties.swift in Sources */,
+				0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
-				0C05EB13273B6A94009ADF84 /* History+CoreDataClass.swift in Sources */,
 				0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */,
 				0C5CBB8C270D39350045E2FE /* Color.swift in Sources */,
 				0CC4B4F327277CEC00E258B7 /* NavigationViewModel.swift in Sources */,
 				0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */,
 				7C20C0CF26BC6FF1004D8618 /* LibraryButtonView.swift in Sources */,
 				0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */,
+				0CF362B0274BFC5700466CB2 /* History+CoreDataClass.swift in Sources */,
 				0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
 				0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */,
@@ -423,6 +422,7 @@
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
 				0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
+				0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
