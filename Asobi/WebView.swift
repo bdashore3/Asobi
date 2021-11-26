@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import Alamofire
 
 struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
@@ -35,19 +36,19 @@ struct WebView: UIViewRepresentable {
         // Navigation delegate methods for ProgressView/errors
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.webModel.showError = false
-            parent.webModel.showProgress = true
+            parent.webModel.showLoadingProgress = true
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             print("Failed navigation! Error: \(error.localizedDescription)")
             
-            parent.webModel.showProgress = false
+            parent.webModel.showLoadingProgress = false
             parent.webModel.errorDescription = error.localizedDescription
             parent.webModel.showError = true
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            parent.webModel.showProgress = false
+            parent.webModel.showLoadingProgress = false
             
             // Finds the background color of a webpage
             parent.webModel.webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { (result, error) in
@@ -75,16 +76,40 @@ struct WebView: UIViewRepresentable {
             }
         }
 
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        // Check if a page can be downloaded
+        func webView(_ webView: WKWebView,
+                     decidePolicyFor navigationResponse: WKNavigationResponse,
+                     decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+            
+            if navigationResponse.canShowMIMEType {
+                decisionHandler(.allow)
+            } else {
+                let url = navigationResponse.response.url
+                
+                // Alternative to decisionHandler(.download) since that's iOS 15 and up
+                //let documentUrl = url?.appendingPathComponent(navigationResponse.response.suggestedFilename!)
+                parent.webModel.downloadDocumentFrom(url: url!)
+                decisionHandler(.cancel)
+            }
+        }
+
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {            
             let error = error as NSError
 
-            parent.webModel.showProgress = false
+            parent.webModel.showLoadingProgress = false
 
+            // Error handling switch, more errors will be added if they're unnecessary
+            switch error.code {
             // Error -1022 has a special message because we don't allow insecure webpage loads
-            if error.code == -1022 {
+            case -1022:
                 parent.webModel.errorDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
-            } else {
+                break
+            // Error 102 can be ignored since that's used for downloading files
+            case 102:
+                return
+            default:
                 parent.webModel.errorDescription = error.localizedDescription
+                break
             }
 
             parent.webModel.showError = true

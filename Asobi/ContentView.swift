@@ -14,7 +14,7 @@ struct ContentView: View {
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
-    
+
     @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
 
     var body: some View {
@@ -32,11 +32,19 @@ struct ContentView: View {
 
             // Open cubari on launch
             WebView()
+                .alert(isPresented: $webModel.showDuplicateDownloadAlert) {
+                    Alert(
+                        title: Text("Download could not start"),
+                        message: Text("Please cancel the existing download and try again"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+                .fileMover(isPresented: $webModel.showFileMover, file: webModel.downloadFileUrl) { _ in }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(1)
 
             // ProgressView for loading
-            if webModel.showProgress {
+            if webModel.showLoadingProgress {
                 GroupBox {
                     VStack {
                         CircularProgressBar(webModel.webView.estimatedProgress)
@@ -68,6 +76,27 @@ struct ContentView: View {
                             webModel.showError = false
                         }
                     }
+                    .padding()
+                }
+                
+                 if webModel.showDownloadProgress {
+                    VStack {
+                        GroupBox {
+                            Text("Downloading content...")
+                            HStack {
+                                ProgressView(value: webModel.downloadProgress, total: 1.00)
+                                    .progressViewStyle(LinearProgressViewStyle(tint: navigationAccent))
+                                
+                                Button("Cancel") {                                    
+                                    webModel.currentDownload?.cancel()
+                                    webModel.currentDownload = nil
+                                    webModel.showDownloadProgress = false
+                                }
+                            }
+                        }
+                    }
+                    .transition(AnyTransition.move(edge: .bottom))
+                    .animation(.easeInOut(duration: 0.3))
                     .padding()
                 }
 

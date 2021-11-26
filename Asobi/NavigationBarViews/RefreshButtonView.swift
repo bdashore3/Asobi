@@ -14,7 +14,7 @@ struct RefreshButtonView: View {
         Button(action: {
             webModel.showError = false
             webModel.webView.reload()
-            webModel.showProgress = true
+            webModel.showLoadingProgress = true
         }, label: {
             Image(systemName: "arrow.clockwise")
         })

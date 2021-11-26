@@ -9,6 +9,7 @@ import Foundation
 import WebKit
 import Combine
 import SwiftUI
+import Alamofire
 
 class WebViewModel: ObservableObject {
     let webView: WKWebView
@@ -61,13 +62,40 @@ class WebViewModel: ObservableObject {
         setupBindings()
     }
 
+    // History based variables
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
+
+    // Cosmetic variables
     @Published var showNavigation: Bool = true
-    @Published var showProgress: Bool = false
+    @Published var showLoadingProgress: Bool = false
+    @Published var backgroundColor: UIColor?
+    
+    // Error variables
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
-    @Published var backgroundColor: UIColor?
+    
+    // Download handling variables
+    @Published var currentDownload: DownloadRequest? = nil
+    @Published var downloadFileUrl: URL? = nil
+    @Published var downloadProgress: Double = 0.0
+    @Published var showDuplicateDownloadAlert: Bool = false
+    @Published var showDownloadProgress: Bool = false {
+        didSet {
+            if self.showDownloadProgress == false && self.downloadFileUrl != nil {
+                self.showFileMover = true
+            }
+        }
+    }
+    @Published var showFileMover: Bool = false {
+        didSet {
+            if !showFileMover && downloadFileUrl != nil {
+                // Reset all download info to prepare for the next one
+                downloadFileUrl = nil
+                currentDownload = nil
+            }
+        }
+    }
 
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
@@ -75,6 +103,40 @@ class WebViewModel: ObservableObject {
         
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
+    }
+    
+    // Download file from page
+    func downloadDocumentFrom(url downloadUrl : URL) {
+        if currentDownload != nil {
+            showDuplicateDownloadAlert = true
+            return
+        }
+        
+        let destination: DownloadRequest.Destination = { tempUrl, response in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let suggestedName = response.suggestedFilename ?? "unknown"
+            
+            let fileURL = documentsURL.appendingPathComponent(suggestedName)
+
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        currentDownload = AF.download(downloadUrl, to: destination)
+            .downloadProgress { progress in
+                self.downloadProgress = progress.fractionCompleted
+                self.showDownloadProgress = true
+
+                if progress.fractionCompleted == 1.0 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.showDownloadProgress = false
+                    }
+                }
+            }
+            .response { response in
+                if response.error == nil, let currentPath = response.fileURL {
+                    self.downloadFileUrl = currentPath
+                }
+            }
     }
     
     // Once swift concurrency is backported, migrate this to a different class/extension
