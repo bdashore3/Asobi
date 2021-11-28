@@ -105,40 +105,6 @@ class WebViewModel: ObservableObject {
             .assign(to: &$canGoForward)
     }
     
-    // Download file from page
-    func downloadDocumentFrom(url downloadUrl : URL) {
-        if currentDownload != nil {
-            showDuplicateDownloadAlert = true
-            return
-        }
-        
-        let destination: DownloadRequest.Destination = { tempUrl, response in
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let suggestedName = response.suggestedFilename ?? "unknown"
-            
-            let fileURL = documentsURL.appendingPathComponent(suggestedName)
-
-            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-        }
-        
-        currentDownload = AF.download(downloadUrl, to: destination)
-            .downloadProgress { progress in
-                self.downloadProgress = progress.fractionCompleted
-                self.showDownloadProgress = true
-
-                if progress.fractionCompleted == 1.0 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.showDownloadProgress = false
-                    }
-                }
-            }
-            .response { response in
-                if response.error == nil, let currentPath = response.fileURL {
-                    self.downloadFileUrl = currentPath
-                }
-            }
-    }
-    
     // Once swift concurrency is backported, migrate this to a different class/extension
     func enableBlocker() {
         let blocklistPath = Bundle.main.path(forResource: "blocklist", ofType: "json")
@@ -244,5 +210,54 @@ class WebViewModel: ObservableObject {
         default:
             webView.customUserAgent = nil
         }
+    }
+    
+    // Download file from page
+    func downloadDocumentFrom(url downloadUrl : URL) {
+        if currentDownload != nil {
+            showDuplicateDownloadAlert = true
+            return
+        }
+        
+        let queue = DispatchQueue(label: "download", qos: .userInitiated)
+        var lastTime = Date()
+        
+        let destination: DownloadRequest.Destination = { tempUrl, response in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let suggestedName = response.suggestedFilename ?? "unknown"
+            
+            let fileURL = documentsURL.appendingPathComponent(suggestedName)
+
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        self.showDownloadProgress = true
+        
+        currentDownload = AF.download(downloadUrl, to: destination)
+            .downloadProgress(queue: queue) { progress in
+                if Date().timeIntervalSince(lastTime) > 1.5 {
+                    lastTime = Date()
+                    
+                    DispatchQueue.main.async {
+                        self.downloadProgress = progress.fractionCompleted
+                    }
+                }
+            }
+            .response { response in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.showDownloadProgress = false
+                    self.downloadProgress = 0.0
+                }
+                
+                if response.error == nil, let currentPath = response.fileURL {
+                    self.downloadFileUrl = currentPath
+                    self.showFileMover = true
+                }
+                
+                if let error = response.error {
+                    self.errorDescription = "Download could not be completed. \(error)"
+                    self.showError = true
+                }
+            }
     }
 }
