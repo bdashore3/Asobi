@@ -40,13 +40,11 @@ struct WebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            print("Failed navigation! Error: \(error.localizedDescription)")
-            
             parent.webModel.showLoadingProgress = false
             parent.webModel.errorDescription = error.localizedDescription
             parent.webModel.showError = true
         }
-
+        
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = false
             
@@ -92,8 +90,24 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.cancel)
             }
         }
+        
+        // from stackoverflow
+        func webView(_ webView: WKWebView,
+                     decidePolicyFor navigationAction: WKNavigationAction,
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {            
+            if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
+                if scheme != "https" && scheme != "http" {
+                    if UIApplication.shared.canOpenURL(url){
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
+            decisionHandler(.allow)
+        }
 
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {            
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("Failed provisional nav: \(error)")
+            
             let error = error as NSError
 
             parent.webModel.showLoadingProgress = false
