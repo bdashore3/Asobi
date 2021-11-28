@@ -16,6 +16,7 @@ struct ContentView: View {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     
     @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
+    @State private var showAppStoreAlert = false
 
     var body: some View {
         ZStack {
@@ -95,6 +96,19 @@ struct ContentView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(3)
+        }
+        .onAppear {
+            showAppStoreAlert.toggle()
+        }
+        .alert(isPresented: $showAppStoreAlert) {
+            Alert(
+                title: Text("Asobi is on the App Store!"),
+                message: Text("Click the button to download"),
+                primaryButton: .default(Text("Download")) {
+                    UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/filebridge/id1562387073")!)
+                },
+                secondaryButton: .destructive(Text("Ignore"))
+            )
         }
         .environmentObject(webModel)
         .environmentObject(navModel)
