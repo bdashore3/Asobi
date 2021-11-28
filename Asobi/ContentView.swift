@@ -15,7 +15,7 @@ struct ContentView: View {
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
 
-    @State var orientation: UIDeviceOrientation = UIDevice.current.orientation
+    @State private var orientation: UIDeviceOrientation = UIDevice.current.orientation
 
     var body: some View {
         ZStack {
@@ -87,7 +87,7 @@ struct ContentView: View {
                                 ProgressView(value: webModel.downloadProgress, total: 1.00)
                                     .progressViewStyle(LinearProgressViewStyle(tint: navigationAccent))
                                 
-                                Button("Cancel") {                                    
+                                Button("Cancel") {
                                     webModel.currentDownload?.cancel()
                                     webModel.currentDownload = nil
                                     webModel.showDownloadProgress = false
