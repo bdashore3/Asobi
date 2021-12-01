@@ -2,9 +2,9 @@
 
 An immersive browser application for iOS, iPadOS, and MacCatalyst.
 
-## Join the beta
+## Download on the App Store for iOS/iPadOS and MacOS
 
-[https://testflight.apple.com/join/tOiaybb5](https://testflight.apple.com/join/tOiaybb5)
+[https://apps.apple.com/us/app/asobi/id1589812837](https://apps.apple.com/us/app/asobi/id1589812837)
 
 ## Why did I make this?
 
