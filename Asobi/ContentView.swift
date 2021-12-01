@@ -105,7 +105,7 @@ struct ContentView: View {
                 title: Text("Asobi is on the App Store!"),
                 message: Text("Click the button to download"),
                 primaryButton: .default(Text("Download")) {
-                    UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/filebridge/id1562387073")!)
+                    UIApplication.shared.open(URL(string: "https://apps.apple.com/us/app/asobi/id1589812837")!)
                 },
                 secondaryButton: .destructive(Text("Ignore"))
             )
