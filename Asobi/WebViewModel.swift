@@ -258,6 +258,10 @@ class WebViewModel: ObservableObject {
                     self.errorDescription = "Download could not be completed. \(error)"
                     self.showError = true
                 }
+                
+                // Shut down any current requests and clear the download queue
+                self.currentDownload?.cancel()
+                self.currentDownload = nil
             }
     }
 }
