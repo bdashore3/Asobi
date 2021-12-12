@@ -40,45 +40,6 @@ struct WebView: UIViewRepresentable {
 
                 return
             }
-
-            /*
-            guard let jsonData = jsonString.data(using: .utf8) else {
-                parent.webModel.errorDescription = "Cannot convert blob JSON into data!"
-                parent.webModel.showError = true
-
-                return
-            }
-
-            let decoder = JSONDecoder()
-            
-            do {
-                let file = try decoder.decode(BlobComponents.self, from: jsonData)
-                
-                guard let data = Data(base64Encoded: file.dataString),
-                    let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
-                    let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
-                else {
-                    parent.webModel.errorDescription = "Could not get blob data or extension!"
-                    parent.webModel.showError = true
-                    
-                    return
-                }
-                
-                let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
-                let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
-                
-                try data.write(to: url)
-                
-                parent.webModel.downloadFileUrl = url
-                parent.webModel.showFileMover = true
-            } catch {
-                parent.webModel.errorDescription = error.localizedDescription
-                parent.webModel.showError = true
-                
-                return
-            }
-            */
             
             parent.webModel.blobDownloadWith(jsonString: jsonString)
         }
@@ -150,18 +111,29 @@ struct WebView: UIViewRepresentable {
             }
         }
         
-        // from stackoverflow
+        // Switch based on the URL scheme. All http/https rules get allowed automatically
         func webView(_ webView: WKWebView,
                      decidePolicyFor navigationAction: WKNavigationAction,
-                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {            
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
-                if scheme != "https" && scheme != "http" {
+                switch scheme {
+                case "https", "http":
+                    // Any web URL
+                    decisionHandler(.allow)
+                case "blob":
+                    // Defer to JS handling
+                    parent.webModel.executeBlobDownloadJS(url: url)
+                    
+                    decisionHandler(.cancel)
+                default:
+                    // Final case should be deep links
                     if UIApplication.shared.canOpenURL(url){
                         UIApplication.shared.open(url)
                     }
+                    
+                    decisionHandler(.allow)
                 }
             }
-            decisionHandler(.allow)
         }
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
