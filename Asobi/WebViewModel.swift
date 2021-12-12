@@ -37,39 +37,6 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
-        
-        // Converts the blob URL to a data URL
-        // Then sends the message to the WKScriptMessageHandler
-        let blobDownloadJS = """
-        function blobToDataURL(blob, callback) {
-            var a = new FileReader();
-            a.onload = function(e) {callback(e.target.result.split(",")[1]);}
-            a.readAsDataURL(blob);
-        }
-
-        document.addEventListener('click', function(event) {
-            if ( event.target.matches('a[href^="blob:"]') ) {
-                event.preventDefault();
-                (async el=>{
-                    const url = el.href;
-        
-                    const blob = await fetch(url).then(r => r.blob());
-                    blobToDataURL(blob, datauri => {
-                        const responseObj = {
-                            url: url,
-                            mimeType: blob.type,
-                            size: blob.size,
-                            dataString: datauri
-                        }
-                        window.webkit.messageHandlers.jsListener.postMessage(JSON.stringify(responseObj))
-                    });
-                })(event.target);
-            }
-        });
-        """
-        
-        let blobDownloadScript = WKUserScript(source: blobDownloadJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        config.userContentController.addUserScript(blobDownloadScript)
 
         // Clears the disk and in-memory cache. Doesn't harm accounts.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
@@ -286,6 +253,35 @@ class WebViewModel: ObservableObject {
         }
     }
     
+    // Wrapper function for blob download script
+    func executeBlobDownloadJS(url: URL) {
+        webView.evaluateJavaScript(
+        """
+        function blobToDataURL(blob, callback) {
+            var a = new FileReader();
+            a.onload = function(e) {callback(e.target.result.split(",")[1]);}
+            a.readAsDataURL(blob);
+        }
+
+        async function run() {
+            const url = "\(url)"
+            const blob = await fetch(url).then(r => r.blob());
+
+            blobToDataURL(blob, datauri => {
+                const responseObj = {
+                    url: url,
+                    mimeType: blob.type,
+                    size: blob.size,
+                    dataString: datauri
+                }
+                window.webkit.messageHandlers.jsListener.postMessage(JSON.stringify(responseObj))
+            });
+        }
+        
+        run()
+        """)
+    }
+
     // Download file from page
     func httpDownloadFrom(url downloadUrl : URL) {
         if currentDownload != nil {
