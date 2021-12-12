@@ -10,6 +10,7 @@ import WebKit
 import Combine
 import SwiftUI
 import Alamofire
+import CoreServices
 
 class WebViewModel: ObservableObject {
     let webView: WKWebView
@@ -36,6 +37,39 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
+        
+        // Converts the blob URL to a data URL
+        // Then sends the message to the WKScriptMessageHandler
+        let blobDownloadJS = """
+        function blobToDataURL(blob, callback) {
+            var a = new FileReader();
+            a.onload = function(e) {callback(e.target.result.split(",")[1]);}
+            a.readAsDataURL(blob);
+        }
+
+        document.addEventListener('click', function(event) {
+            if ( event.target.matches('a[href^="blob:"]') ) {
+                event.preventDefault();
+                (async el=>{
+                    const url = el.href;
+        
+                    const blob = await fetch(url).then(r => r.blob());
+                    blobToDataURL(blob, datauri => {
+                        const responseObj = {
+                            url: url,
+                            mimeType: blob.type,
+                            size: blob.size,
+                            dataString: datauri
+                        }
+                        window.webkit.messageHandlers.jsListener.postMessage(JSON.stringify(responseObj))
+                    });
+                })(event.target);
+            }
+        });
+        """
+        
+        let blobDownloadScript = WKUserScript(source: blobDownloadJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        config.userContentController.addUserScript(blobDownloadScript)
 
         // Clears the disk and in-memory cache. Doesn't harm accounts.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
@@ -212,8 +246,48 @@ class WebViewModel: ObservableObject {
         }
     }
     
+    // Import blob URL
+    func blobDownloadWith(jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            errorDescription = "Cannot convert blob JSON into data!"
+            showError = true
+
+            return
+        }
+
+        let decoder = JSONDecoder()
+        
+        do {
+            let file = try decoder.decode(BlobComponents.self, from: jsonData)
+            
+            guard let data = Data(base64Encoded: file.dataString),
+                let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
+                let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
+            else {
+                errorDescription = "Could not get blob data or extension!"
+                showError = true
+                
+                return
+            }
+            
+            let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
+            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
+            
+            try data.write(to: url)
+            
+            downloadFileUrl = url
+            showFileMover = true
+        } catch {
+            errorDescription = error.localizedDescription
+            showError = true
+            
+            return
+        }
+    }
+    
     // Download file from page
-    func downloadDocumentFrom(url downloadUrl : URL) {
+    func httpDownloadFrom(url downloadUrl : URL) {
         if currentDownload != nil {
             showDuplicateDownloadAlert = true
             return

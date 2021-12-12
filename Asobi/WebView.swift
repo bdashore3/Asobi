@@ -8,6 +8,14 @@
 import SwiftUI
 import WebKit
 import Alamofire
+import CoreServices
+
+struct BlobComponents: Codable {
+    let url: String
+    let mimeType: String
+    let size: Int64
+    let dataString: String
+}
 
 struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
@@ -17,11 +25,62 @@ struct WebView: UIViewRepresentable {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, WKScriptMessageHandler {
         var parent: WebView
 
         init(_ parent: WebView) {
             self.parent = parent
+        }
+        
+        // JS Handler for blob downloader
+        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+            guard let jsonString = message.body as? String else {
+                parent.webModel.errorDescription = "Invalid blob JSON."
+                parent.webModel.showError = true
+
+                return
+            }
+
+            /*
+            guard let jsonData = jsonString.data(using: .utf8) else {
+                parent.webModel.errorDescription = "Cannot convert blob JSON into data!"
+                parent.webModel.showError = true
+
+                return
+            }
+
+            let decoder = JSONDecoder()
+            
+            do {
+                let file = try decoder.decode(BlobComponents.self, from: jsonData)
+                
+                guard let data = Data(base64Encoded: file.dataString),
+                    let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
+                    let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
+                else {
+                    parent.webModel.errorDescription = "Could not get blob data or extension!"
+                    parent.webModel.showError = true
+                    
+                    return
+                }
+                
+                let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
+                let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
+                
+                try data.write(to: url)
+                
+                parent.webModel.downloadFileUrl = url
+                parent.webModel.showFileMover = true
+            } catch {
+                parent.webModel.errorDescription = error.localizedDescription
+                parent.webModel.showError = true
+                
+                return
+            }
+            */
+            
+            parent.webModel.blobDownloadWith(jsonString: jsonString)
         }
 
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -86,7 +145,7 @@ struct WebView: UIViewRepresentable {
                 
                 // Alternative to decisionHandler(.download) since that's iOS 15 and up
                 //let documentUrl = url?.appendingPathComponent(navigationResponse.response.suggestedFilename!)
-                parent.webModel.downloadDocumentFrom(url: url!)
+                parent.webModel.httpDownloadFrom(url: url!)
                 decisionHandler(.cancel)
             }
         }
@@ -150,6 +209,8 @@ struct WebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
+        webModel.webView.configuration.userContentController.add(context.coordinator, name: "jsListener")
+        
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
         tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
         tapGesture.delegate = context.coordinator
