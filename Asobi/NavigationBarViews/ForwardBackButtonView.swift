@@ -15,6 +15,7 @@ struct ForwardBackButtonView: View {
             webModel.goBack()
         }, label: {
             Image(systemName: "arrow.left")
+                .padding(4)
         })
         .disabled(!webModel.canGoBack)
 
@@ -24,6 +25,7 @@ struct ForwardBackButtonView: View {
             webModel.goForward()
         }, label: {
             Image(systemName: "arrow.right")
+                .padding(.horizontal, 4)
         })
         .disabled(!webModel.canGoForward)
     }
