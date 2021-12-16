@@ -21,6 +21,8 @@ struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
 
     @EnvironmentObject var webModel: WebViewModel
+    
+    @ObservedObject var downloadManager: DownloadManager
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
@@ -41,7 +43,7 @@ struct WebView: UIViewRepresentable {
                 return
             }
             
-            parent.webModel.blobDownloadWith(jsonString: jsonString)
+            parent.downloadManager.blobDownloadWith(jsonString: jsonString)
         }
 
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -106,7 +108,7 @@ struct WebView: UIViewRepresentable {
                 
                 // Alternative to decisionHandler(.download) since that's iOS 15 and up
                 //let documentUrl = url?.appendingPathComponent(navigationResponse.response.suggestedFilename!)
-                parent.webModel.httpDownloadFrom(url: url!)
+                parent.downloadManager.httpDownloadFrom(url: url!)
                 decisionHandler(.cancel)
             }
         }
@@ -122,7 +124,7 @@ struct WebView: UIViewRepresentable {
                     decisionHandler(.allow)
                 case "blob":
                     // Defer to JS handling
-                    parent.webModel.executeBlobDownloadJS(url: url)
+                    parent.downloadManager.executeBlobDownloadJS(url: url)
                     
                     decisionHandler(.cancel)
                 default:
