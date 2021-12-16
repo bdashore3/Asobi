@@ -11,6 +11,7 @@ import SwiftUIX
 struct ContentView: View {
     @StateObject var webModel: WebViewModel = WebViewModel()
     @StateObject var navModel: NavigationViewModel = NavigationViewModel()
+    @StateObject var downloadManager: DownloadManager = DownloadManager()
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
@@ -25,21 +26,21 @@ struct ContentView: View {
                     webModel.showNavigation.toggle()
                 }
                 .onReceive(NotificationCenter.Publisher(center: .default, name: UIDevice.orientationDidChangeNotification)) { _ in
-                  self.orientation = UIDevice.current.orientation
+                    self.orientation = UIDevice.current.orientation
                 }
                 .ignoresSafeArea()
                 .zIndex(0)
 
             // Open cubari on launch
-            WebView()
-                .alert(isPresented: $webModel.showDuplicateDownloadAlert) {
+            WebView(downloadManager: downloadManager)
+                .alert(isPresented: $downloadManager.showDuplicateDownloadAlert) {
                     Alert(
                         title: Text("Download could not start"),
                         message: Text("Please cancel the existing download and try again"),
                         dismissButton: .default(Text("OK"))
                     )
                 }
-                .fileMover(isPresented: $webModel.showFileMover, file: webModel.downloadFileUrl) { _ in }
+                .fileMover(isPresented: $downloadManager.showFileMover, file: downloadManager.downloadFileUrl) { _ in }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(1)
 
@@ -79,18 +80,18 @@ struct ContentView: View {
                     .padding()
                 }
                 
-                 if webModel.showDownloadProgress {
+                 if downloadManager.showDownloadProgress {
                     VStack {
                         GroupBox {
                             Text("Downloading content...")
                             HStack {
-                                ProgressView(value: webModel.downloadProgress, total: 1.00)
+                                ProgressView(value: downloadManager.downloadProgress, total: 1.00)
                                     .progressViewStyle(LinearProgressViewStyle(tint: navigationAccent))
                                 
                                 Button("Cancel") {
-                                    webModel.currentDownload?.cancel()
-                                    webModel.currentDownload = nil
-                                    webModel.showDownloadProgress = false
+                                    downloadManager.currentDownload?.cancel()
+                                    downloadManager.currentDownload = nil
+                                    downloadManager.showDownloadProgress = false
                                 }
                             }
                         }
@@ -124,6 +125,11 @@ struct ContentView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(3)
+        }
+        .onAppear {
+            if downloadManager.parent == nil {
+                downloadManager.parent = webModel
+            }
         }
         .environmentObject(webModel)
         .environmentObject(navModel)
