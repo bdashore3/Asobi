@@ -16,6 +16,7 @@ struct SettingsButtonView: View {
             navModel.currentSheet = .settings
         }, label: {
             Image(systemName: "gear")
+                .padding(.horizontal, 4)
         })
     }
 }

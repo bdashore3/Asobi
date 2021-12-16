@@ -17,6 +17,7 @@ struct RefreshButtonView: View {
             webModel.showLoadingProgress = true
         }, label: {
             Image(systemName: "arrow.clockwise")
+                .padding(.horizontal, 4)
         })
         .keyboardShortcut("r")
     }

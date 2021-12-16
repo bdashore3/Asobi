@@ -16,7 +16,9 @@ struct LibraryButtonView: View {
             navModel.currentSheet = .library
         }, label: {
             Image(systemName: "book")
+                .padding(.horizontal, 4)
         })
+            //.background(Color.yellow)
         .contextMenu() {
             Button {
                 UIPasteboard.general.string = webModel.webView.url?.absoluteString

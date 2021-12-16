@@ -15,6 +15,7 @@ struct HomeButtonView: View {
             webModel.goHome()
         }, label: {
             Image(systemName: "house")
+                .padding(.horizontal, 4)
         })
     }
 }
