@@ -15,13 +15,16 @@ struct ContentView: View {
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("showStatusBg") var showStatusBg = true
 
     @State private var orientation: UIDeviceOrientation = UIDevice.current.orientation
 
     var body: some View {
         ZStack {
             // If the device is landscape, set the background color to the computed UIColor
-            Color(orientation.isLandscape ? webModel.backgroundColor ?? .clear : .clear)
+            Color((orientation.isLandscape || showStatusBg) ? webModel.backgroundColor ?? .clear : .clear)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
                 .onTapGesture(count: autoHideNavigation ? 1 : 3) {
                     webModel.showNavigation.toggle()
                 }

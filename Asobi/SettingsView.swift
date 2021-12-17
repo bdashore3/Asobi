@@ -19,6 +19,7 @@ struct SettingsView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("showStatusBg") var showStatusBg = true
     @AppStorage("incognitoMode") var incognitoMode = false
 
     @State private var showAdblockAlert: Bool = false
@@ -40,6 +41,9 @@ struct SettingsView: View {
                     }
                     Toggle(isOn: $autoHideNavigation) {
                         Text("Auto hide navigation bar")
+                    }
+                    Toggle(isOn: $showStatusBg) {
+                        Text("Show page background in statusbar")
                     }
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
