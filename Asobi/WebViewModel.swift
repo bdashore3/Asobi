@@ -12,6 +12,7 @@ import SwiftUI
 import Alamofire
 import CoreServices
 
+@MainActor
 class WebViewModel: ObservableObject {
     let webView: WKWebView
 
@@ -26,6 +27,19 @@ class WebViewModel: ObservableObject {
 
     // Has the page loaded once?
     private var firstLoad: Bool = false
+    
+    // History based variables
+    @Published var canGoBack: Bool = false
+    @Published var canGoForward: Bool = false
+
+    // Cosmetic variables
+    @Published var showNavigation: Bool = true
+    @Published var showLoadingProgress: Bool = false
+    @Published var backgroundColor: UIColor?
+    
+    // Error variables
+    @Published var errorDescription: String? = nil
+    @Published var showError: Bool = false
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -54,7 +68,9 @@ class WebViewModel: ObservableObject {
         setUserAgent(changeUserAgent: changeUserAgent)
         
         if blockAds {
-            enableBlocker()
+            Task {
+                await enableBlocker()
+            }
         }
         
         loadUrl()
@@ -63,19 +79,6 @@ class WebViewModel: ObservableObject {
         setupBindings()
     }
 
-    // History based variables
-    @Published var canGoBack: Bool = false
-    @Published var canGoForward: Bool = false
-
-    // Cosmetic variables
-    @Published var showNavigation: Bool = true
-    @Published var showLoadingProgress: Bool = false
-    @Published var backgroundColor: UIColor?
-    
-    // Error variables
-    @Published var errorDescription: String? = nil
-    @Published var showError: Bool = false
-
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
             .assign(to: &$canGoBack)
@@ -83,40 +86,28 @@ class WebViewModel: ObservableObject {
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
     }
-    
-    // Once swift concurrency is backported, migrate this to a different class/extension
-    func enableBlocker() {
-        let blocklistPath = Bundle.main.path(forResource: "blocklist", ofType: "json")
 
-        if blocklistPath == nil {
+    func enableBlocker() async {
+        guard let blocklistPath = Bundle.main.path(forResource: "blocklist", ofType: "json") else {
             debugPrint("Failed to find blocklist path. Continuing...")
             return
         }
 
         do {
-            let blocklist = try String(contentsOfFile: blocklistPath!, encoding: String.Encoding.utf8)
+            let blocklist = try String(contentsOfFile: blocklistPath, encoding: String.Encoding.utf8)
             
-            WKContentRuleListStore.default().compileContentRuleList(
+            let contentRuleList = try await WKContentRuleListStore.default().compileContentRuleList(
                 forIdentifier: "ContentBlockingRules", encodedContentRuleList: blocklist)
-            { (contentRuleList, error) in
-                if let error = error {
-                    debugPrint("Blocklist loading failed: \(error.localizedDescription)")
-                    return
-                }
-                
-                self.webView.configuration.userContentController.add(contentRuleList!)
-                
-                // Place load here to make sure the webpage reloads after adblock is enabled
-                if !self.firstLoad {
-                    self.webView.reload()
-                }
+            
+            if let ruleList = contentRuleList {
+                self.webView.configuration.userContentController.add(ruleList)
             }
         } catch {
-            if !self.firstLoad {
-                self.webView.reload()
-            }
-
-            debugPrint("Blocklist loading failed. Loading the URL anyway")
+            debugPrint("Blocklist loading failed. \(error.localizedDescription)")
+        }
+        
+        if !self.firstLoad {
+            self.webView.reload()
         }
     }
 

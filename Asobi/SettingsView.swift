@@ -56,10 +56,12 @@ struct SettingsView: View {
                             Text("Block ads")
                         }
                         .onChange(of: blockAds) { changed in
-                            if changed {
-                                webModel.enableBlocker()
-                            } else {
-                                webModel.disableBlocker()
+                            Task {
+                                if changed {
+                                    await webModel.enableBlocker()
+                                } else {
+                                    webModel.disableBlocker()
+                                }
                             }
                             
                             showAdblockAlert.toggle()
