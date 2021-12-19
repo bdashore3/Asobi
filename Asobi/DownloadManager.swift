@@ -9,6 +9,7 @@ import Foundation
 import CoreServices
 import Alamofire
 
+@MainActor
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
     
