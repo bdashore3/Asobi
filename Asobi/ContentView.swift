@@ -15,23 +15,16 @@ struct ContentView: View {
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
-    @AppStorage("showStatusBg") var showStatusBg = true
-
-    @State private var orientation: UIDeviceOrientation = UIDevice.current.orientation
 
     var body: some View {
         ZStack {
-            // If the device is landscape, set the background color to the computed UIColor
-            Color((orientation.isLandscape || showStatusBg) ? webModel.backgroundColor ?? .clear : .clear)
+            Color(webModel.backgroundColor ?? .clear)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture(count: autoHideNavigation ? 1 : 3) {
                     webModel.showNavigation.toggle()
                 }
-                .onReceive(NotificationCenter.Publisher(center: .default, name: UIDevice.orientationDidChangeNotification)) { _ in
-                    self.orientation = UIDevice.current.orientation
-                }
-                .ignoresSafeArea()
+                .edgesIgnoringSafeArea([.bottom, .horizontal])
                 .zIndex(0)
 
             // Open cubari on launch
