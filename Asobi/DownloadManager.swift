@@ -14,7 +14,7 @@ class DownloadManager: ObservableObject {
     var parent: WebViewModel?
     
     // Download handling variables
-    @Published var currentDownload: DownloadRequest? = nil
+    @Published var currentDownload: DownloadTask<URL>? = nil
     @Published var downloadFileUrl: URL? = nil
     @Published var downloadProgress: Double = 0.0
     @Published var showDuplicateDownloadAlert: Bool = false
@@ -104,16 +104,24 @@ class DownloadManager: ObservableObject {
         """)
     }
 
+    // So DownloadProgress can work in an async context without races
+    actor DownloadProgressTimer {
+        var lastTime = Date()
+
+        func setTime(newDate: Date) {
+            lastTime = newDate
+        }
+    }
+    
     // Download file from page
-    func httpDownloadFrom(url downloadUrl : URL) {
+    func httpDownloadFrom(url downloadUrl : URL) async {
         if currentDownload != nil {
             showDuplicateDownloadAlert = true
             return
         }
-        
-        let queue = DispatchQueue(label: "download", qos: .userInitiated)
-        var lastTime = Date()
-        
+
+        let progressTimer = DownloadProgressTimer()
+
         let destination: DownloadRequest.Destination = { tempUrl, response in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let suggestedName = response.suggestedFilename ?? "unknown"
@@ -122,39 +130,46 @@ class DownloadManager: ObservableObject {
 
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
-        
+
         self.showDownloadProgress = true
-        
-        currentDownload = AF.download(downloadUrl, to: destination)
-            .downloadProgress(queue: queue) { progress in
-                if Date().timeIntervalSince(lastTime) > 1.5 {
-                    lastTime = Date()
+
+        let downloadRequest = AF.download(downloadUrl, to: destination)
+
+        Task {
+            for await progress in downloadRequest.downloadProgress() {
+                if await Date().timeIntervalSince(progressTimer.lastTime) > 1.5 {
+                    await progressTimer.setTime(newDate: Date())
                     
                     DispatchQueue.main.async {
                         self.downloadProgress = progress.fractionCompleted
                     }
                 }
             }
-            .response { response in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.showDownloadProgress = false
-                    self.downloadProgress = 0.0
-                }
-                
-                if response.error == nil, let currentPath = response.fileURL {
-                    self.downloadFileUrl = currentPath
-                    self.showFileMover = true
-                }
-                
-                if let error = response.error {
-                    self.parent?.errorDescription = "Download could not be completed. \(error)"
-                    self.parent?.showError = true
-                }
-                
-                // Shut down any current requests and clear the download queue
-                self.currentDownload?.cancel()
-                self.currentDownload = nil
-            }
+        }
+
+        // Set as a UI callback if the download needs to be cancelled
+        currentDownload = downloadRequest.serializingDownloadedFileURL()
+
+        let response = await downloadRequest.serializingDownloadedFileURL().response
+
+        try? await Task.sleep(nanoseconds: 1000)
+
+        showDownloadProgress = false
+        downloadProgress = 0.0
+
+        if response.error == nil, let currentPath = response.fileURL {
+            downloadFileUrl = currentPath
+            showFileMover = true
+        }
+        
+        if let error = response.error {
+            parent?.errorDescription = "Download could not be completed. \(error)"
+            parent?.showError = true
+        }
+
+        // Shut down any current requests and clear the download queue
+        currentDownload?.cancel()
+        currentDownload = nil
     }
     
 }

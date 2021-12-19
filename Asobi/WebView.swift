@@ -108,7 +108,10 @@ struct WebView: UIViewRepresentable {
                 
                 // Alternative to decisionHandler(.download) since that's iOS 15 and up
                 //let documentUrl = url?.appendingPathComponent(navigationResponse.response.suggestedFilename!)
-                parent.downloadManager.httpDownloadFrom(url: url!)
+                Task {
+                    await parent.downloadManager.httpDownloadFrom(url: url!)
+                }
+
                 decisionHandler(.cancel)
             }
         }
