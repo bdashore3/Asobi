@@ -52,6 +52,19 @@ class WebViewModel: ObservableObject {
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
 
+        // Force allow webpage zooming
+        let zoomJS = """
+            var meta = document.createElement('meta')
+            meta.name = 'viewport'
+            meta.content = 'width=device-width, user-scalable=yes'
+            var head = document.getElementsByTagName('head')[0]
+            head.appendChild(meta)
+        """
+
+        let zoomScript = WKUserScript(source: zoomJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+
+        config.userContentController.addUserScript(zoomScript)
+
         // Clears the disk and in-memory cache. Doesn't harm accounts.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
 
