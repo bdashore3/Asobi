@@ -82,9 +82,6 @@ class WebViewModel: ObservableObject {
         let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         config.userContentController.addUserScript(zoomEvent)
 
-        // Clears the disk and in-memory cache. Doesn't harm accounts.
-        WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
-
         webView = WKWebView(
             frame: .zero,
             configuration: config
@@ -96,9 +93,12 @@ class WebViewModel: ObservableObject {
         webView.scrollView.contentInsetAdjustmentBehavior = .never
 
         setUserAgent(changeUserAgent: changeUserAgent)
-        
-        if blockAds {
-            Task {
+    
+        Task {
+            // Clears the disk and in-memory cache. Doesn't harm accounts.
+            await WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0))
+
+            if blockAds {
                 await enableBlocker()
             }
         }
