@@ -51,6 +51,36 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
+        
+        let zoomJs = """
+        let viewport = document.querySelector("meta[name=viewport]");
+
+        // Edit the existing viewport, otherwise create a new element
+        if (viewport) {
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=1');
+        } else {
+            let meta = document.createElement('meta');
+            meta.name = 'viewport'
+            meta.content = 'width=device-width, initial-scale=1.0'
+            document.head.appendChild(meta)
+        }
+
+        // Deprecated API, but webkit still recommends using this.
+        // Will use until screen.orientation is implemented
+        window.onorientationchange = function (event) {
+            let percent = window.outerWidth / window.innerWidth * 100
+
+            // Tests measure that the zoom level is 106.5, but use 110 to be safe
+            if (percent <= 110) {
+                viewport = document.querySelector("meta[name=viewport]");
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+            }
+        }
+        """
+        
+        let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        config.userContentController.addUserScript(zoomEvent)
 
         // Clears the disk and in-memory cache. Doesn't harm accounts.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
