@@ -25,7 +25,7 @@ struct WebView: UIViewRepresentable {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, WKScriptMessageHandler {
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, WKScriptMessageHandler {
         var parent: WebView
 
         init(_ parent: WebView) {
@@ -42,6 +42,15 @@ struct WebView: UIViewRepresentable {
             }
 
             parent.downloadManager.blobDownloadWith(jsonString: jsonString)
+        }
+
+        // Check if the user is zoomed in, used for resetting the zoom level on orientation change
+        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+            if scale <= 1.0 {
+                parent.webModel.isZoomedIn = false
+            } else {
+                parent.webModel.isZoomedIn = true
+            }
         }
 
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -196,6 +205,7 @@ struct WebView: UIViewRepresentable {
 
         webModel.webView.uiDelegate = context.coordinator
         webModel.webView.navigationDelegate = context.coordinator
+        webModel.webView.scrollView.delegate = context.coordinator
 
         return webModel.webView
     }
