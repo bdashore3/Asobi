@@ -15,7 +15,7 @@ struct EditBookmarkView: View {
     @EnvironmentObject var webModel: WebViewModel
 
     @Binding var bookmark: Bookmark?
-    
+
     @State private var bookmarkName = ""
     @State private var bookmarkUrl = ""
     @State private var showUrlError = false
@@ -60,7 +60,7 @@ struct EditBookmarkView: View {
                     Button("Save") {
                         if bookmarkUrl == "" || bookmarkName == "" {
                             showUrlError.toggle()
-                            
+
                             return
                         }
 

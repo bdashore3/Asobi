@@ -58,7 +58,7 @@ struct ContentView: View {
 
             VStack {
                 Spacer()
-                
+
                 // Error description view
                 if webModel.showError {
                     VStack {
@@ -75,7 +75,7 @@ struct ContentView: View {
                     }
                     .padding()
                 }
-                
+
                  if downloadManager.showDownloadProgress {
                     VStack {
                         GroupBox {
@@ -83,7 +83,7 @@ struct ContentView: View {
                             HStack {
                                 ProgressView(value: downloadManager.downloadProgress, total: 1.00)
                                     .progressViewStyle(LinearProgressViewStyle(tint: navigationAccent))
-                                
+
                                 Button("Cancel") {
                                     downloadManager.currentDownload?.cancel()
                                     downloadManager.currentDownload = nil

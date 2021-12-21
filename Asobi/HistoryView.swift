@@ -86,7 +86,7 @@ struct HistoryView: View {
             }
         }
     }
-    
+
     // In case the history index isn't 0
     func setHistoryIndex(at offsets: IndexSet) {
         for index in offsets {
@@ -94,7 +94,6 @@ struct HistoryView: View {
         }
     }
 }
-
 
 struct HistoryView_Previews: PreviewProvider {
     static var previews: some View {

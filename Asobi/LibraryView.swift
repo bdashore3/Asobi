@@ -29,15 +29,15 @@ struct LibraryView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding()
-                
+
                 Spacer()
-                
+
                 if tabSelect == 0 {
                     BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
                 } else {
                     HistoryView()
                 }
-                
+
                 Spacer()
             }
             .background(
@@ -57,7 +57,7 @@ struct LibraryView: View {
                     }
 
                     Spacer()
-                    
+
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {

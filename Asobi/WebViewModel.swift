@@ -9,8 +9,6 @@ import Foundation
 import WebKit
 import Combine
 import SwiftUI
-import Alamofire
-import CoreServices
 
 @MainActor
 class WebViewModel: ObservableObject {
@@ -36,7 +34,7 @@ class WebViewModel: ObservableObject {
     @Published var showNavigation: Bool = true
     @Published var showLoadingProgress: Bool = false
     @Published var backgroundColor: UIColor?
-    
+
     // Error variables
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
@@ -51,7 +49,7 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
-        
+
         let zoomJs = """
         let viewport = document.querySelector("meta[name=viewport]");
 
@@ -78,7 +76,7 @@ class WebViewModel: ObservableObject {
             }
         }
         """
-        
+
         let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         config.userContentController.addUserScript(zoomEvent)
 
@@ -93,7 +91,7 @@ class WebViewModel: ObservableObject {
         webView.scrollView.contentInsetAdjustmentBehavior = .never
 
         setUserAgent(changeUserAgent: changeUserAgent)
-    
+
         Task {
             // Clears the disk and in-memory cache. Doesn't harm accounts.
             await WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0))
@@ -102,17 +100,17 @@ class WebViewModel: ObservableObject {
                 await enableBlocker()
             }
         }
-        
+
         loadUrl()
         firstLoad = false
-        
+
         setupBindings()
     }
 
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
             .assign(to: &$canGoBack)
-        
+
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
     }
@@ -135,7 +133,7 @@ class WebViewModel: ObservableObject {
         } catch {
             debugPrint("Blocklist loading failed. \(error.localizedDescription)")
         }
-        
+
         if !self.firstLoad {
             self.webView.reload()
         }
@@ -143,9 +141,9 @@ class WebViewModel: ObservableObject {
 
     func disableBlocker() {
         debugPrint("Disabling adblock")
-        
+
         webView.configuration.userContentController.removeAllContentRuleLists()
-        
+
         self.webView.reload()
     }
 
@@ -169,7 +167,7 @@ class WebViewModel: ObservableObject {
         }
 
         var urlString = testString ?? defaultUrl
-        
+
         if !(urlString.hasPrefix("http://") || urlString.hasPrefix("https://")) {
             urlString = "https://\(urlString)"
         }
