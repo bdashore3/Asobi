@@ -68,8 +68,9 @@ class WebViewModel: ObservableObject {
         window.onorientationchange = function (event) {
             let percent = window.outerWidth / window.innerWidth * 100
 
-            // Tests measure that the zoom level is 106.5, but use 110 to be safe
-            if (percent <= 110) {
+            // Tests measure that the zoom level in iOS 15 is 106.5, but use 110 to be safe.
+            // Always zoom out on orientation change for iOS 14 devices
+            if (percent <= 110 || '\(UIDevice.current.systemVersion.prefix(2))' === '14') {
                 viewport = document.querySelector("meta[name=viewport]");
                 viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
                 viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
@@ -77,8 +78,10 @@ class WebViewModel: ObservableObject {
         }
         """
 
-        let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        config.userContentController.addUserScript(zoomEvent)
+        if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
+            let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+            config.userContentController.addUserScript(zoomEvent)
+        }
 
         webView = WKWebView(
             frame: .zero,
