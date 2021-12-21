@@ -7,8 +7,6 @@
 
 import SwiftUI
 import WebKit
-import Alamofire
-import CoreServices
 
 struct BlobComponents: Codable {
     let url: String
