@@ -12,7 +12,7 @@ struct BookmarkView: View {
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-    
+
     @FetchRequest(
         entity: Bookmark.entity(),
         sortDescriptors: [
@@ -23,7 +23,7 @@ struct BookmarkView: View {
 
     @Binding var currentBookmark: Bookmark?
     @Binding var showEditing: Bool
-    
+
     var body: some View {
         if bookmarks.isEmpty {
             Text("It looks like your bookmarks are empty. Try adding some!")

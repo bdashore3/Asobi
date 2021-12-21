@@ -12,10 +12,10 @@ import SwiftUI
 // View alias for a list row with an external link
 struct ListRowLinkView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    
-    @EnvironmentObject var model: WebViewModel
+
+    @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-    
+
     let text: String
     let link: String
     var subText: String?
@@ -46,7 +46,7 @@ struct ListRowLinkView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            model.loadUrl(link)
+            webModel.loadUrl(link)
 
             navModel.currentSheet = nil
         }

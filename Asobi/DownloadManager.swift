@@ -12,7 +12,7 @@ import Alamofire
 @MainActor
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
-    
+
     // Download handling variables
     @Published var currentDownload: DownloadTask<URL>? = nil
     @Published var downloadFileUrl: URL? = nil
@@ -34,7 +34,7 @@ class DownloadManager: ObservableObject {
             }
         }
     }
-    
+
     // Import blob URL
     func blobDownloadWith(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
@@ -45,10 +45,10 @@ class DownloadManager: ObservableObject {
         }
 
         let decoder = JSONDecoder()
-        
+
         do {
             let file = try decoder.decode(BlobComponents.self, from: jsonData)
-            
+
             guard let data = Data(base64Encoded: file.dataString),
                 let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
                 let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
@@ -58,23 +58,23 @@ class DownloadManager: ObservableObject {
                 
                 return
             }
-            
+
             let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
             let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
-            
+
             try data.write(to: url)
-            
+
             downloadFileUrl = url
             showFileMover = true
         } catch {
             parent?.errorDescription = error.localizedDescription
             parent?.showError = true
-            
+
             return
         }
     }
-    
+
     // Wrapper function for blob download script
     func executeBlobDownloadJS(url: URL) {
         parent?.webView.evaluateJavaScript(
@@ -99,7 +99,7 @@ class DownloadManager: ObservableObject {
                 window.webkit.messageHandlers.jsListener.postMessage(JSON.stringify(responseObj))
             });
         }
-        
+
         run()
         """)
     }
@@ -125,7 +125,7 @@ class DownloadManager: ObservableObject {
         let destination: DownloadRequest.Destination = { tempUrl, response in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let suggestedName = response.suggestedFilename ?? "unknown"
-            
+
             let fileURL = documentsURL.appendingPathComponent(suggestedName)
 
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
@@ -139,7 +139,7 @@ class DownloadManager: ObservableObject {
             for await progress in downloadRequest.downloadProgress() {
                 if await Date().timeIntervalSince(progressTimer.lastTime) > 1.5 {
                     await progressTimer.setTime(newDate: Date())
-                    
+
                     DispatchQueue.main.async {
                         self.downloadProgress = progress.fractionCompleted
                     }
@@ -161,7 +161,7 @@ class DownloadManager: ObservableObject {
             downloadFileUrl = currentPath
             showFileMover = true
         }
-        
+
         if let error = response.error {
             parent?.errorDescription = "Download could not be completed. \(error)"
             parent?.showError = true

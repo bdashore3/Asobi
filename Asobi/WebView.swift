@@ -21,7 +21,7 @@ struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
 
     @EnvironmentObject var webModel: WebViewModel
-    
+
     @ObservedObject var downloadManager: DownloadManager
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
@@ -42,7 +42,7 @@ struct WebView: UIViewRepresentable {
 
                 return
             }
-            
+
             parent.downloadManager.blobDownloadWith(jsonString: jsonString)
         }
 
@@ -66,7 +66,7 @@ struct WebView: UIViewRepresentable {
             parent.webModel.errorDescription = error.localizedDescription
             parent.webModel.showError = true
         }
-        
+
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = false
             
@@ -78,7 +78,7 @@ struct WebView: UIViewRepresentable {
                     self.parent.webModel.backgroundColor = nil
                 }
             }
-            
+
             if !parent.webModel.incognitoMode {
                 // Save in history
                 let newHistoryEntry = HistoryEntry(context: parent.context)
@@ -100,14 +100,12 @@ struct WebView: UIViewRepresentable {
         func webView(_ webView: WKWebView,
                      decidePolicyFor navigationResponse: WKNavigationResponse,
                      decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-            
             if navigationResponse.canShowMIMEType {
                 decisionHandler(.allow)
             } else {
                 let url = navigationResponse.response.url
                 
                 // Alternative to decisionHandler(.download) since that's iOS 15 and up
-                //let documentUrl = url?.appendingPathComponent(navigationResponse.response.suggestedFilename!)
                 Task {
                     await parent.downloadManager.httpDownloadFrom(url: url!)
                 }
@@ -135,7 +133,7 @@ struct WebView: UIViewRepresentable {
                     if UIApplication.shared.canOpenURL(url){
                         UIApplication.shared.open(url)
                     }
-                    
+
                     decisionHandler(.allow)
                 }
             }
@@ -143,7 +141,7 @@ struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
             print("Failed provisional nav: \(error)")
-            
+
             let error = error as NSError
 
             parent.webModel.showLoadingProgress = false
@@ -164,7 +162,7 @@ struct WebView: UIViewRepresentable {
 
             parent.webModel.showError = true
         }
-        
+
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             return true
         }
@@ -187,7 +185,7 @@ struct WebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         webModel.webView.configuration.userContentController.add(context.coordinator, name: "jsListener")
-        
+
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
         tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
         tapGesture.delegate = context.coordinator

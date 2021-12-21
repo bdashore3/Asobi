@@ -30,8 +30,7 @@ struct SettingsView: View {
             Form {
                 // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
                 // Reported this bug to Apple
-                Section(header: Text("Appearance"),
-                        footer: Text("Some of these settings will cause the menu to close. This is because the parent navigation bar is refreshing.")) {
+                Section(header: Text("Appearance")) {
                     Toggle(isOn: $leftHandMode) {
                         Text("Left handed mode")
                     }

@@ -41,7 +41,7 @@ struct PersistenceController {
             }
         }
     }
-    
+
     func save() {
         let context = container.viewContext
 
@@ -60,7 +60,7 @@ struct PersistenceController {
 
         save()
     }
-    
+
     func getHistoryPredicate(range: HistoryDeleteRange) -> NSPredicate? {
         if range == .allTime {
             return nil
@@ -103,7 +103,7 @@ struct PersistenceController {
 
         return predicate
     }
-    
+
     // Possibly change this to a default batchDelete function in the future
     func batchDeleteHistory(range: HistoryDeleteRange) throws {
         let context = container.viewContext
