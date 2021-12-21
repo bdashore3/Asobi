@@ -38,6 +38,9 @@ class WebViewModel: ObservableObject {
     // Error variables
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
+    
+    // Zoom variables
+    @Published var isZoomedIn = false
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -61,20 +64,6 @@ class WebViewModel: ObservableObject {
             meta.name = 'viewport'
             meta.content = 'width=device-width, initial-scale=1.0'
             document.head.appendChild(meta)
-        }
-
-        // Deprecated API, but webkit still recommends using this.
-        // Will use until screen.orientation is implemented
-        window.onorientationchange = function (event) {
-            let percent = window.outerWidth / window.innerWidth * 100
-
-            // Tests measure that the zoom level in iOS 15 is 106.5, but use 110 to be safe.
-            // Always zoom out on orientation change for iOS 14 devices
-            if (percent <= 110 || '\(UIDevice.current.systemVersion.prefix(2))' === '14') {
-                viewport = document.querySelector("meta[name=viewport]");
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
-            }
         }
         """
 
@@ -116,6 +105,10 @@ class WebViewModel: ObservableObject {
 
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
+    }
+
+    func resetZoom() {
+        webView.scrollView.setZoomScale(1.0, animated: true)
     }
 
     func enableBlocker() async {
