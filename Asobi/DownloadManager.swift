@@ -152,7 +152,7 @@ class DownloadManager: ObservableObject {
 
         let response = await downloadRequest.serializingDownloadedFileURL().response
 
-        try? await Task.sleep(nanoseconds: 1000)
+        try? await Task.sleep(nanoseconds: 500000000)
 
         showDownloadProgress = false
         downloadProgress = 0.0
