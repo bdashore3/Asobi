@@ -36,16 +36,6 @@ struct ContentView: View {
                         dismissButton: .default(Text("OK"))
                     )
                 }
-                .onReceive(NotificationCenter.Publisher(center: .default, name: UIDevice.orientationDidChangeNotification)) { _ in
-                    if !webModel.isZoomedIn {
-                        Task {
-                            // Allow the zoom scale to update (0.1 seconds)
-                            try await Task.sleep(nanoseconds: 100000000)
-
-                            webModel.resetZoom()
-                        }
-                    }
-                }
                 .fileMover(isPresented: $downloadManager.showFileMover, file: downloadManager.downloadFileUrl) { _ in }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(1)

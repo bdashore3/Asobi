@@ -44,13 +44,34 @@ struct WebView: UIViewRepresentable {
             parent.downloadManager.blobDownloadWith(jsonString: jsonString)
         }
 
-        // Check if the user is zoomed in, used for resetting the zoom level on orientation change
-        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-            if scale <= 1.0 {
-                parent.webModel.isZoomedIn = false
-            } else {
-                parent.webModel.isZoomedIn = true
+        // Will check if the user manually zoomed in
+        func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+            parent.webModel.userDidZoom = true
+        }
+
+        // Handle orientation changes here
+        func scrollViewDidZoom(_ scrollView: UIScrollView) {
+            // If the user initiated the zoom, we don't care
+            if parent.webModel.userDidZoom {
+                return
             }
+
+            if parent.webModel.isZoomedOut {
+                scrollView.setZoomScale(scrollView.minimumZoomScale, animated: false)
+            } else if scrollView.zoomScale.roundToPlaces(2) > parent.webModel.previousZoomScale.roundToPlaces(2) {
+                // If the scale is zoomed in on an orientation change,
+                // revert back to the previous one saved in model
+                scrollView.setZoomScale(parent.webModel.previousZoomScale, animated: false)
+            }
+        }
+
+        // Check if the user is zoomed in, used for resetting the zoom level on orientation change
+        // Also set the previous zoom level for possible orientation change issues
+        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+            parent.webModel.userDidZoom = false
+
+            parent.webModel.previousZoomScale = scale
+            parent.webModel.isZoomedOut = scale.roundToPlaces(2) <= scrollView.minimumZoomScale.roundToPlaces(2)
         }
 
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {

@@ -40,7 +40,9 @@ class WebViewModel: ObservableObject {
     @Published var showError: Bool = false
     
     // Zoom variables
-    @Published var isZoomedIn = false
+    @Published var isZoomedOut = false
+    @Published var userDidZoom = false
+    @Published var previousZoomScale: CGFloat = 0
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -105,10 +107,6 @@ class WebViewModel: ObservableObject {
 
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
-    }
-
-    func resetZoom() {
-        webView.scrollView.setZoomScale(1.0, animated: true)
     }
 
     func enableBlocker() async {
