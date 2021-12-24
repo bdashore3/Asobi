@@ -64,10 +64,11 @@ struct HistoryView: View {
                     ForEach(history.entryArray) { entry in
                         ListRowLinkView(text: entry.name ?? "Unknown", link: entry.url ?? "", subText: entry.url)
                     }
-                    .onDelete(perform: removeEntry)
+                    .onDelete { offsets in
+                        self.removeEntry(at: offsets, from: history)
+                    }
                 }
             }
-            .onDelete(perform: setHistoryIndex)
         }
         .listStyle(.grouped)
         .onAppear {
@@ -75,22 +76,15 @@ struct HistoryView: View {
         }
     }
 
-    func removeEntry(at offsets: IndexSet) {
+    func removeEntry(at offsets: IndexSet, from history: History) {
         for index in offsets {
-            let tempHistory: History = history[historyIndex]
+            let entry = history.entryArray[index]
 
-            tempHistory.removeFromEntries(tempHistory.entryArray[index])
+            history.removeFromEntries(entry)
 
-            if tempHistory.entryArray.isEmpty {
-                PersistenceController.shared.delete(tempHistory)
+            if history.entryArray.isEmpty {
+                PersistenceController.shared.delete(history)
             }
-        }
-    }
-
-    // In case the history index isn't 0
-    func setHistoryIndex(at offsets: IndexSet) {
-        for index in offsets {
-            historyIndex = index
         }
     }
 }
