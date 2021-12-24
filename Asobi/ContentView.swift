@@ -8,14 +8,24 @@
 import SwiftUI
 import SwiftUIX
 
+enum DisplayMode: Int {
+    case system = 0
+    case dark = 1
+    case light = 2
+}
+
 struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @StateObject var webModel: WebViewModel = WebViewModel()
     @StateObject var navModel: NavigationViewModel = NavigationViewModel()
     @StateObject var downloadManager: DownloadManager = DownloadManager()
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
-
+    @AppStorage("followSystemTheme") var followSystemTheme = true
+    @AppStorage("useDarkTheme") var useDarkTheme = false
+    
     var body: some View {
         ZStack {
             Color(webModel.backgroundColor ?? .clear)
@@ -127,6 +137,7 @@ struct ContentView: View {
                 downloadManager.parent = webModel
             }
         }
+        .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
         .environmentObject(webModel)
         .environmentObject(navModel)
     }
