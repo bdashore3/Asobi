@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
@@ -20,6 +22,8 @@ struct SettingsView: View {
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("incognitoMode") var incognitoMode = false
+    @AppStorage("followSystemTheme") var followSystemTheme = true
+    @AppStorage("useDarkTheme") var useDarkTheme = false
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -30,16 +34,40 @@ struct SettingsView: View {
             Form {
                 // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
                 // Reported this bug to Apple
-                Section(header: Text("Appearance")) {
+                Section(header: Text("Appearance"),
+                        footer: Text("Following the system theme will close and reopen the settings menu to refresh any color changes")) {
                     Toggle(isOn: $leftHandMode) {
                         Text("Left handed mode")
                     }
+
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
+
                     Toggle(isOn: $autoHideNavigation) {
                         Text("Auto hide navigation bar")
                     }
+
+                    Toggle(isOn: $useDarkTheme) {
+                        Text("Use dark theme")
+                            .foregroundColor(followSystemTheme ? .gray : (useDarkTheme ? .white : .black))
+                    }
+                    .disabled(followSystemTheme)
+                    
+                    // Make this toggle refresh the settings view to apply the right color
+                    Toggle(isOn: $followSystemTheme) {
+                        Text("Follow system theme")
+                    }
+                    .onChange(of: followSystemTheme) { _ in
+                        Task {                            
+                            navModel.currentSheet = nil
+
+                            try await Task.sleep(nanoseconds: 100000000)
+                
+                            navModel.currentSheet = .settings
+                        }
+                    }
+
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Privacy"),
@@ -47,6 +75,7 @@ struct SettingsView: View {
                         Toggle(isOn: $incognitoMode) {
                             Text("Incognito mode")
                         }
+
                         Toggle(isOn: $blockAds) {
                             Text("Block ads")
                         }
@@ -125,6 +154,7 @@ struct SettingsView: View {
                     .keyboardShortcut(.cancelAction)
                 }
             }
+            .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
         }
     }
 }

@@ -17,6 +17,6 @@ class NavigationViewModel: ObservableObject {
         case library
         case bookmarkEditing
     }
-    
+
     @Published var currentSheet: SheetType?
 }
