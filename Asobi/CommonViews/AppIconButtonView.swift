@@ -9,9 +9,12 @@ import SwiftUI
 
 struct AppIconButtonView: View {
     @Environment(\.colorScheme) var colorScheme
-    
+
     @AppStorage("selectedIconKey") var selectedIconKey = "AppImage"
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    
+    @State private var showErrorAlert = false
+    @State private var errorAlertText = ""
     
     let imageKey: String
     let iconKey: String?
@@ -21,8 +24,15 @@ struct AppIconButtonView: View {
     var body: some View {
         VStack {
             Button(action: {
-                UIApplication.shared.setAlternateIconName(iconKey)
-                selectedIconKey = imageKey
+                Task {
+                    do {
+                        try await UIApplication.shared.setAlternateIconName(iconKey)
+                        selectedIconKey = imageKey
+                    } catch {
+                        errorAlertText = error.localizedDescription
+                        showErrorAlert.toggle()
+                    }
+                }
             }, label: {
                 Image(imageKey)
                     .resizable()
@@ -36,6 +46,13 @@ struct AppIconButtonView: View {
             }
             .foregroundColor(selectedIconKey == imageKey ? navigationAccent : (colorScheme == .light ? .black : .white))
             .font(.caption2, weight: selectedIconKey == imageKey ? .bold : .regular)
+        }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(
+                title: Text("Error!"),
+                message: Text("App icon error: \(errorAlertText)"),
+                dismissButton: .cancel(Text("OK!"))
+            )
         }
     }
 }
