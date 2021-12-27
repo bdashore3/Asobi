@@ -58,15 +58,6 @@ struct SettingsView: View {
                     Toggle(isOn: $followSystemTheme) {
                         Text("Follow system theme")
                     }
-                    .onChange(of: followSystemTheme) { _ in
-                        Task {                            
-                            navModel.currentSheet = nil
-
-                            try await Task.sleep(nanoseconds: 100000000)
-                
-                            navModel.currentSheet = .settings
-                        }
-                    }
 
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
@@ -159,8 +150,8 @@ struct SettingsView: View {
                     .keyboardShortcut(.cancelAction)
                 }
             }
-            .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
         }
+        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }
 

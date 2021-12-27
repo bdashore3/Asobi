@@ -11,6 +11,9 @@ import CoreData
 struct LibraryView: View {    
     @EnvironmentObject var navView: NavigationViewModel
 
+    @AppStorage("followSystemTheme") var followSystemTheme = true
+    @AppStorage("useDarkTheme") var useDarkTheme = false
+
     @State var currentUrl: String?
 
     @State private var dismissSelf = false
@@ -70,6 +73,7 @@ struct LibraryView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .environment(\.editMode, $editMode)
         }
+        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 
     @ViewBuilder

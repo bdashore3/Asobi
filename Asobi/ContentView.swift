@@ -131,7 +131,7 @@ struct ContentView: View {
                 downloadManager.parent = webModel
             }
         }
-        .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
+        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
         .environmentObject(webModel)
         .environmentObject(navModel)
     }
