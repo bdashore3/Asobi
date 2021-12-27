@@ -19,6 +19,8 @@
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
 		0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D3FB02717D87D000A4534 /* PersistenceController.swift */; };
 		0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */; };
+		0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D52779217300F25471 /* AppIconPickerView.swift */; };
+		0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D72779220000F25471 /* AppIconButtonView.swift */; };
 		0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */; };
 		0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */; };
 		0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 0CB4DBA2271BB58700ADBE5A /* SwiftUIX */; };
@@ -78,6 +80,8 @@
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		0C7D3FB02717D87D000A4534 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
+		0C8DF1D52779217300F25471 /* AppIconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconPickerView.swift; sourceTree = "<group>"; };
+		0C8DF1D72779220000F25471 /* AppIconButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButtonView.swift; sourceTree = "<group>"; };
 		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
 		0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */,
+				0C8DF1D52779217300F25471 /* AppIconPickerView.swift */,
+				0C8DF1D72779220000F25471 /* AppIconButtonView.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -402,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */,
 				0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */,
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
@@ -435,6 +442,7 @@
 				0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 				0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */,
+				0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

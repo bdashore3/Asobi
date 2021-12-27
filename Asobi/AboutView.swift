@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct AboutView: View {
+    @AppStorage("selectedIconKey") var selectedIconKey = "AppImage"
+
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
-            Image("AppImage")
+            Image(selectedIconKey)
                 .resizable()
                 .frame(width: 100, height: 100)
                 .cornerRadius(25)
