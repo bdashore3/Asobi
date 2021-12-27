@@ -10,6 +10,9 @@
 		0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */; };
 		0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */; };
 		0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C070D78271A3B54001F5327 /* LibraryView.swift */; };
+		0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0C6B7A277A35F6007B9345 /* Introspect */; };
+		0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7D277A3620007B9345 /* Modifiers.swift */; };
+		0C0C6B80277A3708007B9345 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7F277A3708007B9345 /* View.swift */; };
 		0C21519027237E0900C3976A /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C21518F27237E0900C3976A /* BookmarkView.swift */; };
 		0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD1F127698A9E00C764DB /* DownloadManager.swift */; };
 		0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C447E95274C6C2100DF0186 /* Alamofire */; };
@@ -72,6 +75,8 @@
 		0C02727B2741FA4F007C2CC9 /* AsobiDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AsobiDB.xcdatamodel; sourceTree = "<group>"; };
 		0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		0C070D78271A3B54001F5327 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0C0C6B7D277A3620007B9345 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		0C0C6B7F277A3708007B9345 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		0C2AD1F127698A9E00C764DB /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		0C580952277566F80005CA40 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
@@ -124,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */,
+				0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */,
 				0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +172,7 @@
 				0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */,
 				0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */,
 				0C580952277566F80005CA40 /* CGFloat.swift */,
+				0C0C6B7F277A3708007B9345 /* View.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -176,6 +183,7 @@
 				7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */,
 				0C8DF1D52779217300F25471 /* AppIconPickerView.swift */,
 				0C8DF1D72779220000F25471 /* AppIconButtonView.swift */,
+				0C0C6B7D277A3620007B9345 /* Modifiers.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 			packageProductDependencies = (
 				0CB4DBA2271BB58700ADBE5A /* SwiftUIX */,
 				0C447E95274C6C2100DF0186 /* Alamofire */,
+				0C0C6B7A277A35F6007B9345 /* Introspect */,
 			);
 			productName = Cubari;
 			productReference = 7C2248C026B85D0F00AD3D42 /* Asobi.app */;
@@ -364,6 +373,7 @@
 			packageReferences = (
 				0CB4DBA1271BB58700ADBE5A /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				0C447E94274C6C2100DF0186 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0C0C6B79277A35F6007B9345 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 7C2248C126B85D0F00AD3D42 /* Products */;
 			projectDirPath = "";
@@ -417,6 +427,7 @@
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
+				0C0C6B80277A3708007B9345 /* View.swift in Sources */,
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
@@ -424,6 +435,7 @@
 				0CC1C8D1272CAF890076C125 /* UIColor.swift in Sources */,
 				0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */,
 				0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */,
+				0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */,
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */,
@@ -778,6 +790,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0C0C6B79277A35F6007B9345 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		0C447E94274C6C2100DF0186 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -797,6 +817,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0C0C6B7A277A35F6007B9345 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C0C6B79277A35F6007B9345 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		0C447E95274C6C2100DF0186 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0C447E94274C6C2100DF0186 /* XCRemoteSwiftPackageReference "Alamofire" */;
