@@ -12,6 +12,7 @@ struct AppIconPickerView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: [GridItem()], spacing: 25) {
                 AppIconButtonView(imageKey: "AppImage", iconKey: nil, iconName: "Default", author: "kingbri")
+                AppIconButtonView(imageKey: "GradientsImage", iconKey: "GradientsAppIcon", iconName: "Gradients", author: "Idiocy Max")
             }
             .padding(.vertical, 10)
         }
