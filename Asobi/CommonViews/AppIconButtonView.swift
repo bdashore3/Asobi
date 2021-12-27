@@ -9,7 +9,9 @@ import SwiftUI
 
 struct AppIconButtonView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Binding var selectedIconKey: String
+    
+    @AppStorage("selectedIconKey") var selectedIconKey = "AppImage"
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
     
     let imageKey: String
     let iconKey: String?
@@ -32,7 +34,7 @@ struct AppIconButtonView: View {
                 Text(iconName)
                 Text("by \(author)")
             }
-            .foregroundColor(selectedIconKey == imageKey ? .blue : (colorScheme == .light ? .black : .white))
+            .foregroundColor(selectedIconKey == imageKey ? navigationAccent : (colorScheme == .light ? .black : .white))
             .font(.caption2, weight: selectedIconKey == imageKey ? .bold : .regular)
         }
     }
@@ -40,6 +42,6 @@ struct AppIconButtonView: View {
 
 struct AppIconButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        AppIconButtonView(selectedIconKey: .constant("AppImage"), imageKey: "AppImage", iconKey: nil, iconName: "Default", author: "kingbri")
+        AppIconButtonView(imageKey: "AppImage", iconKey: nil, iconName: "Default", author: "kingbri")
     }
 }
