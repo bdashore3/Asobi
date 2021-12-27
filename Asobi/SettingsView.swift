@@ -24,7 +24,6 @@ struct SettingsView: View {
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
-    @AppStorage("selectedIconKey") var selectedIconKey = "AppImage"
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -142,7 +141,7 @@ struct SettingsView: View {
                 }
                 if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
                     Section(header: Text("App Icon")) {
-                        AppIconPickerView(selectedIconKey: $selectedIconKey)
+                        AppIconPickerView()
                     }
                 }
                 Section {
