@@ -234,7 +234,9 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {
         // Tap gesture
         if let lastGestureRecognizer = uiView.gestureRecognizers?.last {
-            let tapGesture: UITapGestureRecognizer = lastGestureRecognizer as! UITapGestureRecognizer
+            guard let tapGesture: UITapGestureRecognizer = lastGestureRecognizer as? UITapGestureRecognizer else {
+                return
+            }
 
             tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
             tapGesture.isEnabled = !persistNavigation
