@@ -19,6 +19,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("incognitoMode") var incognitoMode = false
+    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = false
 
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://duckduckgo.com/")!
@@ -78,7 +79,10 @@ class WebViewModel: ObservableObject {
             frame: .zero,
             configuration: config
         )
-        webView.allowsBackForwardNavigationGestures = true
+        
+        if allowSwipeNavGestures {
+            webView.allowsBackForwardNavigationGestures = true
+        }
 
         // Clears the white background on webpage load
         webView.isOpaque = false

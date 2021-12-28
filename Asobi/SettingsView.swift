@@ -21,6 +21,7 @@ struct SettingsView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
@@ -34,18 +35,9 @@ struct SettingsView: View {
             Form {
                 // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
                 // Reported this bug to Apple
-                Section(header: Text("Appearance"),
-                        footer: Text("Following the system theme will close and reopen the settings menu to refresh any color changes")) {
+                Section(header: Text("Appearance")) {
                     Toggle(isOn: $leftHandMode) {
                         Text("Left handed mode")
-                    }
-
-                    Toggle(isOn: $persistNavigation) {
-                        Text("Lock navigation bar")
-                    }
-
-                    Toggle(isOn: $autoHideNavigation) {
-                        Text("Auto hide navigation bar")
                     }
 
                     Toggle(isOn: $useDarkTheme) {
@@ -61,6 +53,26 @@ struct SettingsView: View {
 
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
+                Section(header: Text("Behavior"), footer: Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
+                    Toggle(isOn: $persistNavigation) {
+                        Text("Lock navigation bar")
+                    }
+
+                    Toggle(isOn: $autoHideNavigation) {
+                        Text("Auto hide navigation bar")
+                    }
+                    
+                    Toggle(isOn: $allowSwipeNavGestures) {
+                        Text("Allow browser swipe gestures")
+                    }
+                    .onChange(of: allowSwipeNavGestures) { changed in
+                        if changed {
+                            webModel.webView.allowsBackForwardNavigationGestures = true
+                        } else {
+                            webModel.webView.allowsBackForwardNavigationGestures = false
+                        }
+                    }
+                }
                 Section(header: Text("Privacy"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {
                         Toggle(isOn: $incognitoMode) {
@@ -71,14 +83,14 @@ struct SettingsView: View {
                             Text("Block ads")
                         }
                         .onChange(of: blockAds) { changed in
-                            Task {
-                                if changed {
+                            if changed {
+                                Task {
                                     await webModel.enableBlocker()
-                                } else {
-                                    webModel.disableBlocker()
                                 }
+                            } else {
+                                webModel.disableBlocker()
                             }
-                            
+
                             showAdblockAlert.toggle()
                         }
                         .alert(isPresented: $showAdblockAlert) {
