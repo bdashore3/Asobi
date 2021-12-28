@@ -33,6 +33,7 @@ To set a default URL:
 Here are features that I have planned for future releases (these are also in the issues)
 
 - RPC on mac: Used for Discord to show that you're using Asobi
+- Find in page: Adds the ability to search for content in a webpage
 
 ## Contribution
 
@@ -40,6 +41,10 @@ If you have issues with the app:
 
 - Describe the issue in detail
 - If you have a feature request, please indicate it as so. Planned features are in a different section of the README, so be sure to read those before submitting.
+
+If you want to make custom icons for the app:
+
+- Please join [the discord](https://discord.gg/pswt7by) for more info
 
 # Developers and Permissions
 
