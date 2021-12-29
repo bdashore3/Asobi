@@ -126,6 +126,10 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(3)
         }
+        .onOpenURL { url in
+            let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+            webModel.loadUrl(splitUrl)
+        }
         .onAppear {
             if downloadManager.parent == nil {
                 downloadManager.parent = webModel
