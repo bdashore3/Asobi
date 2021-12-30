@@ -70,7 +70,7 @@ struct LibraryView: View {
                     .keyboardShortcut(.cancelAction)
                 }
             }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(.stack)
             .environment(\.editMode, $editMode)
         }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
