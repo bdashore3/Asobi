@@ -53,7 +53,12 @@ struct SettingsView: View {
 
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
-                Section(header: Text("Behavior"), footer: Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
+                Section(header: Text("Behavior"),
+                        footer:
+                            UIDevice.current.deviceType == .mac ? nil :
+                            Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")
+                        )
+                {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
@@ -61,15 +66,17 @@ struct SettingsView: View {
                     Toggle(isOn: $autoHideNavigation) {
                         Text("Auto hide navigation bar")
                     }
-                    
-                    Toggle(isOn: $allowSwipeNavGestures) {
-                        Text("Allow browser swipe gestures")
-                    }
-                    .onChange(of: allowSwipeNavGestures) { changed in
-                        if changed {
-                            webModel.webView.allowsBackForwardNavigationGestures = true
-                        } else {
-                            webModel.webView.allowsBackForwardNavigationGestures = false
+
+                    if UIDevice.current.deviceType != .mac {
+                        Toggle(isOn: $allowSwipeNavGestures) {
+                            Text("Allow browser swipe gestures")
+                        }
+                        .onChange(of: allowSwipeNavGestures) { changed in
+                            if changed {
+                                webModel.webView.allowsBackForwardNavigationGestures = true
+                            } else {
+                                webModel.webView.allowsBackForwardNavigationGestures = false
+                            }
                         }
                     }
                 }
@@ -142,7 +149,7 @@ struct SettingsView: View {
                         )
                     }
                 }
-                if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
+                if UIDevice.current.deviceType != .mac {
                     Section(header: Text("App Icon")) {
                         AppIconPickerView()
                     }
