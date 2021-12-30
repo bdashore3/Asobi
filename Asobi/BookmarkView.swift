@@ -85,6 +85,7 @@ struct BookmarkView: View {
                 .onMove(perform: moveItem)
                 .onDelete(perform: removeItem)
             }
+            .id(UUID())
             .listStyle(.grouped)
         }
     }
