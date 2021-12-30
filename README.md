@@ -35,6 +35,17 @@ Here are features that I have planned for future releases (these are also in the
 - RPC on mac: Used for Discord to show that you're using Asobi
 - Find in page: Adds the ability to search for content in a webpage
 
+## Building from source
+
+If you have Xcode, you can build Asobi from source and run it on your device.
+
+There are two branches in the repository:
+
+- default: The stable branch. Is parallel to the App Store version of Asobi.
+- next: The development branch. May contain breaking changes and is frequently force pushed to.
+
+Xcode builds are ran at your own risk and are not guaranteed to get support in the event of an app crash!
+
 ## Contribution
 
 If you have issues with the app:
