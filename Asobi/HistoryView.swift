@@ -70,7 +70,6 @@ struct HistoryView: View {
                 }
             }
         }
-        .id(UUID())
         .listStyle(.grouped)
         .onAppear {
             currentUrl = webModel.webView.url?.absoluteString
