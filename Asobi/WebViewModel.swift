@@ -166,7 +166,7 @@ class WebViewModel: ObservableObject {
 
         var urlString = testString ?? defaultUrl
 
-        if !(urlString.hasPrefix("http://") || urlString.hasPrefix("https://")) {
+        if !(urlString.contains("://")) {
             urlString = "https://\(urlString)"
         }
 

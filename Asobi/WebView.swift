@@ -164,6 +164,8 @@ struct WebView: UIViewRepresentable {
 
                     decisionHandler(.allow)
                 }
+            } else {
+                decisionHandler(.allow)
             }
         }
 
