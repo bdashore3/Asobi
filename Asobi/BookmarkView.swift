@@ -32,29 +32,33 @@ struct BookmarkView: View {
             List {
                 ForEach(bookmarks, id: \.self) { bookmark in
                     // Check for iOS 15 and ONLY iOS 15
-                    if #available(iOS 15.0, *), UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
-                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button("Edit") {
-                                    currentBookmark = bookmark
+                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                        Group {
+                            if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                                ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button("Edit") {
+                                            currentBookmark = bookmark
 
-                                    showEditing = true
-                                }
-                                .tint(.blue)
+                                            showEditing = true
+                                        }
+                                        .tint(.blue)
 
-                                Button("Delete") {
-                                    PersistenceController.shared.delete(bookmark)
-                                }
-                                .tint(.red)
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                Button("Set as default") {
-                                    if let bookmarkUrl = bookmark.url {
-                                        defaultUrl = bookmarkUrl
+                                        Button("Delete") {
+                                            PersistenceController.shared.delete(bookmark)
+                                        }
+                                        .tint(.red)
                                     }
-                                }
-                                .tint(.green)
+                                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                        Button("Set as default") {
+                                            if let bookmarkUrl = bookmark.url {
+                                                defaultUrl = bookmarkUrl
+                                            }
+                                        }
+                                        .tint(.green)
+                                    }
                             }
+                        }
                     } else {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
                             .contextMenu {
