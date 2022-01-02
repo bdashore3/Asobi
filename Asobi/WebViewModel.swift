@@ -22,7 +22,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = false
 
     // Make a non mutable fallback URL
-    private let fallbackUrl = URL(string: "https://duckduckgo.com/")!
+    private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
 
     // Has the page loaded once?
     private var firstLoad: Bool = false
