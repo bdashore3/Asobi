@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @StateObject var webModel: WebViewModel = WebViewModel()
     @StateObject var navModel: NavigationViewModel = NavigationViewModel()
     @StateObject var downloadManager: DownloadManager = DownloadManager()
@@ -22,16 +20,17 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
+            // Background color for orientation changes
             Color(webModel.backgroundColor ?? .clear)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture(count: autoHideNavigation ? 1 : 3) {
-                    webModel.showNavigation.toggle()
+                    navModel.showNavigationBar.toggle()
                 }
                 .edgesIgnoringSafeArea([.bottom, .horizontal])
                 .zIndex(0)
 
-            // Open cubari on launch
+            // WebView
             WebView(downloadManager: downloadManager)
                 .alert(isPresented: $downloadManager.showDuplicateDownloadAlert) {
                     Alert(
@@ -60,6 +59,7 @@ struct ContentView: View {
                 .zIndex(2)
             }
 
+            // Error view, download bar, and find in page bar
             VStack {
                 Spacer()
 
@@ -80,7 +80,14 @@ struct ContentView: View {
                     .padding()
                 }
 
-                 if downloadManager.showDownloadProgress {
+                // Calls the find in page view
+                if webModel.showFindInPage {
+                    FindInPageView()
+                        .padding(UIDevice.current.deviceType != .phone ? 10 : 0)
+                }
+
+                // Download progress bar view
+                if downloadManager.showDownloadProgress {
                     VStack {
                         GroupBox {
                             Text("Downloading content...")
@@ -101,18 +108,30 @@ struct ContentView: View {
                     .padding()
                 }
 
-                if webModel.showNavigation {
+                // Fills up navigation bar height
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(height: navModel.isKeyboardShowing ? 0 : (navModel.showNavigationBar ? 50 : 0))
+            }
+            .zIndex(3)
+
+            // Navigation Bar
+            VStack {
+                Spacer()
+                
+                if navModel.showNavigationBar {
                     NavigationBarView()
                         .onAppear {
                             // Marker: If auto hiding is enabled
                             if autoHideNavigation {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                    webModel.showNavigation = false
+                                    navModel.showNavigationBar = false
                                 }
                             }
                         }
                 }
             }
+            .edgesIgnoringSafeArea(.bottom)
             .sheet(item: $navModel.currentSheet) { item in
                 switch item {
                 case .library:
@@ -123,8 +142,7 @@ struct ContentView: View {
                     EditBookmarkView(bookmark: .constant(nil))
                 }
             }
-            .edgesIgnoringSafeArea(.bottom)
-            .zIndex(3)
+            .zIndex(4)
         }
         .onOpenURL { url in
             let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
@@ -145,6 +163,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark)
     }
 }
 #endif

@@ -57,10 +57,12 @@ struct NavigationBarView: View {
                 }
             }
             .padding()
-            .padding(.bottom, UIDevice.current.hasNotch ? 30 : 0)
-            .background(colorScheme == .light ? Color.white : Color.black)
             .accentColor(navigationAccent)
+            
+            Spacer()
         }
+        .background(colorScheme == .light ? Color.white : Color.black)
+        .frame(height: UIDevice.current.hasNotch ? 80 : 50)
         .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
     }
 }

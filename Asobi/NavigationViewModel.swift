@@ -19,4 +19,6 @@ class NavigationViewModel: ObservableObject {
     }
 
     @Published var currentSheet: SheetType?
+    @Published var isKeyboardShowing = false
+    @Published var showNavigationBar = true
 }
