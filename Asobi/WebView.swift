@@ -8,17 +8,11 @@
 import SwiftUI
 import WebKit
 
-struct BlobComponents: Codable {
-    let url: String
-    let mimeType: String
-    let size: Int64
-    let dataString: String
-}
-
 struct WebView: UIViewRepresentable {
     @Environment(\.managedObjectContext) var context
 
     @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     @ObservedObject var downloadManager: DownloadManager
 
@@ -34,14 +28,28 @@ struct WebView: UIViewRepresentable {
         
         // JS Handler for blob downloader
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            guard let jsonString = message.body as? String else {
-                parent.webModel.errorDescription = "Invalid blob JSON."
-                parent.webModel.showError = true
+            switch message.name {
+            case "blobListener":
+                guard let jsonString = message.body as? String else {
+                    parent.webModel.errorDescription = "Invalid blob JSON."
+                    parent.webModel.showError = true
 
-                return
+                    return
+                }
+
+                parent.downloadManager.blobDownloadWith(jsonString: jsonString)
+            case "findListener":
+                guard let jsonString = message.body as? String else {
+                    parent.webModel.errorDescription = "Invalid find in page JSON."
+                    parent.webModel.showError = true
+
+                    return
+                }
+                
+                parent.webModel.handleFindInPageResult(jsonString: jsonString)
+            default:
+                debugPrint("Unknown JS message: \(message.body)")
             }
-
-            parent.downloadManager.blobDownloadWith(jsonString: jsonString)
         }
 
         // Will check if the user manually zoomed in
@@ -199,7 +207,7 @@ struct WebView: UIViewRepresentable {
 
         @objc func toggleNavigation(_ gestureRecognizer: UIGestureRecognizer) {
             if !parent.persistNavigation {
-                parent.webModel.showNavigation.toggle()
+                parent.navModel.showNavigationBar.toggle()
             }
         }
 
@@ -214,7 +222,8 @@ struct WebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
-        webModel.webView.configuration.userContentController.add(context.coordinator, name: "jsListener")
+        webModel.webView.configuration.userContentController.add(context.coordinator, name: "blobListener")
+        webModel.webView.configuration.userContentController.add(context.coordinator, name: "findListener")
 
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
         tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3

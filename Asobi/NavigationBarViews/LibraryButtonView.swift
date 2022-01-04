@@ -32,6 +32,15 @@ struct LibraryButtonView: View {
                 Text("Add bookmark")
                 Image(systemName: "plus.circle")
             }
+            
+            if webModel.findInPageEnabled {
+                Button {
+                    webModel.showFindInPage.toggle()
+                } label: {
+                    Text("Find in page")
+                    Image(systemName: "magnifyingglass")
+                }
+            }
         }
     }
 }

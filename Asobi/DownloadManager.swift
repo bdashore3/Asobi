@@ -9,6 +9,13 @@ import Foundation
 import CoreServices
 import Alamofire
 
+struct BlobComponents: Codable {
+    let url: String
+    let mimeType: String
+    let size: Int64
+    let dataString: String
+}
+
 @MainActor
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
@@ -96,7 +103,7 @@ class DownloadManager: ObservableObject {
                     size: blob.size,
                     dataString: datauri
                 }
-                window.webkit.messageHandlers.jsListener.postMessage(JSON.stringify(responseObj))
+                window.webkit.messageHandlers.blobListener.postMessage(JSON.stringify(responseObj))
             });
         }
 

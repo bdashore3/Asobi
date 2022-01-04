@@ -10,6 +10,11 @@ import WebKit
 import Combine
 import SwiftUI
 
+struct FindInPageResult: Codable {
+    let currentIndex: Int
+    let totalResultLength: Int
+}
+
 @MainActor
 class WebViewModel: ObservableObject {
     let webView: WKWebView
@@ -32,7 +37,6 @@ class WebViewModel: ObservableObject {
     @Published var canGoForward: Bool = false
 
     // Cosmetic variables
-    @Published var showNavigation: Bool = true
     @Published var showLoadingProgress: Bool = false
     @Published var backgroundColor: UIColor?
 
@@ -44,6 +48,12 @@ class WebViewModel: ObservableObject {
     @Published var isZoomedOut = false
     @Published var userDidZoom = false
     @Published var previousZoomScale: CGFloat = 0
+    
+    // Find in page variables
+    @Published var findInPageEnabled = false
+    @Published var showFindInPage = false
+    @Published var currentFindResult: Int = -1
+    @Published var totalFindResults: Int = -1
 
     init() {
         let prefs = WKWebpagePreferences()
@@ -55,7 +65,7 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
-
+        
         let zoomJs = """
         let viewport = document.querySelector("meta[name=viewport]");
 
@@ -73,6 +83,20 @@ class WebViewModel: ObservableObject {
         if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
             let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
             config.userContentController.addUserScript(zoomEvent)
+        }
+
+        // Disable find in page on mac for now due to bugs
+        if let path = Bundle.main.path(forResource: "FindInPage", ofType: "js"), UIDevice.current.deviceType != .mac {
+            do {
+                let jsString = try String(contentsOfFile: path, encoding: .utf8)
+                let findJs = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+                config.userContentController.addUserScript(findJs)
+
+                findInPageEnabled = true
+            } catch {
+                errorDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
+                showError = true
+            }
         }
 
         webView = WKWebView(
@@ -103,6 +127,26 @@ class WebViewModel: ObservableObject {
         firstLoad = false
 
         setupBindings()
+    }
+    
+    func handleFindInPageResult(jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            errorDescription = "Cannot convert find in page JSON into data!"
+            showError = true
+
+            return
+        }
+
+        let decoder = JSONDecoder()
+
+        do {
+            let result = try decoder.decode(FindInPageResult.self, from: jsonData)
+            currentFindResult = result.currentIndex + 1
+            totalFindResults = result.totalResultLength
+        } catch {
+            errorDescription = error.localizedDescription
+            showError = true
+        }
     }
 
     private func setupBindings() {
