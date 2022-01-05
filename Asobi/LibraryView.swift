@@ -8,13 +8,14 @@
 import SwiftUI
 import CoreData
 
-struct LibraryView: View {    
+struct LibraryView: View {
+    @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navView: NavigationViewModel
 
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
 
-    @State var currentUrl: String?
+    @State var currentUrl: String = "No URL found"
 
     @State private var dismissSelf = false
     @State private var tabSelect = 0
@@ -28,17 +29,23 @@ struct LibraryView: View {
             VStack {
                 Picker("Tabs", selection: $tabSelect) {
                     Text("Bookmarks").tag(0)
-                    Text("History").tag(1)
+                    Text("Actions").tag(1)
+                    Text("History").tag(2)
                 }
                 .pickerStyle(.segmented)
                 .padding()
 
                 Spacer()
 
-                if tabSelect == 0 {
+                switch tabSelect {
+                case 0:
                     BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
-                } else {
+                case 1:
+                    LibraryActionsView(currentUrl: $currentUrl)
+                case 2:
                     HistoryView()
+                default:
+                    EmptyView()
                 }
 
                 Spacer()
@@ -46,7 +53,7 @@ struct LibraryView: View {
             .background(
                 navigationSwitchView
             )
-            .navigationBarTitle(tabSelect == 0 ? "Bookmarks": "History", displayMode: .inline)
+            .navigationBarTitle(getNavigationBarTitle(tabSelect), displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     if tabSelect == 0 {
@@ -54,14 +61,17 @@ struct LibraryView: View {
                         Button("Add") {
                             showEditing.toggle()
                         }
-                    } else if #available(iOS 15, *) {
+                    } else if #available(iOS 15, *), tabSelect == 2 {
                         // Show history action sheet in toolbar if iOS 15 or up
-                        HistoryActionView()
+                        HistoryActionView(labelText: "Clear")
                     }
 
                     Spacer()
 
-                    EditButton()
+                    // If we're on history or bookmarks views
+                    if tabSelect == 0 || tabSelect == 2 {
+                        EditButton()
+                    }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
@@ -73,15 +83,29 @@ struct LibraryView: View {
             .navigationViewStyle(.stack)
             .environment(\.editMode, $editMode)
         }
+        .onAppear {
+            currentUrl = webModel.webView.url?.absoluteString ?? "No URL found"
+        }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
+    }
+    
+    func getNavigationBarTitle(_ tabSelect: Int) -> String {
+        switch tabSelect {
+        case 0:
+            return "Bookmarks"
+        case 1:
+            return "Actions"
+        case 2:
+            return "History"
+        default:
+            return ""
+        }
     }
 
     @ViewBuilder
     var navigationSwitchView: some View {
         if tabSelect == 0 {
             NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark), isActive: $showEditing)
-        } else {
-            NavigationLink("", destination: AboutView(), isActive: $showEditing)
         }
     }
 }
