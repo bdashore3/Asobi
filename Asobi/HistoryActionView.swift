@@ -17,6 +17,8 @@ struct HistoryActionView: View {
         case error
     }
 
+    @State var labelText: String
+
     @State private var currentHistoryAlert: HistoryAlertType?
     @State private var showActionSheet = false
     @State private var historyDeleteRange: HistoryDeleteRange = .day
@@ -26,7 +28,7 @@ struct HistoryActionView: View {
         Button {
             showActionSheet.toggle()
         } label: {
-            Text("Actions")
+            Text(labelText)
                 .foregroundColor(.red)
         }
         .actionSheet(isPresented: $showActionSheet) {
@@ -83,6 +85,6 @@ struct HistoryActionView: View {
 
 struct HistoryActionView_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryActionView()
+        HistoryActionView(labelText: "Clear")
     }
 }

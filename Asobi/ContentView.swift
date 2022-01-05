@@ -135,7 +135,7 @@ struct ContentView: View {
             .sheet(item: $navModel.currentSheet) { item in
                 switch item {
                 case .library:
-                    LibraryView(currentUrl: webModel.webView.url?.absoluteString)
+                    LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
                 case .settings:
                     SettingsView()
                 case .bookmarkEditing:
