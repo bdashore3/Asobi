@@ -32,6 +32,9 @@ class WebViewModel: ObservableObject {
     // Has the page loaded once?
     private var firstLoad: Bool = false
 
+    // URL variable for application URL schemes
+    @Published var appUrl: URL?
+
     // History based variables
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
