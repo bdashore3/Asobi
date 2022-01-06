@@ -24,12 +24,12 @@ struct ListRowLinkView: View {
         ZStack {
             Color.clear
             HStack {
-                VStack (alignment: .leading) {
+                VStack(alignment: .leading) {
                     Text(text)
                         .font(subText != nil ? .subheadline : .body)
                         .foregroundColor(colorScheme == .light ? Color.black : Color.white)
                         .lineLimit(1)
-                    
+
                     if let subText = subText {
                         Text(subText)
                             .font(.footnote)
@@ -57,7 +57,7 @@ struct ListRowTextView: View {
     let leftText: String
     var rightText: String?
     var rightSymbol: String?
-    
+
     var body: some View {
         HStack {
             Text(leftText)

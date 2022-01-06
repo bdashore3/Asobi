@@ -5,8 +5,8 @@
 //  Created by Brian Dashore on 10/15/21.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var webModel: WebViewModel
@@ -88,7 +88,7 @@ struct LibraryView: View {
         }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
-    
+
     func getNavigationBarTitle(_ tabSelect: Int) -> String {
         switch tabSelect {
         case 0:

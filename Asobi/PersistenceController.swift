@@ -35,7 +35,7 @@ struct PersistenceController {
 
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
 
-        container.loadPersistentStores { description, error in
+        container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Error: \(error.localizedDescription)")
             }
@@ -83,10 +83,8 @@ struct PersistenceController {
         switch range {
         case .week:
             offsetComponents.day = -7
-            break
         case .month:
             offsetComponents.day = -28
-            break
         default:
             break
         }
@@ -111,10 +109,9 @@ struct PersistenceController {
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "History")
 
-        if let predicate = predicate  {
+        if let predicate = predicate {
             fetchRequest.predicate = predicate
-        }
-        else if range != .allTime {
+        } else if range != .allTime {
             throw HistoryDeleteError.noDate("No history date range was provided and you weren't trying to clear everything! Try relaunching the app?")
         }
 

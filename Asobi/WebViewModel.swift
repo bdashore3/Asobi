@@ -5,10 +5,10 @@
 //  Created by Brian Dashore on 8/3/21.
 //
 
-import Foundation
-import WebKit
 import Combine
+import Foundation
 import SwiftUI
+import WebKit
 
 struct FindInPageResult: Codable {
     let currentIndex: Int
@@ -31,7 +31,7 @@ class WebViewModel: ObservableObject {
 
     // Has the page loaded once?
     private var firstLoad: Bool = false
-    
+
     // History based variables
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
@@ -43,12 +43,12 @@ class WebViewModel: ObservableObject {
     // Error variables
     @Published var errorDescription: String? = nil
     @Published var showError: Bool = false
-    
+
     // Zoom variables
     @Published var isZoomedOut = false
     @Published var userDidZoom = false
     @Published var previousZoomScale: CGFloat = 0
-    
+
     // Find in page variables
     @Published var findInPageEnabled = false
     @Published var showFindInPage = false
@@ -65,7 +65,7 @@ class WebViewModel: ObservableObject {
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
         config.allowsInlineMediaPlayback = true
-        
+
         let zoomJs = """
         let viewport = document.querySelector("meta[name=viewport]");
 
@@ -103,7 +103,7 @@ class WebViewModel: ObservableObject {
             frame: .zero,
             configuration: config
         )
-        
+
         if allowSwipeNavGestures {
             webView.allowsBackForwardNavigationGestures = true
         }
@@ -128,7 +128,7 @@ class WebViewModel: ObservableObject {
 
         setupBindings()
     }
-    
+
     func handleFindInPageResult(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
             errorDescription = "Cannot convert find in page JSON into data!"
@@ -165,19 +165,20 @@ class WebViewModel: ObservableObject {
 
         do {
             let blocklist = try String(contentsOfFile: blocklistPath, encoding: String.Encoding.utf8)
-            
+
             let contentRuleList = try await WKContentRuleListStore.default().compileContentRuleList(
-                forIdentifier: "ContentBlockingRules", encodedContentRuleList: blocklist)
-            
+                forIdentifier: "ContentBlockingRules", encodedContentRuleList: blocklist
+            )
+
             if let ruleList = contentRuleList {
-                self.webView.configuration.userContentController.add(ruleList)
+                webView.configuration.userContentController.add(ruleList)
             }
         } catch {
             debugPrint("Blocklist loading failed. \(error.localizedDescription)")
         }
 
-        if !self.firstLoad {
-            self.webView.reload()
+        if !firstLoad {
+            webView.reload()
         }
     }
 
@@ -186,7 +187,7 @@ class WebViewModel: ObservableObject {
 
         webView.configuration.userContentController.removeAllContentRuleLists()
 
-        self.webView.reload()
+        webView.reload()
     }
 
     // Loads a URL. URL built in the buildURL function
@@ -194,7 +195,7 @@ class WebViewModel: ObservableObject {
         let url = buildUrl(urlString)
         let urlRequest = URLRequest(url: url)
 
-        self.webView.load(urlRequest)
+        webView.load(urlRequest)
     }
 
     /*
@@ -204,7 +205,7 @@ class WebViewModel: ObservableObject {
      If the default URL is empty, return the fallback URL.
      */
     func buildUrl(_ testString: String?) -> URL {
-        if testString == nil && defaultUrl.isEmpty {
+        if testString == nil, defaultUrl.isEmpty {
             return fallbackUrl
         }
 

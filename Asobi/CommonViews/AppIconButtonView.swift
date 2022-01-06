@@ -12,15 +12,15 @@ struct AppIconButtonView: View {
 
     @AppStorage("selectedIconKey") var selectedIconKey = "AppImage"
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    
+
     @State private var showErrorAlert = false
     @State private var errorAlertText = ""
-    
+
     let imageKey: String
     let iconKey: String?
     let iconName: String
     let author: String
-    
+
     var body: some View {
         VStack {
             Button(action: {

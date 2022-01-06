@@ -5,8 +5,8 @@
 //  Created by Brian Dashore on 12/27/21.
 //
 
-import SwiftUI
 import Introspect
+import SwiftUI
 
 // All custom view modifiers go here
 struct ApplyTheme: ViewModifier {

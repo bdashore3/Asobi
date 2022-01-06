@@ -5,9 +5,9 @@
 //  Created by Brian Dashore on 12/14/21.
 //
 
-import Foundation
-import CoreServices
 import Alamofire
+import CoreServices
+import Foundation
 
 struct BlobComponents: Codable {
     let url: String
@@ -27,14 +27,15 @@ class DownloadManager: ObservableObject {
     @Published var showDuplicateDownloadAlert: Bool = false
     @Published var showDownloadProgress: Bool = false {
         didSet {
-            if self.showDownloadProgress == false && self.downloadFileUrl != nil {
-                self.showFileMover = true
+            if showDownloadProgress == false, downloadFileUrl != nil {
+                showFileMover = true
             }
         }
     }
+
     @Published var showFileMover: Bool = false {
         didSet {
-            if !showFileMover && downloadFileUrl != nil {
+            if !showFileMover, downloadFileUrl != nil {
                 // Reset all download info to prepare for the next one
                 downloadFileUrl = nil
                 currentDownload = nil
@@ -57,12 +58,12 @@ class DownloadManager: ObservableObject {
             let file = try decoder.decode(BlobComponents.self, from: jsonData)
 
             guard let data = Data(base64Encoded: file.dataString),
-                let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
-                let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
+                  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
+                  let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
             else {
                 parent?.errorDescription = "Could not get blob data or extension!"
                 parent?.showError = true
-                
+
                 return
             }
 
@@ -85,30 +86,30 @@ class DownloadManager: ObservableObject {
     // Wrapper function for blob download script
     func executeBlobDownloadJS(url: URL) {
         parent?.webView.evaluateJavaScript(
-        """
-        function blobToDataURL(blob, callback) {
-            var a = new FileReader();
-            a.onload = function(e) {callback(e.target.result.split(",")[1]);}
-            a.readAsDataURL(blob);
-        }
+            """
+            function blobToDataURL(blob, callback) {
+                var a = new FileReader();
+                a.onload = function(e) {callback(e.target.result.split(",")[1]);}
+                a.readAsDataURL(blob);
+            }
 
-        async function run() {
-            const url = "\(url)"
-            const blob = await fetch(url).then(r => r.blob());
+            async function run() {
+                const url = "\(url)"
+                const blob = await fetch(url).then(r => r.blob());
 
-            blobToDataURL(blob, datauri => {
-                const responseObj = {
-                    url: url,
-                    mimeType: blob.type,
-                    size: blob.size,
-                    dataString: datauri
-                }
-                window.webkit.messageHandlers.blobListener.postMessage(JSON.stringify(responseObj))
-            });
-        }
+                blobToDataURL(blob, datauri => {
+                    const responseObj = {
+                        url: url,
+                        mimeType: blob.type,
+                        size: blob.size,
+                        dataString: datauri
+                    }
+                    window.webkit.messageHandlers.blobListener.postMessage(JSON.stringify(responseObj))
+                });
+            }
 
-        run()
-        """)
+            run()
+            """)
     }
 
     // So DownloadProgress can work in an async context without races
@@ -119,9 +120,9 @@ class DownloadManager: ObservableObject {
             lastTime = newDate
         }
     }
-    
+
     // Download file from page
-    func httpDownloadFrom(url downloadUrl : URL) async {
+    func httpDownloadFrom(url downloadUrl: URL) async {
         if currentDownload != nil {
             showDuplicateDownloadAlert = true
             return
@@ -129,7 +130,7 @@ class DownloadManager: ObservableObject {
 
         let progressTimer = DownloadProgressTimer()
 
-        let destination: DownloadRequest.Destination = { tempUrl, response in
+        let destination: DownloadRequest.Destination = { _, response in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let suggestedName = response.suggestedFilename ?? "unknown"
 
@@ -138,7 +139,7 @@ class DownloadManager: ObservableObject {
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
 
-        self.showDownloadProgress = true
+        showDownloadProgress = true
 
         let downloadRequest = AF.download(downloadUrl, to: destination)
 
@@ -178,5 +179,4 @@ class DownloadManager: ObservableObject {
         currentDownload?.cancel()
         currentDownload = nil
     }
-    
 }

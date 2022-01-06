@@ -18,7 +18,7 @@ struct LibraryButtonView: View {
             Image(systemName: "book")
                 .padding(.horizontal, 4)
         })
-        .contextMenu() {
+        .contextMenu {
             Button {
                 UIPasteboard.general.string = webModel.webView.url?.absoluteString
             } label: {
@@ -32,7 +32,7 @@ struct LibraryButtonView: View {
                 Text("Add bookmark")
                 Image(systemName: "plus.circle")
             }
-            
+
             if webModel.findInPageEnabled {
                 Button {
                     webModel.showFindInPage.toggle()

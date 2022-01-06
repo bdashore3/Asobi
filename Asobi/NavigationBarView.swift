@@ -14,7 +14,7 @@ struct NavigationBarView: View {
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
-    var body: some View { 
+    var body: some View {
         VStack {
             // Sets button position depending on hand mode setting
             HStack {
@@ -58,7 +58,7 @@ struct NavigationBarView: View {
             }
             .padding()
             .accentColor(navigationAccent)
-            
+
             Spacer()
         }
         .background(colorScheme == .light ? Color.white : Color.black)
