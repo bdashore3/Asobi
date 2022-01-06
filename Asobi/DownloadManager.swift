@@ -21,10 +21,11 @@ class DownloadManager: ObservableObject {
     var parent: WebViewModel?
 
     // Download handling variables
+    @Published var downloadUrl: URL? = nil
+    @Published var showDownloadConfirmAlert: Bool = false
     @Published var currentDownload: DownloadTask<URL>? = nil
     @Published var downloadFileUrl: URL? = nil
     @Published var downloadProgress: Double = 0.0
-    @Published var showDuplicateDownloadAlert: Bool = false
     @Published var showDownloadProgress: Bool = false {
         didSet {
             if showDownloadProgress == false, downloadFileUrl != nil {
@@ -124,7 +125,9 @@ class DownloadManager: ObservableObject {
     // Download file from page
     func httpDownloadFrom(url downloadUrl: URL) async {
         if currentDownload != nil {
-            showDuplicateDownloadAlert = true
+            parent?.errorDescription = "Cannot download this file. A download is already in progress."
+            parent?.showError = true
+
             return
         }
 

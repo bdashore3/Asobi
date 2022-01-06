@@ -141,12 +141,8 @@ struct WebView: UIViewRepresentable {
             if navigationResponse.canShowMIMEType {
                 decisionHandler(.allow)
             } else {
-                let url = navigationResponse.response.url
-
-                // Alternative to decisionHandler(.download) since that's iOS 15 and up
-                Task {
-                    await parent.downloadManager.httpDownloadFrom(url: url!)
-                }
+                parent.downloadManager.downloadUrl = navigationResponse.response.url
+                parent.downloadManager.showDownloadConfirmAlert.toggle()
 
                 decisionHandler(.cancel)
             }
@@ -161,19 +157,21 @@ struct WebView: UIViewRepresentable {
                 switch scheme {
                 case "https", "http":
                     // Any web URL
+                    // parent.webModel.currentWebViewAlert = .appUrlConfirm
+
                     decisionHandler(.allow)
                 case "blob":
                     // Defer to JS handling
-                    parent.downloadManager.executeBlobDownloadJS(url: url)
+                    parent.downloadManager.downloadUrl = url
+                    parent.downloadManager.showDownloadConfirmAlert.toggle()
 
                     decisionHandler(.cancel)
                 default:
-                    // Final case should be deep links
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     }
 
-                    decisionHandler(.allow)
+                    decisionHandler(.cancel)
                 }
             } else {
                 decisionHandler(.allow)

@@ -32,11 +32,31 @@ struct ContentView: View {
 
             // WebView
             WebView(downloadManager: downloadManager)
-                .alert(isPresented: $downloadManager.showDuplicateDownloadAlert) {
+                .alert(isPresented: $downloadManager.showDownloadConfirmAlert) {
                     Alert(
-                        title: Text("Download could not start"),
-                        message: Text("Please cancel the existing download and try again"),
-                        dismissButton: .default(Text("OK"))
+                        title: Text("Download this file?"),
+                        message: Text("Would you like to start this download?"),
+                        primaryButton: .default(Text("Start")) {
+                            guard let downloadUrl = downloadManager.downloadUrl else {
+                                webModel.errorDescription = "The download URL is invalid"
+                                webModel.showError = true
+
+                                return
+                            }
+
+                            if downloadUrl.scheme == "blob" {
+                                downloadManager.executeBlobDownloadJS(url: downloadUrl)
+                            } else {
+                                Task {
+                                    await downloadManager.httpDownloadFrom(url: downloadUrl)
+                                }
+                            }
+
+                            downloadManager.downloadUrl = nil
+                        },
+                        secondaryButton: .cancel {
+                            downloadManager.downloadUrl = nil
+                        }
                     )
                 }
                 .fileMover(isPresented: $downloadManager.showFileMover, file: downloadManager.downloadFileUrl) { _ in }
