@@ -6,23 +6,18 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-
-extension HistoryEntry {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<HistoryEntry> {
-        return NSFetchRequest<HistoryEntry>(entityName: "HistoryEntry")
+public extension HistoryEntry {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<HistoryEntry> {
+        NSFetchRequest<HistoryEntry>(entityName: "HistoryEntry")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var timestamp: Double
-    @NSManaged public var url: String?
-    @NSManaged public var parentHistory: History?
-
+    @NSManaged var name: String?
+    @NSManaged var timestamp: Double
+    @NSManaged var url: String?
+    @NSManaged var parentHistory: History?
 }
 
-extension HistoryEntry : Identifiable {
-
-}
+extension HistoryEntry: Identifiable {}

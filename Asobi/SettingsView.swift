@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
-    
+
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
@@ -45,7 +45,7 @@ struct SettingsView: View {
                             .foregroundColor(followSystemTheme ? .gray : (useDarkTheme ? .white : .black))
                     }
                     .disabled(followSystemTheme)
-                    
+
                     // Make this toggle refresh the settings view to apply the right color
                     Toggle(isOn: $followSystemTheme) {
                         Text("Follow system theme")
@@ -55,10 +55,8 @@ struct SettingsView: View {
                 }
                 Section(header: Text("Behavior"),
                         footer:
-                            UIDevice.current.deviceType == .mac ? nil :
-                            Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")
-                        )
-                {
+                        UIDevice.current.deviceType == .mac ? nil :
+                            Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
@@ -82,31 +80,31 @@ struct SettingsView: View {
                 }
                 Section(header: Text("Privacy"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {
-                        Toggle(isOn: $incognitoMode) {
-                            Text("Incognito mode")
-                        }
+                    Toggle(isOn: $incognitoMode) {
+                        Text("Incognito mode")
+                    }
 
-                        Toggle(isOn: $blockAds) {
-                            Text("Block ads")
-                        }
-                        .onChange(of: blockAds) { changed in
-                            if changed {
-                                Task {
-                                    await webModel.enableBlocker()
-                                }
-                            } else {
-                                webModel.disableBlocker()
+                    Toggle(isOn: $blockAds) {
+                        Text("Block ads")
+                    }
+                    .onChange(of: blockAds) { changed in
+                        if changed {
+                            Task {
+                                await webModel.enableBlocker()
                             }
+                        } else {
+                            webModel.disableBlocker()
+                        }
 
-                            showAdblockAlert.toggle()
-                        }
-                        .alert(isPresented: $showAdblockAlert) {
-                            Alert(
-                                title: Text(blockAds ? "Adblock enabled" : "Adblock disabled"),
-                                message: Text("The page will refresh when you exit settings"),
-                                dismissButton: .cancel(Text("OK!"))
-                            )
-                        }
+                        showAdblockAlert.toggle()
+                    }
+                    .alert(isPresented: $showAdblockAlert) {
+                        Alert(
+                            title: Text(blockAds ? "Adblock enabled" : "Adblock disabled"),
+                            message: Text("The page will refresh when you exit settings"),
+                            dismissButton: .cancel(Text("OK!"))
+                        )
+                    }
                 }
                 Section(header: Text("Website settings")) {
                     Toggle(isOn: $changeUserAgent) {
@@ -119,15 +117,14 @@ struct SettingsView: View {
                 }
                 Section(header: Text("Default URL"),
                         footer:
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
-                                Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
-                                Text("If the loading animation keeps going, make sure your URL is correct!")
-                            }
-                ) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
+                            Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
+                            Text("If the loading animation keeps going, make sure your URL is correct!")
+                        }) {
                     // Auto capitalization modifier will be deprecated at some point
                     TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
-                        if !begin && UIDevice.current.deviceType != .mac {
+                        if !begin, UIDevice.current.deviceType != .mac {
                             showUrlChangeAlert.toggle()
                             webModel.loadUrl()
                         }

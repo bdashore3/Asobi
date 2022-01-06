@@ -9,15 +9,15 @@ import SwiftUI
 import SwiftUIX
 
 struct ContentView: View {
-    @StateObject var webModel: WebViewModel = WebViewModel()
-    @StateObject var navModel: NavigationViewModel = NavigationViewModel()
-    @StateObject var downloadManager: DownloadManager = DownloadManager()
+    @StateObject var webModel: WebViewModel = .init()
+    @StateObject var navModel: NavigationViewModel = .init()
+    @StateObject var downloadManager: DownloadManager = .init()
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
-    
+
     var body: some View {
         ZStack {
             // Background color for orientation changes
@@ -51,7 +51,7 @@ struct ContentView: View {
                             .lineWidth(6)
                             .foregroundColor(navigationAccent)
                             .frame(width: 60, height: 60)
-                        
+
                         Text("Loading...")
                             .font(.title2)
                     }
@@ -118,7 +118,7 @@ struct ContentView: View {
             // Navigation Bar
             VStack {
                 Spacer()
-                
+
                 if navModel.showNavigationBar {
                     NavigationBarView()
                         .onAppear {

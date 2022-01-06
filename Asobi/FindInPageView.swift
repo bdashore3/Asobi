@@ -24,17 +24,16 @@ struct FindInPageView: View {
                     navModel.isKeyboardShowing = changed
                 }
             })
-            
+
             if webModel.totalFindResults == 0 {
                 Text("No results")
                     .foregroundColor(.gray)
-            }
-            else if webModel.currentFindResult != -1 && webModel.totalFindResults != -1 {
+            } else if webModel.currentFindResult != -1, webModel.totalFindResults != -1 {
                 Text("\(webModel.currentFindResult)/\(webModel.totalFindResults)")
                     .foregroundColor(.gray)
             }
-            
-            Button (action: {
+
+            Button(action: {
                 if !findQuery.isEmpty {
                     webModel.webView.evaluateJavaScript("undoFindHighlights()")
                     webModel.webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
@@ -46,24 +45,24 @@ struct FindInPageView: View {
             })
             .keyboardShortcut(.defaultAction)
 
-            Button (action: {
+            Button(action: {
                 if webModel.totalFindResults == -1 || webModel.totalFindResults == 0 {
                     return
                 }
-                
+
                 webModel.currentFindResult -= 1
 
                 if webModel.currentFindResult < 1 {
                     webModel.currentFindResult = webModel.totalFindResults
                 }
-                    
+
                 webModel.webView.evaluateJavaScript("scrollToFindResult(\(webModel.currentFindResult - 1))")
             }, label: {
                 Image(systemName: "chevron.up")
                     .padding(.horizontal, 4)
             })
 
-            Button (action: {
+            Button(action: {
                 if webModel.totalFindResults == -1 || webModel.totalFindResults == 0 {
                     return
                 }
@@ -80,7 +79,7 @@ struct FindInPageView: View {
                     .padding(.horizontal, 4)
             })
 
-            Button (action: {
+            Button(action: {
                 webModel.currentFindResult = -1
                 webModel.totalFindResults = -1
                 webModel.webView.evaluateJavaScript("undoFindHighlights()")

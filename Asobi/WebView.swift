@@ -25,7 +25,7 @@ struct WebView: UIViewRepresentable {
         init(_ parent: WebView) {
             self.parent = parent
         }
-        
+
         // JS Handler for blob downloader
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             switch message.name {
@@ -45,7 +45,7 @@ struct WebView: UIViewRepresentable {
 
                     return
                 }
-                
+
                 parent.webModel.handleFindInPageResult(jsonString: jsonString)
             default:
                 debugPrint("Unknown JS message: \(message.body)")
@@ -84,7 +84,8 @@ struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
             if let frame = navigationAction.targetFrame,
-                frame.isMainFrame {
+               frame.isMainFrame
+            {
                 return nil
             }
             webView.load(navigationAction.request)
@@ -105,9 +106,9 @@ struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = false
-            
+
             // Finds the background color of a webpage
-            parent.webModel.webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { (result, error) in
+            parent.webModel.webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { result, _ in
                 if let result = result {
                     self.parent.webModel.backgroundColor = UIColor(rgb: result as! String)
                 } else {
@@ -120,14 +121,14 @@ struct WebView: UIViewRepresentable {
                 let newHistoryEntry = HistoryEntry(context: parent.context)
                 newHistoryEntry.name = parent.webModel.webView.title
                 newHistoryEntry.url = parent.webModel.webView.url?.absoluteString
-                
+
                 let now = Date()
-                
+
                 newHistoryEntry.timestamp = now.timeIntervalSince1970
                 newHistoryEntry.parentHistory = History(context: parent.context)
                 newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
                 newHistoryEntry.parentHistory?.date = now
-                
+
                 PersistenceController.shared.save()
             }
         }
@@ -135,12 +136,13 @@ struct WebView: UIViewRepresentable {
         // Check if a page can be downloaded
         func webView(_ webView: WKWebView,
                      decidePolicyFor navigationResponse: WKNavigationResponse,
-                     decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+                     decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void)
+        {
             if navigationResponse.canShowMIMEType {
                 decisionHandler(.allow)
             } else {
                 let url = navigationResponse.response.url
-                
+
                 // Alternative to decisionHandler(.download) since that's iOS 15 and up
                 Task {
                     await parent.downloadManager.httpDownloadFrom(url: url!)
@@ -149,11 +151,12 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.cancel)
             }
         }
-        
+
         // Switch based on the URL scheme. All http/https rules get allowed automatically
         func webView(_ webView: WKWebView,
                      decidePolicyFor navigationAction: WKNavigationAction,
-                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
+        {
             if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
                 switch scheme {
                 case "https", "http":
@@ -162,11 +165,11 @@ struct WebView: UIViewRepresentable {
                 case "blob":
                     // Defer to JS handling
                     parent.downloadManager.executeBlobDownloadJS(url: url)
-                    
+
                     decisionHandler(.cancel)
                 default:
                     // Final case should be deep links
-                    if UIApplication.shared.canOpenURL(url){
+                    if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     }
 
@@ -189,20 +192,18 @@ struct WebView: UIViewRepresentable {
             // Error -1022 has a special message because we don't allow insecure webpage loads
             case -1022:
                 parent.webModel.errorDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
-                break
             // Error 102 can be ignored since that's used for downloading files
             case 102:
                 return
             default:
                 parent.webModel.errorDescription = error.localizedDescription
-                break
             }
 
             parent.webModel.showError = true
         }
 
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-            return true
+            true
         }
 
         @objc func toggleNavigation(_ gestureRecognizer: UIGestureRecognizer) {
@@ -211,7 +212,7 @@ struct WebView: UIViewRepresentable {
             }
         }
 
-        @objc func refreshWebView(_ sender: UIRefreshControl) {            
+        @objc func refreshWebView(_ sender: UIRefreshControl) {
             parent.webModel.webView.reload()
             sender.endRefreshing()
         }

@@ -62,27 +62,27 @@ struct BookmarkView: View {
                     } else {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
                             .contextMenu {
-                                    Button {
-                                        currentBookmark = bookmark
+                                Button {
+                                    currentBookmark = bookmark
 
-                                        showEditing = true
-                                    } label: {
-                                        Label("Edit bookmark", systemImage: "pencil")
-                                    }
+                                    showEditing = true
+                                } label: {
+                                    Label("Edit bookmark", systemImage: "pencil")
+                                }
 
-                                    Button {
-                                        PersistenceController.shared.delete(bookmark)
-                                    } label: {
-                                        Label("Delete bookmark", systemImage: "trash")
-                                    }
+                                Button {
+                                    PersistenceController.shared.delete(bookmark)
+                                } label: {
+                                    Label("Delete bookmark", systemImage: "trash")
+                                }
 
-                                    Button {
-                                        if let bookmarkUrl = bookmark.url {
-                                            defaultUrl = bookmarkUrl
-                                        }
-                                    } label: {
-                                        Label("Set as default URL", systemImage: "archivebox")
+                                Button {
+                                    if let bookmarkUrl = bookmark.url {
+                                        defaultUrl = bookmarkUrl
                                     }
+                                } label: {
+                                    Label("Set as default URL", systemImage: "archivebox")
+                                }
                             }
                     }
                 }
@@ -99,9 +99,9 @@ struct BookmarkView: View {
             PersistenceController.shared.delete(bookmark)
         }
     }
-    
+
     func moveItem(from source: IndexSet, to destination: Int) {
-        var changedBookmarks = bookmarks.map{ $0 }
+        var changedBookmarks = bookmarks.map { $0 }
 
         changedBookmarks.move(fromOffsets: source, toOffset: destination)
 

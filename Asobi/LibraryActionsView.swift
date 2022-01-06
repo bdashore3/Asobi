@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LibraryActionsView: View {
     @Environment(\.presentationMode) var presentationMode
-    
+
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
@@ -24,28 +24,28 @@ struct LibraryActionsView: View {
                         .lineLimit(1)
 
                     Spacer()
-                    
+
                     Text(isCopiedButton ? "Copied!" : "Copy")
                         .opacity(0.6)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
                     isCopiedButton = true
-                    
+
                     UIPasteboard.general.string = currentUrl
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         isCopiedButton = false
                     }
                 }
             }
-            
+
             Section {
                 Button("Find in page") {
                     webModel.showFindInPage = true
                     navModel.currentSheet = nil
                 }
-                
+
                 // Can only use if statements in SwiftUI views. Only show inline button if iOS 14 or below
                 if #available(iOS 15, *) {}
                 else if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {

@@ -11,7 +11,7 @@ import SwiftUI
 // From zane-carter: https://gist.github.com/zane-carter/fc2bf8f5f5ac45196b4c9b01d54aca80
 extension Color: RawRepresentable {
     public init?(rawValue: String) {
-        guard let data = Data(base64Encoded: rawValue) else{
+        guard let data = Data(base64Encoded: rawValue) else {
             self = .black
             return
         }

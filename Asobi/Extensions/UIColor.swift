@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-extension UIColor {
-    public convenience init(rgb: String) {
+public extension UIColor {
+    convenience init(rgb: String) {
         let rgbValues = rgb.dropFirst(4).dropLast(1).components(separatedBy: ", ")
 
         self.init(

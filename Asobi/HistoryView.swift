@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HistoryView: View {
-    private var formatter: DateFormatter = DateFormatter()
+    private var formatter: DateFormatter = .init()
 
     init() {
         formatter.dateStyle = .medium
@@ -23,7 +23,7 @@ struct HistoryView: View {
     ) var history: FetchedResults<History>
 
     @State private var historyIndex = 0
-    
+
     var body: some View {
         List {
             ForEach(history, id: \.self) { history in

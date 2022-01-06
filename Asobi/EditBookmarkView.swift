@@ -35,7 +35,7 @@ struct EditBookmarkView: View {
                 .onAppear {
                     bookmarkName = bookmark?.name ?? webModel.webView.title ?? ""
                     bookmarkUrl = bookmark?.url ?? webModel.webView.url?.absoluteString ?? ""
-                    
+
                     if !(bookmarkUrl.hasPrefix("http://") || bookmarkUrl.hasPrefix("https://")) {
                         bookmarkUrl = "https://\(bookmarkUrl)"
                     }
@@ -43,7 +43,7 @@ struct EditBookmarkView: View {
             }
             .alert(isPresented: $showUrlError) {
                 Alert(
-                    title:Text("Empty fields"),
+                    title: Text("Empty fields"),
                     message: Text("The bookmark title and URL cannot be empty. Please input the valid fields"),
                     dismissButton: .default(Text("OK"))
                 )
