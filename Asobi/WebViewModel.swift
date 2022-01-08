@@ -256,6 +256,10 @@ class WebViewModel: ObservableObject {
     }
 
     func executeFindInPage() {
+        if findQuery.isEmpty && totalFindResults > 0 {
+            resetFindInPage()
+        }
+
         if !findQuery.isEmpty {
             webView.evaluateJavaScript("undoFindHighlights()")
             webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
@@ -264,7 +268,7 @@ class WebViewModel: ObservableObject {
     }
 
     func moveFindInPageResult(isIncrementing: Bool) {
-        if totalFindResults == -1 || totalFindResults <= 0 {
+        if totalFindResults <= 0 {
             return
         }
 
@@ -288,6 +292,5 @@ class WebViewModel: ObservableObject {
         totalFindResults = -1
         findQuery = ""
         webView.evaluateJavaScript("undoFindHighlights()")
-        showFindInPage.toggle()
     }
 }

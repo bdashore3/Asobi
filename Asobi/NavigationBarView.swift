@@ -26,7 +26,7 @@ struct NavigationBarView: View {
                     Spacer()
                     SettingsButtonView()
                     Spacer()
-                    if UIDevice.current.deviceType == .pad {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
                     }
@@ -44,7 +44,7 @@ struct NavigationBarView: View {
                     Spacer()
                     LibraryButtonView()
                     Spacer()
-                    if UIDevice.current.deviceType == .pad {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
                     }
