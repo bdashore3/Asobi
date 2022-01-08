@@ -53,8 +53,9 @@ class WebViewModel: ObservableObject {
     @Published var previousZoomScale: CGFloat = 0
 
     // Find in page variables
-    @Published var findInPageEnabled = false
+    @Published var findInPageEnabled = true
     @Published var showFindInPage = false
+    @Published var findQuery: String = ""
     @Published var currentFindResult: Int = -1
     @Published var totalFindResults: Int = -1
 
@@ -88,17 +89,15 @@ class WebViewModel: ObservableObject {
             config.userContentController.addUserScript(zoomEvent)
         }
 
-        // Disable find in page on mac for now due to bugs
-        if let path = Bundle.main.path(forResource: "FindInPage", ofType: "js"), UIDevice.current.deviceType != .mac {
+        if let path = Bundle.main.path(forResource: "FindInPage", ofType: "js") {
             do {
                 let jsString = try String(contentsOfFile: path, encoding: .utf8)
                 let findJs = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
                 config.userContentController.addUserScript(findJs)
-
-                findInPageEnabled = true
             } catch {
                 errorDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
                 showError = true
+                findInPageEnabled = true
             }
         }
 
@@ -150,6 +149,42 @@ class WebViewModel: ObservableObject {
             errorDescription = error.localizedDescription
             showError = true
         }
+    }
+
+    func executeFindInPage() {
+        if !findQuery.isEmpty {
+            webView.evaluateJavaScript("undoFindHighlights()")
+            webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
+            webView.evaluateJavaScript("scrollToFindResult(0)")
+        }
+    }
+
+    func moveFindInPageResult(isIncrementing: Bool) {
+        if totalFindResults == -1 || totalFindResults <= 0 {
+            return
+        }
+
+        if isIncrementing {
+            currentFindResult += 1
+        } else {
+            currentFindResult -= 1
+        }
+
+        if currentFindResult > totalFindResults {
+            currentFindResult = 1
+        } else if currentFindResult < 1 {
+            currentFindResult = totalFindResults
+        }
+
+        webView.evaluateJavaScript("scrollToFindResult(\(currentFindResult - 1))")
+    }
+
+    func resetFindInPage() {
+        currentFindResult = -1
+        totalFindResults = -1
+        findQuery = ""
+        webView.evaluateJavaScript("undoFindHighlights()")
+        showFindInPage.toggle()
     }
 
     private func setupBindings() {

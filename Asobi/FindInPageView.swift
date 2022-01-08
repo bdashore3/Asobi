@@ -15,15 +15,22 @@ struct FindInPageView: View {
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
-    @State private var findQuery = ""
-
     var body: some View {
         HStack {
-            TextField("", text: $findQuery, onEditingChanged: { changed in
-                if UIDevice.current.deviceType != .mac {
-                    navModel.isKeyboardShowing = changed
+            TextField(
+                "",
+                text: $webModel.findQuery,
+                onEditingChanged: { changed in
+                    if UIDevice.current.deviceType != .mac {
+                        navModel.isKeyboardShowing = changed
+                    }
+                },
+                onCommit: {
+                    webModel.executeFindInPage()
                 }
-            })
+            )
+            // MacCatalyst breaks if autocorrect is enabled
+            .disableAutocorrection(UIDevice.current.deviceType == .mac ? true : false)
 
             if webModel.totalFindResults == 0 {
                 Text("No results")
@@ -34,11 +41,7 @@ struct FindInPageView: View {
             }
 
             Button(action: {
-                if !findQuery.isEmpty {
-                    webModel.webView.evaluateJavaScript("undoFindHighlights()")
-                    webModel.webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
-                    webModel.webView.evaluateJavaScript("scrollToFindResult(0)")
-                }
+                webModel.executeFindInPage()
             }, label: {
                 Image(systemName: "magnifyingglass")
                     .padding(.horizontal, 4)
@@ -46,44 +49,21 @@ struct FindInPageView: View {
             .keyboardShortcut(.defaultAction)
 
             Button(action: {
-                if webModel.totalFindResults == -1 || webModel.totalFindResults == 0 {
-                    return
-                }
-
-                webModel.currentFindResult -= 1
-
-                if webModel.currentFindResult < 1 {
-                    webModel.currentFindResult = webModel.totalFindResults
-                }
-
-                webModel.webView.evaluateJavaScript("scrollToFindResult(\(webModel.currentFindResult - 1))")
+                webModel.moveFindInPageResult(isIncrementing: false)
             }, label: {
                 Image(systemName: "chevron.up")
                     .padding(.horizontal, 4)
             })
 
             Button(action: {
-                if webModel.totalFindResults == -1 || webModel.totalFindResults == 0 {
-                    return
-                }
-
-                webModel.currentFindResult += 1
-
-                if webModel.currentFindResult > webModel.totalFindResults {
-                    webModel.currentFindResult = 1
-                }
-
-                webModel.webView.evaluateJavaScript("scrollToFindResult(\(webModel.currentFindResult - 1))")
+                webModel.moveFindInPageResult(isIncrementing: true)
             }, label: {
                 Image(systemName: "chevron.down")
                     .padding(.horizontal, 4)
             })
 
             Button(action: {
-                webModel.currentFindResult = -1
-                webModel.totalFindResults = -1
-                webModel.webView.evaluateJavaScript("undoFindHighlights()")
-                webModel.showFindInPage.toggle()
+                webModel.resetFindInPage()
             }, label: {
                 Image(systemName: "xmark")
                     .padding(.horizontal, 4)
