@@ -64,6 +64,7 @@ struct FindInPageView: View {
 
             Button(action: {
                 webModel.resetFindInPage()
+                webModel.showFindInPage.toggle()
             }, label: {
                 Image(systemName: "xmark")
                     .padding(.horizontal, 4)
