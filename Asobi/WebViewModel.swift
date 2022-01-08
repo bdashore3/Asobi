@@ -131,101 +131,12 @@ class WebViewModel: ObservableObject {
         setupBindings()
     }
 
-    func handleFindInPageResult(jsonString: String) {
-        guard let jsonData = jsonString.data(using: .utf8) else {
-            errorDescription = "Cannot convert find in page JSON into data!"
-            showError = true
-
-            return
-        }
-
-        let decoder = JSONDecoder()
-
-        do {
-            let result = try decoder.decode(FindInPageResult.self, from: jsonData)
-            currentFindResult = result.currentIndex + 1
-            totalFindResults = result.totalResultLength
-        } catch {
-            errorDescription = error.localizedDescription
-            showError = true
-        }
-    }
-
-    func executeFindInPage() {
-        if !findQuery.isEmpty {
-            webView.evaluateJavaScript("undoFindHighlights()")
-            webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
-            webView.evaluateJavaScript("scrollToFindResult(0)")
-        }
-    }
-
-    func moveFindInPageResult(isIncrementing: Bool) {
-        if totalFindResults == -1 || totalFindResults <= 0 {
-            return
-        }
-
-        if isIncrementing {
-            currentFindResult += 1
-        } else {
-            currentFindResult -= 1
-        }
-
-        if currentFindResult > totalFindResults {
-            currentFindResult = 1
-        } else if currentFindResult < 1 {
-            currentFindResult = totalFindResults
-        }
-
-        webView.evaluateJavaScript("scrollToFindResult(\(currentFindResult - 1))")
-    }
-
-    func resetFindInPage() {
-        currentFindResult = -1
-        totalFindResults = -1
-        findQuery = ""
-        webView.evaluateJavaScript("undoFindHighlights()")
-        showFindInPage.toggle()
-    }
-
     private func setupBindings() {
         webView.publisher(for: \.canGoBack)
             .assign(to: &$canGoBack)
 
         webView.publisher(for: \.canGoForward)
             .assign(to: &$canGoForward)
-    }
-
-    func enableBlocker() async {
-        guard let blocklistPath = Bundle.main.path(forResource: "blocklist", ofType: "json") else {
-            debugPrint("Failed to find blocklist path. Continuing...")
-            return
-        }
-
-        do {
-            let blocklist = try String(contentsOfFile: blocklistPath, encoding: String.Encoding.utf8)
-
-            let contentRuleList = try await WKContentRuleListStore.default().compileContentRuleList(
-                forIdentifier: "ContentBlockingRules", encodedContentRuleList: blocklist
-            )
-
-            if let ruleList = contentRuleList {
-                webView.configuration.userContentController.add(ruleList)
-            }
-        } catch {
-            debugPrint("Blocklist loading failed. \(error.localizedDescription)")
-        }
-
-        if !firstLoad {
-            webView.reload()
-        }
-    }
-
-    func disableBlocker() {
-        debugPrint("Disabling adblock")
-
-        webView.configuration.userContentController.removeAllContentRuleLists()
-
-        webView.reload()
     }
 
     // Loads a URL. URL built in the buildURL function
@@ -289,5 +200,94 @@ class WebViewModel: ObservableObject {
         default:
             webView.customUserAgent = nil
         }
+    }
+
+    func enableBlocker() async {
+        guard let blocklistPath = Bundle.main.path(forResource: "blocklist", ofType: "json") else {
+            debugPrint("Failed to find blocklist path. Continuing...")
+            return
+        }
+
+        do {
+            let blocklist = try String(contentsOfFile: blocklistPath, encoding: String.Encoding.utf8)
+
+            let contentRuleList = try await WKContentRuleListStore.default().compileContentRuleList(
+                forIdentifier: "ContentBlockingRules", encodedContentRuleList: blocklist
+            )
+
+            if let ruleList = contentRuleList {
+                webView.configuration.userContentController.add(ruleList)
+            }
+        } catch {
+            debugPrint("Blocklist loading failed. \(error.localizedDescription)")
+        }
+
+        if !firstLoad {
+            webView.reload()
+        }
+    }
+
+    func disableBlocker() {
+        debugPrint("Disabling adblock")
+
+        webView.configuration.userContentController.removeAllContentRuleLists()
+
+        webView.reload()
+    }
+
+    func handleFindInPageResult(jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            errorDescription = "Cannot convert find in page JSON into data!"
+            showError = true
+
+            return
+        }
+
+        let decoder = JSONDecoder()
+
+        do {
+            let result = try decoder.decode(FindInPageResult.self, from: jsonData)
+            currentFindResult = result.currentIndex + 1
+            totalFindResults = result.totalResultLength
+        } catch {
+            errorDescription = error.localizedDescription
+            showError = true
+        }
+    }
+
+    func executeFindInPage() {
+        if !findQuery.isEmpty {
+            webView.evaluateJavaScript("undoFindHighlights()")
+            webView.evaluateJavaScript("findAndHighlightQuery(\"\(findQuery)\")")
+            webView.evaluateJavaScript("scrollToFindResult(0)")
+        }
+    }
+
+    func moveFindInPageResult(isIncrementing: Bool) {
+        if totalFindResults == -1 || totalFindResults <= 0 {
+            return
+        }
+
+        if isIncrementing {
+            currentFindResult += 1
+        } else {
+            currentFindResult -= 1
+        }
+
+        if currentFindResult > totalFindResults {
+            currentFindResult = 1
+        } else if currentFindResult < 1 {
+            currentFindResult = totalFindResults
+        }
+
+        webView.evaluateJavaScript("scrollToFindResult(\(currentFindResult - 1))")
+    }
+
+    func resetFindInPage() {
+        currentFindResult = -1
+        totalFindResults = -1
+        findQuery = ""
+        webView.evaluateJavaScript("undoFindHighlights()")
+        showFindInPage.toggle()
     }
 }
