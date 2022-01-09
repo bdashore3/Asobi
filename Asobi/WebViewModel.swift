@@ -256,7 +256,7 @@ class WebViewModel: ObservableObject {
     }
 
     func executeFindInPage() {
-        if findQuery.isEmpty && totalFindResults > 0 {
+        if findQuery.isEmpty, totalFindResults > 0 {
             resetFindInPage()
         }
 

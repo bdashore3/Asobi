@@ -26,12 +26,14 @@ struct NavigationBarView: View {
                     Spacer()
                     SettingsButtonView()
                     Spacer()
+                    LibraryButtonView()
+                    Spacer()
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
+                        FindInPageButtonView()
+                        Spacer()
                     }
-                    LibraryButtonView()
-                    Spacer()
                     HomeButtonView()
                     if horizontalSizeClass == .regular {
                         Spacer()
@@ -42,12 +44,14 @@ struct NavigationBarView: View {
                     }
                     HomeButtonView()
                     Spacer()
-                    LibraryButtonView()
-                    Spacer()
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         RefreshButtonView()
                         Spacer()
+                        FindInPageButtonView()
+                        Spacer()
                     }
+                    LibraryButtonView()
+                    Spacer()
                     SettingsButtonView()
                     Spacer()
                     ForwardBackButtonView()
