@@ -22,6 +22,7 @@
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
 		0C5CBB8C270D39350045E2FE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CBB8B270D39350045E2FE /* Color.swift */; };
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
+		0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */; };
 		0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D3FB02717D87D000A4534 /* PersistenceController.swift */; };
 		0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7FADD12786246200564B52 /* LibraryActionsView.swift */; };
 		0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */; };
@@ -89,6 +90,7 @@
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInPageButtonView.swift; sourceTree = "<group>"; };
 		0C7D3FB02717D87D000A4534 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0C7FADD12786246200564B52 /* LibraryActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryActionsView.swift; sourceTree = "<group>"; };
 		0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				7C20C0CE26BC6FF1004D8618 /* LibraryButtonView.swift */,
 				7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */,
 				0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */,
+				0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */,
 			);
 			path = NavigationBarViews;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
+				0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */,
 				0C0C6B80277A3708007B9345 /* View.swift in Sources */,
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */,
