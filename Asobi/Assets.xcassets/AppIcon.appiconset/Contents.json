@@ -115,13 +115,13 @@
       "size" : "16x16"
     },
     {
-      "filename" : "Asobi-32.png",
+      "filename" : "Asobi-33.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "Asobi-33.png",
+      "filename" : "Asobi-32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
@@ -139,37 +139,37 @@
       "size" : "128x128"
     },
     {
-      "filename" : "Asobi-256.png",
+      "filename" : "Asobi-257.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "Asobi-257.png",
+      "filename" : "Asobi-256.png",
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "256x256"
-    },
-    {
-      "filename" : "Asobi-512.png",
-      "idiom" : "mac",
-      "scale" : "2x",
       "size" : "256x256"
     },
     {
       "filename" : "Asobi-513.png",
       "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "256x256"
+    },
+    {
+      "filename" : "Asobi-512.png",
+      "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "Asobi-1025.png",
+      "filename" : "Asobi-1026.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
     },
     {
-      "filename" : "Asobi-1026.png",
+      "filename" : "Asobi-1025.png",
       "idiom" : "mac",
       "size" : "1024x1024"
     }
