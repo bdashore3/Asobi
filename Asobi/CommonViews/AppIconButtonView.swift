@@ -42,7 +42,7 @@ struct AppIconButtonView: View {
 
             VStack {
                 Text(iconName)
-                Text("by \(author)")
+                Text("-\(author)")
             }
             .foregroundColor(selectedIconKey == imageKey ? navigationAccent : (colorScheme == .light ? .black : .white))
             .font(.caption2, weight: selectedIconKey == imageKey ? .bold : .regular)
