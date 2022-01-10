@@ -13,6 +13,9 @@ struct AppIconPickerView: View {
             LazyHGrid(rows: [GridItem()], spacing: 25) {
                 AppIconButtonView(imageKey: "AppImage", iconKey: nil, iconName: "Default", author: "kingbri")
                 AppIconButtonView(imageKey: "GradientsImage", iconKey: "GradientsAppIcon", iconName: "Gradients", author: "Idiocy Max")
+                AppIconButtonView(imageKey: "SunsetImage", iconKey: "SunsetAppIcon", iconName: "Sunset", author: "kingbri")
+                AppIconButtonView(imageKey: "OceanImage", iconKey: "OceanAppIcon", iconName: "Ocean", author: "kingbri")
+                AppIconButtonView(imageKey: "JustPinkImage", iconKey: "JustPinkAppIcon", iconName: "Just Pink", author: "kingbri")
             }
             .padding(.vertical, 10)
         }
