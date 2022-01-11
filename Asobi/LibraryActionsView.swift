@@ -8,6 +8,15 @@
 import SwiftUI
 
 struct LibraryActionsView: View {
+    enum LibraryActionAlertType: Identifiable {
+        var id: Int {
+            hashValue
+        }
+
+        case success
+        case cookies
+    }
+
     @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var webModel: WebViewModel
@@ -15,6 +24,7 @@ struct LibraryActionsView: View {
 
     @Binding var currentUrl: String
     @State private var isCopiedButton = false
+    @State private var currentAlert: LibraryActionAlertType?
 
     var body: some View {
         Form {
@@ -46,11 +56,34 @@ struct LibraryActionsView: View {
                     navModel.currentSheet = nil
                 }
 
-                // Can only use if statements in SwiftUI views. Only show inline button if iOS 14 or below
-                if #available(iOS 15, *) {}
-                else if UIDevice.current.deviceType == .phone || UIDevice.current.deviceType == .pad {
-                    HistoryActionView(labelText: "Clear browsing data")
+                Button("Clear all cookies") {
+                    currentAlert = .cookies
                 }
+                .accentColor(.red)
+                .alert(item: $currentAlert) { alert in
+                    switch alert {
+                    case .cookies:
+                        return Alert(
+                            title: Text("Are you sure?"),
+                            message: Text("Clearing cookies is an irreversible action!"),
+                            primaryButton: .destructive(Text("Yes")) {
+                                Task {
+                                    await webModel.clearCookies()
+                                    currentAlert = .success
+                                }
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    case .success:
+                        return Alert(
+                            title: Text("Success!"),
+                            message: Text("The action completed successfully"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
+                }
+
+                HistoryActionView(labelText: "Clear browsing data")
             }
         }
     }
