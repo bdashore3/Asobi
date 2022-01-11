@@ -293,4 +293,12 @@ class WebViewModel: ObservableObject {
         findQuery = ""
         webView.evaluateJavaScript("undoFindHighlights()")
     }
+
+    func clearCookies() async {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+
+        let dataRecords = await WKWebsiteDataStore.default().dataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes())
+
+        await WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: dataRecords)
+    }
 }
