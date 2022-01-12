@@ -151,9 +151,7 @@ class DownloadManager: ObservableObject {
                 if await Date().timeIntervalSince(progressTimer.lastTime) > 1.5 {
                     await progressTimer.setTime(newDate: Date())
 
-                    DispatchQueue.main.async {
-                        self.downloadProgress = progress.fractionCompleted
-                    }
+                    self.downloadProgress = progress.fractionCompleted
                 }
             }
         }
@@ -163,7 +161,7 @@ class DownloadManager: ObservableObject {
 
         let response = await downloadRequest.serializingDownloadedFileURL().response
 
-        try? await Task.sleep(nanoseconds: 500000000)
+        try? await Task.sleep(seconds: 0.5)
 
         showDownloadProgress = false
         downloadProgress = 0.0

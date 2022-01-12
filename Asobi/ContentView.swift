@@ -93,7 +93,9 @@ struct ContentView: View {
                     .transition(AnyTransition.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.3))
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        Task {
+                            try await Task.sleep(seconds: 5)
+
                             webModel.showError = false
                         }
                     }
@@ -144,7 +146,9 @@ struct ContentView: View {
                         .onAppear {
                             // Marker: If auto hiding is enabled
                             if autoHideNavigation {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                Task {
+                                    try await Task.sleep(seconds: 3)
+
                                     navModel.showNavigationBar = false
                                 }
                             }
