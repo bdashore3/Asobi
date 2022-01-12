@@ -44,7 +44,9 @@ struct LibraryActionsView: View {
 
                     UIPasteboard.general.string = currentUrl
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    Task {
+                        try await Task.sleep(seconds: 2)
+
                         isCopiedButton = false
                     }
                 }

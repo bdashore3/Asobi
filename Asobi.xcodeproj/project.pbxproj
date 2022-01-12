@@ -28,6 +28,7 @@
 		0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */; };
 		0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D52779217300F25471 /* AppIconPickerView.swift */; };
 		0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D72779220000F25471 /* AppIconButtonView.swift */; };
+		0C979FDD278F437100FF4186 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C979FDC278F437100FF4186 /* Task.swift */; };
 		0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */; };
 		0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */; };
 		0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 0CB4DBA2271BB58700ADBE5A /* SwiftUIX */; };
@@ -97,6 +98,7 @@
 		0C8DF1D52779217300F25471 /* AppIconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconPickerView.swift; sourceTree = "<group>"; };
 		0C8DF1D72779220000F25471 /* AppIconButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButtonView.swift; sourceTree = "<group>"; };
 		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
+		0C979FDC278F437100FF4186 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */,
 				0C580952277566F80005CA40 /* CGFloat.swift */,
 				0C0C6B7F277A3708007B9345 /* View.swift */,
+				0C979FDC278F437100FF4186 /* Task.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
 				0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
+				0C979FDD278F437100FF4186 /* Task.swift in Sources */,
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
