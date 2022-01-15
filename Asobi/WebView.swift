@@ -98,12 +98,6 @@ struct WebView: UIViewRepresentable {
             parent.webModel.showLoadingProgress = true
         }
 
-        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            parent.webModel.showLoadingProgress = false
-            parent.webModel.errorDescription = error.localizedDescription
-            parent.webModel.showError = true
-        }
-
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = false
 
@@ -177,10 +171,24 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.allow)
             }
         }
+        
+        // Function for navigation errors
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            let error = error as NSError
 
+            parent.webModel.showLoadingProgress = false
+
+            // Error 999 can be ignored since that's an error for loading a cached webpage
+            if error.code == -999 {
+                return
+            }
+            
+            parent.webModel.errorDescription = error.localizedDescription
+            parent.webModel.showError = true
+        }
+
+        // Function for any provisional navigation errors
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-            print("Failed provisional nav: \(error)")
-
             let error = error as NSError
 
             parent.webModel.showLoadingProgress = false
