@@ -151,8 +151,6 @@ struct WebView: UIViewRepresentable {
                 switch scheme {
                 case "https", "http":
                     // Any web URL
-                    // parent.webModel.currentWebViewAlert = .appUrlConfirm
-
                     decisionHandler(.allow)
                 case "blob":
                     // Defer to JS handling
@@ -171,7 +169,7 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.allow)
             }
         }
-        
+
         // Function for navigation errors
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             let error = error as NSError
@@ -182,7 +180,7 @@ struct WebView: UIViewRepresentable {
             if error.code == -999 {
                 return
             }
-            
+
             parent.webModel.errorDescription = error.localizedDescription
             parent.webModel.showError = true
         }

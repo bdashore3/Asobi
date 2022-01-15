@@ -21,11 +21,11 @@ struct SettingsView: View {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("useDarkTheme") var useDarkTheme = false
-    
+
     // Default true settings here
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
-    
+
     // Other setting types here
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
