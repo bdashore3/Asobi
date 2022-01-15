@@ -21,10 +21,10 @@ class WebViewModel: ObservableObject {
 
     // All Settings go here
     @AppStorage("blockAds") var blockAds = false
-    @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("incognitoMode") var incognitoMode = false
-    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = false
+    @AppStorage("defaultUrl") var defaultUrl = ""
+    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
 
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
