@@ -24,9 +24,10 @@ struct AboutView: View {
 
             List {
                 ListRowTextView(leftText: "Version", rightText: UIApplication.appVersion())
-                ListRowTextView(leftText: "Build Number", rightText: UIApplication.appBuild())
-                ListRowLinkView(text: "GitHub Repository", link: "https://github.com/bdashore3/Cubari-iOS")
-                ListRowLinkView(text: "Discord Support", link: "https://discord.gg/pswt7by")
+                ListRowTextView(leftText: "Build number", rightText: UIApplication.appBuild())
+                ListRowTextView(leftText: "Build type", rightText: UIApplication.buildType())
+                ListRowLinkView(text: "GitHub repository", link: "https://github.com/bdashore3/Cubari-iOS")
+                ListRowLinkView(text: "Discord support", link: "https://discord.gg/pswt7by")
             }
             .listStyle(InsetGroupedListStyle())
         }

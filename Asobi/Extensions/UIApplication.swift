@@ -16,4 +16,12 @@ extension UIApplication {
     class func appBuild() -> String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
     }
+
+    class func buildType() -> String {
+        #if DEBUG
+        return "Debug"
+        #else
+        return "Release"
+        #endif
+    }
 }
