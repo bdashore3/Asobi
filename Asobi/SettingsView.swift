@@ -13,18 +13,22 @@ struct SettingsView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
-    // All settings here
+    // Default false settings here
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("blockAds") var blockAds = false
     @AppStorage("changeUserAgent") var changeUserAgent = false
+    @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("incognitoMode") var incognitoMode = false
+    @AppStorage("useDarkTheme") var useDarkTheme = false
+    
+    // Default true settings here
+    @AppStorage("followSystemTheme") var followSystemTheme = true
+    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
+    
+    // Other setting types here
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    @AppStorage("autoHideNavigation") var autoHideNavigation = false
-    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
-    @AppStorage("incognitoMode") var incognitoMode = false
-    @AppStorage("followSystemTheme") var followSystemTheme = true
-    @AppStorage("useDarkTheme") var useDarkTheme = false
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false

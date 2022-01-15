@@ -12,8 +12,8 @@ struct LibraryView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navView: NavigationViewModel
 
-    @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
+    @AppStorage("followSystemTheme") var followSystemTheme = true
 
     @State var currentUrl: String = "No URL found"
 
