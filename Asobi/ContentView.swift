@@ -13,10 +13,10 @@ struct ContentView: View {
     @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
 
-    @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
-    @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("useDarkTheme") var useDarkTheme = false
+    @AppStorage("followSystemTheme") var followSystemTheme = true
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
     var body: some View {
         ZStack {
