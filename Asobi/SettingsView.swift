@@ -54,9 +54,7 @@ struct SettingsView: View {
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Behavior"),
-                        footer:
-                        UIDevice.current.deviceType == .mac ? nil :
-                            Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
+                        footer: Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
@@ -65,16 +63,14 @@ struct SettingsView: View {
                         Text("Auto hide navigation bar")
                     }
 
-                    if UIDevice.current.deviceType != .mac {
-                        Toggle(isOn: $allowSwipeNavGestures) {
-                            Text("Allow browser swipe gestures")
-                        }
-                        .onChange(of: allowSwipeNavGestures) { changed in
-                            if changed {
-                                webModel.webView.allowsBackForwardNavigationGestures = true
-                            } else {
-                                webModel.webView.allowsBackForwardNavigationGestures = false
-                            }
+                    Toggle(isOn: $allowSwipeNavGestures) {
+                        Text("Allow browser swipe gestures")
+                    }
+                    .onChange(of: allowSwipeNavGestures) { changed in
+                        if changed {
+                            webModel.webView.allowsBackForwardNavigationGestures = true
+                        } else {
+                            webModel.webView.allowsBackForwardNavigationGestures = false
                         }
                     }
                 }
