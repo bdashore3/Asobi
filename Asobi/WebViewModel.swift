@@ -97,7 +97,7 @@ class WebViewModel: ObservableObject {
             } catch {
                 errorDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
                 showError = true
-                findInPageEnabled = true
+                findInPageEnabled = false
             }
         }
 
