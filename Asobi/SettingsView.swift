@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
+    @EnvironmentObject var downloadManager: DownloadManager
 
     // Default false settings here
     @AppStorage("leftHandMode") var leftHandMode = false
@@ -29,9 +31,13 @@ struct SettingsView: View {
     // Other setting types here
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
+    @State private var showDownloadResetAlert: Bool = false
+    @State private var showFolderPicker: Bool = false
+    @State private var backgroundColor: Color = .clear
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
@@ -76,6 +82,44 @@ struct SettingsView: View {
                         } else {
                             webModel.webView.allowsBackForwardNavigationGestures = false
                         }
+                    }
+
+                    HStack {
+                        Text("Downloads")
+
+                        Spacer()
+
+                        Group {
+                            Text(defaultDownloadDirectory.components(separatedBy: "/").dropLast().last ?? "Downloads")
+                            Image(systemName: "chevron.right")
+                        }
+                        .foregroundColor(.gray)
+                    }
+                    .lineLimit(0)
+                    .background(backgroundColor)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        Task {
+                            navModel.currentSheet = nil
+
+                            try await Task.sleep(seconds: 0.5)
+
+                            downloadManager.showDefaultDirectoryPicker.toggle()
+                        }
+                    }
+
+                    Button("Reset Download Directory") {
+                        defaultDownloadDirectory = ""
+
+                        showDownloadResetAlert.toggle()
+                    }
+                    .foregroundColor(.red)
+                    .alert(isPresented: $showDownloadResetAlert) {
+                        Alert(
+                            title: Text("Success"),
+                            message: Text("The downloads directory has been reset to Asobi's documents folder"),
+                            dismissButton: .default(Text("OK"))
+                        )
                     }
                 }
                 Section(header: Text("Privacy"),
