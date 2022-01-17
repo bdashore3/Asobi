@@ -30,8 +30,8 @@ struct WebView: UIViewRepresentable {
             switch message.name {
             case "blobListener":
                 guard let jsonString = message.body as? String else {
-                    parent.webModel.errorDescription = "Invalid blob JSON."
-                    parent.webModel.showError = true
+                    parent.webModel.toastDescription = "Invalid blob JSON."
+                    parent.webModel.showToast = true
 
                     return
                 }
@@ -39,8 +39,8 @@ struct WebView: UIViewRepresentable {
                 parent.downloadManager.blobDownloadWith(jsonString: jsonString)
             case "findListener":
                 guard let jsonString = message.body as? String else {
-                    parent.webModel.errorDescription = "Invalid find in page JSON."
-                    parent.webModel.showError = true
+                    parent.webModel.toastDescription = "Invalid find in page JSON."
+                    parent.webModel.showToast = true
 
                     return
                 }
@@ -93,7 +93,7 @@ struct WebView: UIViewRepresentable {
 
         // Navigation delegate methods for ProgressView/errors
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            parent.webModel.showError = false
+            parent.webModel.showToast = false
             parent.webModel.showLoadingProgress = true
         }
 
@@ -135,7 +135,7 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.allow)
             } else {
                 parent.downloadManager.downloadUrl = navigationResponse.response.url
-                parent.downloadManager.downloadAlert = .confirm
+                parent.downloadManager.showDownloadConfirmAlert = true
                 decisionHandler(.cancel)
             }
         }
@@ -153,7 +153,7 @@ struct WebView: UIViewRepresentable {
                 case "blob":
                     // Defer to JS handling
                     parent.downloadManager.downloadUrl = url
-                    parent.downloadManager.downloadAlert = .confirm
+                    parent.downloadManager.showDownloadConfirmAlert = true
 
                     decisionHandler(.cancel)
                 default:
@@ -179,8 +179,8 @@ struct WebView: UIViewRepresentable {
                 return
             }
 
-            parent.webModel.errorDescription = error.localizedDescription
-            parent.webModel.showError = true
+            parent.webModel.toastDescription = error.localizedDescription
+            parent.webModel.showToast = true
         }
 
         // Function for any provisional navigation errors
@@ -193,15 +193,15 @@ struct WebView: UIViewRepresentable {
             switch error.code {
             // Error -1022 has a special message because we don't allow insecure webpage loads
             case -1022:
-                parent.webModel.errorDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
+                parent.webModel.toastDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
             // Error 102 can be ignored since that's used for downloading files
             case 102:
                 return
             default:
-                parent.webModel.errorDescription = error.localizedDescription
+                parent.webModel.toastDescription = error.localizedDescription
             }
 
-            parent.webModel.showError = true
+            parent.webModel.showToast = true
         }
 
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
