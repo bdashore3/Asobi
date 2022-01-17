@@ -33,49 +33,40 @@ struct ContentView: View {
 
             // WebView
             WebView()
-                .alert(item: $downloadManager.downloadAlert) { alert in
-                    switch alert {
-                    case .success:
-                        return Alert(
-                            title: Text("Success"),
-                            message: Text("The download was successful"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    case .confirm:
-                        return Alert(
-                            title: Text("Download this file?"),
-                            message: Text("Would you like to start this download?"),
-                            primaryButton: .default(Text("Start")) {
-                                guard let downloadUrl = downloadManager.downloadUrl else {
-                                    webModel.errorDescription = "The download URL is invalid"
-                                    webModel.showError = true
+                .alert(isPresented: $downloadManager.showDownloadConfirmAlert) {
+                    Alert(
+                        title: Text("Download this file?"),
+                        message: Text("Would you like to start this download?"),
+                        primaryButton: .default(Text("Start")) {
+                            guard let downloadUrl = downloadManager.downloadUrl else {
+                                webModel.toastDescription = "The download URL is invalid"
+                                webModel.showToast = true
 
-                                    return
-                                }
-
-                                if downloadUrl.scheme == "blob" {
-                                    downloadManager.executeBlobDownloadJS(url: downloadUrl)
-                                } else {
-                                    Task {
-                                        await downloadManager.httpDownloadFrom(url: downloadUrl)
-                                    }
-                                }
-
-                                downloadManager.downloadUrl = nil
-                            },
-                            secondaryButton: .cancel {
-                                downloadManager.downloadUrl = nil
+                                return
                             }
-                        )
-                    }
+
+                            if downloadUrl.scheme == "blob" {
+                                downloadManager.executeBlobDownloadJS(url: downloadUrl)
+                            } else {
+                                Task {
+                                    await downloadManager.httpDownloadFrom(url: downloadUrl)
+                                }
+                            }
+
+                            downloadManager.downloadUrl = nil
+                        },
+                        secondaryButton: .cancel {
+                            downloadManager.downloadUrl = nil
+                        }
+                    )
                 }
                 .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
                     switch result {
                     case let .success(path):
                         downloadManager.defaultDownloadDirectory = path.absoluteString
                     case let .failure(error):
-                        webModel.errorDescription = error.localizedDescription
-                        webModel.showError.toggle()
+                        webModel.toastDescription = error.localizedDescription
+                        webModel.showToast.toggle()
                     }
 
                     navModel.currentSheet = .settings
@@ -104,10 +95,15 @@ struct ContentView: View {
                 Spacer()
 
                 // Error description view
-                if webModel.showError {
+                if webModel.showToast {
                     VStack {
                         GroupBox {
-                            Text("Error: \(webModel.errorDescription ?? "This shouldn't be showing up... Contact the dev!")")
+                            switch webModel.toastType {
+                            case .info:
+                                Text(webModel.toastDescription ?? "This shouldn't be showing up... Contact the dev!")
+                            case .error:
+                                Text("Error: \(webModel.toastDescription ?? "This shouldn't be showing up... Contact the dev!")")
+                            }
                         }
                     }
                     .transition(AnyTransition.move(edge: .bottom))
@@ -116,7 +112,8 @@ struct ContentView: View {
                         Task {
                             try await Task.sleep(seconds: 5)
 
-                            webModel.showError = false
+                            webModel.showToast = false
+                            webModel.toastType = .error
                         }
                     }
                     .padding()

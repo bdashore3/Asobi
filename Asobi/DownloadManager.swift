@@ -21,21 +21,11 @@ struct BlobComponents: Codable {
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
 
-    enum DownloadAlertType: Identifiable {
-        var id: Int {
-            hashValue
-        }
-
-        case success
-        case confirm
-    }
-
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
-
-    @Published var downloadAlert: DownloadAlertType?
 
     // Download handling variables
     @Published var downloadUrl: URL? = nil
+    @Published var showDownloadConfirmAlert: Bool = false
     @Published var currentDownload: DownloadTask<URL>? = nil
     @Published var downloadProgress: Double = 0.0
     @Published var showDownloadProgress: Bool = false
@@ -46,8 +36,8 @@ class DownloadManager: ObservableObject {
     // Import blob URL
     func blobDownloadWith(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
-            parent?.errorDescription = "Cannot convert blob JSON into data!"
-            parent?.showError = true
+            parent?.toastDescription = "Cannot convert blob JSON into data!"
+            parent?.showToast = true
 
             return
         }
@@ -61,8 +51,8 @@ class DownloadManager: ObservableObject {
                   let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
                   let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
             else {
-                parent?.errorDescription = "Could not get blob data or extension!"
-                parent?.showError = true
+                parent?.toastDescription = "Could not get blob data or extension!"
+                parent?.showToast = true
 
                 return
             }
@@ -73,10 +63,12 @@ class DownloadManager: ObservableObject {
 
             try data.write(to: url)
 
-            downloadAlert = .success
+            parent?.toastType = .info
+            parent?.toastDescription = "The download was successful"
+            parent?.showToast = true
         } catch {
-            parent?.errorDescription = error.localizedDescription
-            parent?.showError = true
+            parent?.toastDescription = error.localizedDescription
+            parent?.showToast = true
 
             return
         }
@@ -123,8 +115,8 @@ class DownloadManager: ObservableObject {
     // Download file from page
     func httpDownloadFrom(url downloadUrl: URL) async {
         if currentDownload != nil {
-            parent?.errorDescription = "Cannot download this file. A download is already in progress."
-            parent?.showError = true
+            parent?.toastDescription = "Cannot download this file. A download is already in progress."
+            parent?.showToast = true
 
             return
         }
@@ -166,11 +158,12 @@ class DownloadManager: ObservableObject {
         downloadProgress = 0.0
 
         if let error = response.error {
-            parent?.errorDescription = "Download could not be completed. \(error)"
-            parent?.showError = true
+            parent?.toastDescription = "Download could not be completed. \(error)"
+            parent?.showToast = true
         } else {
-            parent?.errorDescription = "Download was successful"
-            parent?.showError = true
+            parent?.toastType = .info
+            parent?.toastDescription = "Download was successful"
+            parent?.showToast = true
         }
 
         // Shut down any current requests and clear the download queue
