@@ -8,6 +8,7 @@
 import Alamofire
 import CoreServices
 import Foundation
+import SwiftUI
 
 struct BlobComponents: Codable {
     let url: String
@@ -20,29 +21,27 @@ struct BlobComponents: Codable {
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
 
-    // Download handling variables
-    @Published var downloadUrl: URL? = nil
-    @Published var showDownloadConfirmAlert: Bool = false
-    @Published var currentDownload: DownloadTask<URL>? = nil
-    @Published var downloadFileUrl: URL? = nil
-    @Published var downloadProgress: Double = 0.0
-    @Published var showDownloadProgress: Bool = false {
-        didSet {
-            if showDownloadProgress == false, downloadFileUrl != nil {
-                showFileMover = true
-            }
+    enum DownloadAlertType: Identifiable {
+        var id: Int {
+            hashValue
         }
+
+        case success
+        case confirm
     }
 
-    @Published var showFileMover: Bool = false {
-        didSet {
-            if !showFileMover, downloadFileUrl != nil {
-                // Reset all download info to prepare for the next one
-                downloadFileUrl = nil
-                currentDownload = nil
-            }
-        }
-    }
+    @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
+
+    @Published var downloadAlert: DownloadAlertType?
+
+    // Download handling variables
+    @Published var downloadUrl: URL? = nil
+    @Published var currentDownload: DownloadTask<URL>? = nil
+    @Published var downloadProgress: Double = 0.0
+    @Published var showDownloadProgress: Bool = false
+
+    // Settings variables
+    @Published var showDefaultDirectoryPicker: Bool = false
 
     // Import blob URL
     func blobDownloadWith(jsonString: String) {
@@ -69,13 +68,12 @@ class DownloadManager: ObservableObject {
             }
 
             let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
-            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let path = defaultDownloadDirectory.isEmpty ? getFallbackDownloadDirectory() : URL(string: defaultDownloadDirectory)!
             let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
 
             try data.write(to: url)
 
-            downloadFileUrl = url
-            showFileMover = true
+            downloadAlert = .success
         } catch {
             parent?.errorDescription = error.localizedDescription
             parent?.showError = true
@@ -134,10 +132,11 @@ class DownloadManager: ObservableObject {
         let progressTimer = DownloadProgressTimer()
 
         let destination: DownloadRequest.Destination = { _, response in
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let suggestedName = response.suggestedFilename ?? "unknown"
 
-            let fileURL = documentsURL.appendingPathComponent(suggestedName)
+            let defaultDownloadPath = self.defaultDownloadDirectory.isEmpty ? self.getFallbackDownloadDirectory() : URL(string: self.defaultDownloadDirectory)!
+
+            let fileURL = defaultDownloadPath.appendingPathComponent(suggestedName)
 
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
@@ -166,18 +165,26 @@ class DownloadManager: ObservableObject {
         showDownloadProgress = false
         downloadProgress = 0.0
 
-        if response.error == nil, let currentPath = response.fileURL {
-            downloadFileUrl = currentPath
-            showFileMover = true
-        }
-
         if let error = response.error {
             parent?.errorDescription = "Download could not be completed. \(error)"
+            parent?.showError = true
+        } else {
+            parent?.errorDescription = "Download was successful"
             parent?.showError = true
         }
 
         // Shut down any current requests and clear the download queue
         currentDownload?.cancel()
         currentDownload = nil
+    }
+
+    func getFallbackDownloadDirectory() -> URL {
+        let fileManager = FileManager.default
+
+        if UIDevice.current.deviceType == .mac {
+            return fileManager.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+        } else {
+            return fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Downloads")
+        }
     }
 }

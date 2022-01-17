@@ -5,6 +5,7 @@
 //  Created by Brian Dashore on 1/5/22.
 //
 
+import Alamofire
 import SwiftUI
 
 struct LibraryActionsView: View {
@@ -13,18 +14,19 @@ struct LibraryActionsView: View {
             hashValue
         }
 
-        case success
         case cookies
+        case success
+        case error
     }
-
-    @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
+    @EnvironmentObject var downloadManager: DownloadManager
 
     @Binding var currentUrl: String
     @State private var isCopiedButton = false
     @State private var currentAlert: LibraryActionAlertType?
+    @State private var alertText = ""
 
     var body: some View {
         Form {
@@ -58,6 +60,31 @@ struct LibraryActionsView: View {
                     navModel.currentSheet = nil
                 }
 
+                Button("Save website icon") {
+                    Task {
+                        do {
+                            let urlString = try await webModel.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
+
+                            let destination: DownloadRequest.Destination = { _, response in
+                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                                let suggestedName = response.suggestedFilename ?? "favicon"
+
+                                let fileURL = documentsURL.appendingPathComponent("favicons/\(suggestedName)")
+
+                                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+                            }
+
+                            _ = try await AF.download(URL(string: urlString)!, to: destination).serializingDownloadedFileURL().value
+
+                            alertText = "Image saved in the favicons folder"
+                            currentAlert = .success
+                        } catch {
+                            alertText = "Cannot get the apple touch icon URL for the website"
+                            currentAlert = .error
+                        }
+                    }
+                }
+
                 Button("Clear all cookies") {
                     currentAlert = .cookies
                 }
@@ -79,8 +106,18 @@ struct LibraryActionsView: View {
                     case .success:
                         return Alert(
                             title: Text("Success!"),
-                            message: Text("The action completed successfully"),
-                            dismissButton: .default(Text("OK"))
+                            message: Text(alertText.isEmpty ? "No description given" : alertText),
+                            dismissButton: .default(Text("OK")) {
+                                alertText = ""
+                            }
+                        )
+                    case .error:
+                        return Alert(
+                            title: Text("Error!"),
+                            message: Text(alertText.isEmpty ? "No description given" : alertText),
+                            dismissButton: .default(Text("OK")) {
+                                alertText = ""
+                            }
                         )
                     }
                 }

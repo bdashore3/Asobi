@@ -13,8 +13,7 @@ struct WebView: UIViewRepresentable {
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-
-    @ObservedObject var downloadManager: DownloadManager
+    @EnvironmentObject var downloadManager: DownloadManager
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
@@ -136,8 +135,7 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.allow)
             } else {
                 parent.downloadManager.downloadUrl = navigationResponse.response.url
-                parent.downloadManager.showDownloadConfirmAlert.toggle()
-
+                parent.downloadManager.downloadAlert = .confirm
                 decisionHandler(.cancel)
             }
         }
@@ -155,7 +153,7 @@ struct WebView: UIViewRepresentable {
                 case "blob":
                     // Defer to JS handling
                     parent.downloadManager.downloadUrl = url
-                    parent.downloadManager.showDownloadConfirmAlert.toggle()
+                    parent.downloadManager.downloadAlert = .confirm
 
                     decisionHandler(.cancel)
                 default:
