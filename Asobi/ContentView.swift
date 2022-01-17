@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUIX
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @StateObject var webModel: WebViewModel = .init()
@@ -31,35 +32,54 @@ struct ContentView: View {
                 .zIndex(0)
 
             // WebView
-            WebView(downloadManager: downloadManager)
-                .alert(isPresented: $downloadManager.showDownloadConfirmAlert) {
-                    Alert(
-                        title: Text("Download this file?"),
-                        message: Text("Would you like to start this download?"),
-                        primaryButton: .default(Text("Start")) {
-                            guard let downloadUrl = downloadManager.downloadUrl else {
-                                webModel.errorDescription = "The download URL is invalid"
-                                webModel.showError = true
+            WebView()
+                .alert(item: $downloadManager.downloadAlert) { alert in
+                    switch alert {
+                    case .success:
+                        return Alert(
+                            title: Text("Success"),
+                            message: Text("The download was successful"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    case .confirm:
+                        return Alert(
+                            title: Text("Download this file?"),
+                            message: Text("Would you like to start this download?"),
+                            primaryButton: .default(Text("Start")) {
+                                guard let downloadUrl = downloadManager.downloadUrl else {
+                                    webModel.errorDescription = "The download URL is invalid"
+                                    webModel.showError = true
 
-                                return
-                            }
-
-                            if downloadUrl.scheme == "blob" {
-                                downloadManager.executeBlobDownloadJS(url: downloadUrl)
-                            } else {
-                                Task {
-                                    await downloadManager.httpDownloadFrom(url: downloadUrl)
+                                    return
                                 }
-                            }
 
-                            downloadManager.downloadUrl = nil
-                        },
-                        secondaryButton: .cancel {
-                            downloadManager.downloadUrl = nil
-                        }
-                    )
+                                if downloadUrl.scheme == "blob" {
+                                    downloadManager.executeBlobDownloadJS(url: downloadUrl)
+                                } else {
+                                    Task {
+                                        await downloadManager.httpDownloadFrom(url: downloadUrl)
+                                    }
+                                }
+
+                                downloadManager.downloadUrl = nil
+                            },
+                            secondaryButton: .cancel {
+                                downloadManager.downloadUrl = nil
+                            }
+                        )
+                    }
                 }
-                .fileMover(isPresented: $downloadManager.showFileMover, file: downloadManager.downloadFileUrl) { _ in }
+                .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
+                    switch result {
+                    case let .success(path):
+                        downloadManager.defaultDownloadDirectory = path.absoluteString
+                    case let .failure(error):
+                        webModel.errorDescription = error.localizedDescription
+                        webModel.showError.toggle()
+                    }
+
+                    navModel.currentSheet = .settings
+                }
                 .edgesIgnoringSafeArea(.bottom)
                 .zIndex(1)
 
@@ -87,7 +107,7 @@ struct ContentView: View {
                 if webModel.showError {
                     VStack {
                         GroupBox {
-                            Text("Error: \(webModel.errorDescription!)")
+                            Text("Error: \(webModel.errorDescription ?? "This shouldn't be showing up... Contact the dev!")")
                         }
                     }
                     .transition(AnyTransition.move(edge: .bottom))
@@ -180,6 +200,7 @@ struct ContentView: View {
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
         .environmentObject(webModel)
         .environmentObject(navModel)
+        .environmentObject(downloadManager)
     }
 }
 
