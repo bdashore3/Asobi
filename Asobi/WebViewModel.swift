@@ -18,6 +18,15 @@ struct FindInPageResult: Codable {
 @MainActor
 class WebViewModel: ObservableObject {
     let webView: WKWebView
+    
+    enum ToastType: Identifiable {
+        var id: Int {
+            hashValue
+        }
+
+        case info
+        case error
+    }
 
     // All Settings go here
     @AppStorage("blockAds") var blockAds = false
@@ -43,9 +52,12 @@ class WebViewModel: ObservableObject {
     @Published var showLoadingProgress: Bool = false
     @Published var backgroundColor: UIColor?
 
-    // Error variables
-    @Published var errorDescription: String? = nil
-    @Published var showError: Bool = false
+    // Toast variables
+    @Published var toastDescription: String? = nil
+    @Published var showToast: Bool = false
+    
+    // Default the toast type to error since the majority of toasts are errors
+    @Published var toastType: ToastType = .error
 
     // Zoom variables
     @Published var isZoomedOut = false
@@ -95,8 +107,8 @@ class WebViewModel: ObservableObject {
                 let findJs = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
                 config.userContentController.addUserScript(findJs)
             } catch {
-                errorDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
-                showError = true
+                toastDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
+                showToast = true
                 findInPageEnabled = false
             }
         }
@@ -237,8 +249,8 @@ class WebViewModel: ObservableObject {
 
     func handleFindInPageResult(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
-            errorDescription = "Cannot convert find in page JSON into data!"
-            showError = true
+            toastDescription = "Cannot convert find in page JSON into data!"
+            showToast = true
 
             return
         }
@@ -250,8 +262,8 @@ class WebViewModel: ObservableObject {
             currentFindResult = result.currentIndex + 1
             totalFindResults = result.totalResultLength
         } catch {
-            errorDescription = error.localizedDescription
-            showError = true
+            toastDescription = error.localizedDescription
+            showToast = true
         }
     }
 

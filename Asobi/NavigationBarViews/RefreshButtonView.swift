@@ -12,7 +12,7 @@ struct RefreshButtonView: View {
 
     var body: some View {
         Button(action: {
-            webModel.showError = false
+            webModel.showToast = false
             webModel.webView.reload()
             webModel.showLoadingProgress = true
         }, label: {
