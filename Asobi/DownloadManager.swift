@@ -35,89 +35,6 @@ class DownloadManager: ObservableObject {
     // Settings variables
     @Published var showDefaultDirectoryPicker: Bool = false
 
-    // Import blob URL
-    func blobDownloadWith(jsonString: String) {
-        guard let jsonData = jsonString.data(using: .utf8) else {
-            parent?.toastDescription = "Cannot convert blob JSON into data!"
-            parent?.showToast = true
-
-            return
-        }
-
-        let decoder = JSONDecoder()
-
-        do {
-            let file = try decoder.decode(BlobComponents.self, from: jsonData)
-
-            guard let data = Data(base64Encoded: file.dataString),
-                  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
-                  let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
-            else {
-                parent?.toastDescription = "Could not get blob data or extension!"
-                parent?.showToast = true
-
-                return
-            }
-
-            let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
-            let path = getFallbackDownloadDirectory()
-            let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
-
-            try data.write(to: url)
-
-            // MacOS uses the user's downloads folder by default
-            if UIDevice.current.deviceType == .mac {
-                parent?.toastType = .info
-                parent?.toastDescription = "File successfully downloaded to your downloads directory"
-                parent?.showToast = true
-
-                return
-            }
-
-            if let bookmarkData = downloadDirectoryBookmark, UIDevice.current.deviceType != .mac {
-                moveToDownloadsDirectory(tempUrl: url, bookmarkData: bookmarkData)
-            } else {
-                parent?.toastType = .info
-                parent?.toastDescription = "File successfully downloaded to the app's downloads directory"
-                parent?.showToast = true
-            }
-        } catch {
-            parent?.toastDescription = error.localizedDescription
-            parent?.showToast = true
-
-            return
-        }
-    }
-
-    // Wrapper function for blob download script
-    func executeBlobDownloadJS(url: URL) {
-        parent?.webView.evaluateJavaScript(
-            """
-            function blobToDataURL(blob, callback) {
-                var a = new FileReader();
-                a.onload = function(e) {callback(e.target.result.split(",")[1]);}
-                a.readAsDataURL(blob);
-            }
-
-            async function run() {
-                const url = "\(url)"
-                const blob = await fetch(url).then(r => r.blob());
-
-                blobToDataURL(blob, datauri => {
-                    const responseObj = {
-                        url: url,
-                        mimeType: blob.type,
-                        size: blob.size,
-                        dataString: datauri
-                    }
-                    window.webkit.messageHandlers.blobListener.postMessage(JSON.stringify(responseObj))
-                });
-            }
-
-            run()
-            """)
-    }
-
     // So DownloadProgress can work in an async context without races
     actor DownloadProgressTimer {
         var lastTime = Date()
@@ -210,6 +127,89 @@ class DownloadManager: ObservableObject {
             parent?.toastDescription = "File successfully downloaded to the app's downloads directory"
             parent?.showToast = true
         }
+    }
+
+    // Import blob URL
+    func blobDownloadWith(jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            parent?.toastDescription = "Cannot convert blob JSON into data!"
+            parent?.showToast = true
+
+            return
+        }
+
+        let decoder = JSONDecoder()
+
+        do {
+            let file = try decoder.decode(BlobComponents.self, from: jsonData)
+
+            guard let data = Data(base64Encoded: file.dataString),
+                  let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
+                  let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
+            else {
+                parent?.toastDescription = "Could not get blob data or extension!"
+                parent?.showToast = true
+
+                return
+            }
+
+            let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
+            let path = getFallbackDownloadDirectory()
+            let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
+
+            try data.write(to: url)
+
+            // MacOS uses the user's downloads folder by default
+            if UIDevice.current.deviceType == .mac {
+                parent?.toastType = .info
+                parent?.toastDescription = "File successfully downloaded to your downloads directory"
+                parent?.showToast = true
+
+                return
+            }
+
+            if let bookmarkData = downloadDirectoryBookmark, UIDevice.current.deviceType != .mac {
+                moveToDownloadsDirectory(tempUrl: url, bookmarkData: bookmarkData)
+            } else {
+                parent?.toastType = .info
+                parent?.toastDescription = "File successfully downloaded to the app's downloads directory"
+                parent?.showToast = true
+            }
+        } catch {
+            parent?.toastDescription = error.localizedDescription
+            parent?.showToast = true
+
+            return
+        }
+    }
+
+    // Wrapper function for blob download script
+    func executeBlobDownloadJS(url: URL) {
+        parent?.webView.evaluateJavaScript(
+            """
+            function blobToDataURL(blob, callback) {
+                var a = new FileReader();
+                a.onload = function(e) {callback(e.target.result.split(",")[1]);}
+                a.readAsDataURL(blob);
+            }
+
+            async function run() {
+                const url = "\(url)"
+                const blob = await fetch(url).then(r => r.blob());
+
+                blobToDataURL(blob, datauri => {
+                    const responseObj = {
+                        url: url,
+                        mimeType: blob.type,
+                        size: blob.size,
+                        dataString: datauri
+                    }
+                    window.webkit.messageHandlers.blobListener.postMessage(JSON.stringify(responseObj))
+                });
+            }
+
+            run()
+            """)
     }
 
     func moveToDownloadsDirectory(tempUrl: URL, bookmarkData: Data) {
