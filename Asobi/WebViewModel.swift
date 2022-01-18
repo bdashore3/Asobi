@@ -18,7 +18,7 @@ struct FindInPageResult: Codable {
 @MainActor
 class WebViewModel: ObservableObject {
     let webView: WKWebView
-    
+
     enum ToastType: Identifiable {
         var id: Int {
             hashValue
@@ -55,7 +55,7 @@ class WebViewModel: ObservableObject {
     // Toast variables
     @Published var toastDescription: String? = nil
     @Published var showToast: Bool = false
-    
+
     // Default the toast type to error since the majority of toasts are errors
     @Published var toastType: ToastType = .error
 

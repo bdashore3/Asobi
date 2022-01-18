@@ -63,7 +63,7 @@ struct ContentView: View {
                 .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
                     switch result {
                     case let .success(path):
-                        downloadManager.defaultDownloadDirectory = path.absoluteString
+                        downloadManager.setDefaultDownloadDirectory(downloadPath: path)
                     case let .failure(error):
                         webModel.toastDescription = error.localizedDescription
                         webModel.showToast.toggle()

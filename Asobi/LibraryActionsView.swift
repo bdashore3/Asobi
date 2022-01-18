@@ -74,6 +74,7 @@ struct LibraryActionsView: View {
                                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                             }
 
+                            // Download to favicons folder
                             _ = try await AF.download(URL(string: urlString)!, to: destination).serializingDownloadedFileURL().value
 
                             alertText = "Image saved in the favicons folder"
