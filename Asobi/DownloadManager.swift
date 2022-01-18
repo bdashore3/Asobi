@@ -22,6 +22,8 @@ class DownloadManager: ObservableObject {
     var parent: WebViewModel?
 
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
+    @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
+    @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
 
     // Download handling variables
     @Published var downloadUrl: URL? = nil
@@ -58,14 +60,27 @@ class DownloadManager: ObservableObject {
             }
 
             let fileName = file.url.components(separatedBy: "/").last ?? "unknown"
-            let path = defaultDownloadDirectory.isEmpty ? getFallbackDownloadDirectory() : URL(string: defaultDownloadDirectory)!
+            let path = getFallbackDownloadDirectory()
             let url = path.appendingPathComponent("blobDownload-\(fileName).\(ext.takeRetainedValue())")
 
             try data.write(to: url)
 
-            parent?.toastType = .info
-            parent?.toastDescription = "The download was successful"
-            parent?.showToast = true
+            // MacOS uses the user's downloads folder by default
+            if UIDevice.current.deviceType == .mac {
+                parent?.toastType = .info
+                parent?.toastDescription = "File successfully downloaded to your downloads directory"
+                parent?.showToast = true
+
+                return
+            }
+
+            if let bookmarkData = downloadDirectoryBookmark, UIDevice.current.deviceType != .mac {
+                moveToDownloadsDirectory(tempUrl: url, bookmarkData: bookmarkData)
+            } else {
+                parent?.toastType = .info
+                parent?.toastDescription = "File successfully downloaded to the app's downloads directory"
+                parent?.showToast = true
+            }
         } catch {
             parent?.toastDescription = error.localizedDescription
             parent?.showToast = true
@@ -126,7 +141,8 @@ class DownloadManager: ObservableObject {
         let destination: DownloadRequest.Destination = { _, response in
             let suggestedName = response.suggestedFilename ?? "unknown"
 
-            let defaultDownloadPath = self.defaultDownloadDirectory.isEmpty ? self.getFallbackDownloadDirectory() : URL(string: self.defaultDownloadDirectory)!
+            // Download into the temporary download directory
+            let defaultDownloadPath = self.getFallbackDownloadDirectory()
 
             let fileURL = defaultDownloadPath.appendingPathComponent(suggestedName)
 
@@ -157,18 +173,120 @@ class DownloadManager: ObservableObject {
         showDownloadProgress = false
         downloadProgress = 0.0
 
+        // Always shut down any current requests and clear the download queue
+        defer {
+            currentDownload?.cancel()
+            currentDownload = nil
+        }
+
         if let error = response.error {
             parent?.toastDescription = "Download could not be completed. \(error)"
             parent?.showToast = true
-        } else {
-            parent?.toastType = .info
-            parent?.toastDescription = "Download was successful"
-            parent?.showToast = true
+
+            return
         }
 
-        // Shut down any current requests and clear the download queue
-        currentDownload?.cancel()
-        currentDownload = nil
+        // MacOS uses the user's downloads folder by default
+        if UIDevice.current.deviceType == .mac {
+            parent?.toastType = .info
+            parent?.toastDescription = "File successfully downloaded to your downloads directory"
+            parent?.showToast = true
+
+            return
+        }
+
+        guard let tempUrl = response.value else {
+            // The file is in the user's documents directory, break out
+            parent?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to the app's downloads directory"
+            parent?.showToast = true
+
+            return
+        }
+
+        if let bookmarkData = downloadDirectoryBookmark {
+            moveToDownloadsDirectory(tempUrl: tempUrl, bookmarkData: bookmarkData)
+        } else {
+            parent?.toastType = .info
+            parent?.toastDescription = "File successfully downloaded to the app's downloads directory"
+            parent?.showToast = true
+        }
+    }
+
+    func moveToDownloadsDirectory(tempUrl: URL, bookmarkData: Data) {
+        var isStale = false
+
+        do {
+            let downloadsUrl = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
+
+            guard !isStale else {
+                // The file is in the user's documents directory, error and break out
+                downloadDirectoryBookmark = nil
+                defaultDownloadDirectory = ""
+
+                parent?.toastType = .info
+                parent?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to the app documents folder. You can change this in settings."
+                parent?.showToast = true
+
+                return
+            }
+
+            guard downloadsUrl.startAccessingSecurityScopedResource() else {
+                parent?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to the app's downloads directory"
+                parent?.showToast = true
+
+                return
+            }
+
+            defer { downloadsUrl.stopAccessingSecurityScopedResource() }
+
+            let fileManager = FileManager.default
+            let newFileUrl = downloadsUrl.appendingPathComponent(tempUrl.lastPathComponent)
+
+            if overwriteDownloadedFiles {
+                try? fileManager.removeItem(at: newFileUrl)
+            }
+
+            try fileManager.moveItem(at: tempUrl, to: newFileUrl)
+
+            parent?.toastType = .info
+            parent?.toastDescription = "File successfully downloaded to your selected downloads directory"
+            parent?.showToast = true
+        } catch {
+            let error = error as NSError
+
+            // Our bookmark is invalid and the downloads directory is reset
+            if error.code == 257 {
+                downloadDirectoryBookmark = nil
+                defaultDownloadDirectory = ""
+
+                parent?.toastType = .info
+                parent?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to the Documents folder. You can change this in settings."
+                parent?.showToast = true
+            } else {
+                parent?.toastDescription = error.localizedDescription
+                parent?.showToast = true
+            }
+        }
+    }
+
+    func setDefaultDownloadDirectory(downloadPath: URL) {
+        guard downloadPath.startAccessingSecurityScopedResource() else {
+            // Send an error to the user
+            return
+        }
+
+        defer { downloadPath.stopAccessingSecurityScopedResource() }
+
+        do {
+            // Set the bookmark for further file access
+            downloadDirectoryBookmark = try downloadPath.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
+
+            // Set the download directory string for settings
+            defaultDownloadDirectory = downloadPath.lastPathComponent
+        } catch {
+            // show an error when setting the download bookmark
+            print("Bookmark error \(error)")
+        }
     }
 
     func getFallbackDownloadDirectory() -> URL {
