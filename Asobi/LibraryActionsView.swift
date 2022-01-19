@@ -66,10 +66,11 @@ struct LibraryActionsView: View {
                             let urlString = try await webModel.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
 
                             let destination: DownloadRequest.Destination = { _, response in
-                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                                let documentsURL = downloadManager.getFallbackDownloadDirectory()
                                 let suggestedName = response.suggestedFilename ?? "favicon"
-
-                                let fileURL = documentsURL.appendingPathComponent("favicons/\(suggestedName)")
+                                let pathComponent = UIDevice.current.deviceType == .mac ? suggestedName : "favicons/\(suggestedName)"
+                                
+                                let fileURL = documentsURL.appendingPathComponent(pathComponent)
 
                                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                             }
@@ -77,7 +78,7 @@ struct LibraryActionsView: View {
                             // Download to favicons folder
                             _ = try await AF.download(URL(string: urlString)!, to: destination).serializingDownloadedFileURL().value
 
-                            alertText = "Image saved in the favicons folder"
+                            alertText = "Image saved in the \(UIDevice.current.deviceType == .mac ? "downloads" : "favicons") folder"
                             currentAlert = .success
                         } catch {
                             alertText = "Cannot get the apple touch icon URL for the website"
