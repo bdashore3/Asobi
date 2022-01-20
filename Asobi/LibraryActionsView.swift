@@ -66,10 +66,10 @@ struct LibraryActionsView: View {
                             let urlString = try await webModel.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
 
                             let destination: DownloadRequest.Destination = { _, response in
-                                let documentsURL = downloadManager.getFallbackDownloadDirectory()
+                                let documentsURL = downloadManager.getFallbackDownloadDirectory(isFavicon: true)
                                 let suggestedName = response.suggestedFilename ?? "favicon"
                                 let pathComponent = UIDevice.current.deviceType == .mac ? suggestedName : "favicons/\(suggestedName)"
-                                
+
                                 let fileURL = documentsURL.appendingPathComponent(pathComponent)
 
                                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])

@@ -33,6 +33,7 @@ struct SettingsView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
+    @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
@@ -144,6 +145,7 @@ struct SettingsView: View {
                         }
 
                         Button("Reset Download Directory") {
+                            downloadDirectoryBookmark = nil
                             defaultDownloadDirectory = ""
 
                             showDownloadResetAlert.toggle()
