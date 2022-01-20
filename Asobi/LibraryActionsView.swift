@@ -63,20 +63,7 @@ struct LibraryActionsView: View {
                 Button("Save website icon") {
                     Task {
                         do {
-                            let urlString = try await webModel.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
-
-                            let destination: DownloadRequest.Destination = { _, response in
-                                let documentsURL = downloadManager.getFallbackDownloadDirectory(isFavicon: true)
-                                let suggestedName = response.suggestedFilename ?? "favicon"
-                                let pathComponent = UIDevice.current.deviceType == .mac ? suggestedName : "favicons/\(suggestedName)"
-
-                                let fileURL = documentsURL.appendingPathComponent(pathComponent)
-
-                                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-                            }
-
-                            // Download to favicons folder
-                            _ = try await AF.download(URL(string: urlString)!, to: destination).serializingDownloadedFileURL().value
+                            try await downloadManager.downloadFavicon()
 
                             alertText = "Image saved in the \(UIDevice.current.deviceType == .mac ? "downloads" : "favicons") folder"
                             currentAlert = .success

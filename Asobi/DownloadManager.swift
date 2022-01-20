@@ -30,9 +30,9 @@ enum DownloadType: Identifiable {
 class DownloadManager: ObservableObject {
     var parent: WebViewModel?
 
+    @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
     @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
-    @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
 
     // Download handling variables
     @Published var downloadUrl: URL? = nil
@@ -311,9 +311,28 @@ class DownloadManager: ObservableObject {
         }
     }
 
+    func downloadFavicon() async throws {
+        let urlString = try await parent?.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
+
+        let destination: DownloadRequest.Destination = { _, response in
+            let documentsURL = self.getFallbackDownloadDirectory(isFavicon: true)
+            let suggestedName = response.suggestedFilename ?? "favicon"
+            let pathComponent = UIDevice.current.deviceType == .mac ? suggestedName : "favicons/\(suggestedName)"
+
+            let fileURL = documentsURL.appendingPathComponent(pathComponent)
+
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+
+        // Download to favicons folder
+        _ = try await AF.download(URL(string: urlString)!, to: destination).serializingDownloadedFileURL().value
+    }
+
     func setDefaultDownloadDirectory(downloadPath: URL) {
         guard downloadPath.startAccessingSecurityScopedResource() else {
-            // Send an error to the user
+            parent?.toastDescription = "Cannot access the provided URL, aborting process"
+            parent?.showToast = true
+
             return
         }
 
@@ -327,8 +346,8 @@ class DownloadManager: ObservableObject {
             // Set the download directory string for settings
             UserDefaults.standard.set(downloadPath.lastPathComponent, forKey: "defaultDownloadDirectory")
         } catch {
-            // show an error when setting the download bookmark
-            print("Bookmark error \(error)")
+            parent?.toastDescription = error.localizedDescription
+            parent?.showToast = true
         }
     }
 
