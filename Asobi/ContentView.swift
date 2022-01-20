@@ -33,32 +33,38 @@ struct ContentView: View {
 
             // WebView
             WebView()
-                .alert(isPresented: $downloadManager.showDownloadConfirmAlert) {
-                    Alert(
-                        title: Text("Download this file?"),
-                        message: Text("Would you like to start this download?"),
-                        primaryButton: .default(Text("Start")) {
-                            guard let downloadUrl = downloadManager.downloadUrl else {
-                                webModel.toastDescription = "The download URL is invalid"
-                                webModel.showToast = true
-
-                                return
-                            }
-
-                            if downloadUrl.scheme == "blob" {
-                                downloadManager.executeBlobDownloadJS(url: downloadUrl)
-                            } else {
-                                Task {
-                                    await downloadManager.httpDownloadFrom(url: downloadUrl)
+                .alert(item: $downloadManager.downloadTypeAlert) { alert in
+                    switch alert {
+                    case .http:
+                        return Alert(
+                            title: Text("Download this file?"),
+                            message: Text("Would you like to start this download?"),
+                            primaryButton: .default(Text("Start")) {
+                                if let downloadUrl = downloadManager.downloadUrl {
+                                    Task {
+                                        await downloadManager.httpDownloadFrom(url: downloadUrl)
+                                    }
+                                } else {
+                                    webModel.toastDescription = "The download URL is invalid"
+                                    webModel.showToast = true
                                 }
+                            },
+                            secondaryButton: .cancel {
+                                downloadManager.downloadUrl = nil
                             }
-
-                            downloadManager.downloadUrl = nil
-                        },
-                        secondaryButton: .cancel {
-                            downloadManager.downloadUrl = nil
-                        }
-                    )
+                        )
+                    case .blob:
+                        return Alert(
+                            title: Text("Keep this file?"),
+                            message: Text("Would you like keep this downloaded file?"),
+                            primaryButton: .default(Text("Keep")) {
+                                downloadManager.completeBlobDownload()
+                            },
+                            secondaryButton: .cancel {
+                                downloadManager.deleteBlobDownload()
+                            }
+                        )
+                    }
                 }
                 .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
                     switch result {

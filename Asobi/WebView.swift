@@ -135,7 +135,7 @@ struct WebView: UIViewRepresentable {
                 decisionHandler(.allow)
             } else {
                 parent.downloadManager.downloadUrl = navigationResponse.response.url
-                parent.downloadManager.showDownloadConfirmAlert = true
+                parent.downloadManager.downloadTypeAlert = .http
                 decisionHandler(.cancel)
             }
         }
@@ -152,8 +152,7 @@ struct WebView: UIViewRepresentable {
                     decisionHandler(.allow)
                 case "blob":
                     // Defer to JS handling
-                    parent.downloadManager.downloadUrl = url
-                    parent.downloadManager.showDownloadConfirmAlert = true
+                    parent.downloadManager.executeBlobDownloadJS(url: url)
 
                     decisionHandler(.cancel)
                 default:
