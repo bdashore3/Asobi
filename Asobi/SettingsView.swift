@@ -115,7 +115,8 @@ struct SettingsView: View {
                     }
                 }
                 if UIDevice.current.deviceType != .mac {
-                    Section(header: Text("Download options")) {
+                    Section(header: Text("Download options"),
+                            footer: Text("If a downloaded file has the same name as a local file, the local file will be overwritten if the toggle is on.")) {
                         HStack {
                             Text("Downloads")
 
@@ -144,7 +145,7 @@ struct SettingsView: View {
                             Text("Overwrite files on download")
                         }
 
-                        Button("Reset Download Directory") {
+                        Button("Reset download directory") {
                             downloadDirectoryBookmark = nil
                             defaultDownloadDirectory = ""
 
