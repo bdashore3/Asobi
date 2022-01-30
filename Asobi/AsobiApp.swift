@@ -15,10 +15,12 @@ struct AsobiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
-        .onChange(of: scenePhase) { _ in
+        .onChange(of: scenePhase) { scene in
+            if scene != .active {}
+
             persistenceController.save()
         }
     }

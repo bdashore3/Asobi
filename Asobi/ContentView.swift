@@ -10,8 +10,9 @@ import SwiftUIX
 import UniformTypeIdentifiers
 
 struct ContentView: View {
+    @EnvironmentObject var navModel: NavigationViewModel
+
     @StateObject var webModel: WebViewModel = .init()
-    @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
@@ -202,7 +203,6 @@ struct ContentView: View {
         }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
         .environmentObject(webModel)
-        .environmentObject(navModel)
         .environmentObject(downloadManager)
     }
 }

@@ -10,6 +10,7 @@
 		0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */; };
 		0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */; };
 		0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C070D78271A3B54001F5327 /* LibraryView.swift */; };
+		0C0B87A527A6FDF300FCB6A3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B87A427A6FDF300FCB6A3 /* MainView.swift */; };
 		0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0C6B7A277A35F6007B9345 /* Introspect */; };
 		0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7D277A3620007B9345 /* Modifiers.swift */; };
 		0C0C6B80277A3708007B9345 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7F277A3708007B9345 /* View.swift */; };
@@ -81,6 +82,7 @@
 		0C02727B2741FA4F007C2CC9 /* AsobiDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AsobiDB.xcdatamodel; sourceTree = "<group>"; };
 		0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		0C070D78271A3B54001F5327 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0C0B87A427A6FDF300FCB6A3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0C0C6B7D277A3620007B9345 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		0C0C6B7F277A3708007B9345 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */,
 				0CDE767D278531F100739EBE /* FindInPageView.swift */,
 				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
+				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
 			);
 			path = Asobi;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */,
+				0C0B87A527A6FDF300FCB6A3 /* MainView.swift in Sources */,
 				0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */,
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
