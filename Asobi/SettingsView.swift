@@ -23,6 +23,8 @@ struct SettingsView: View {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("useDarkTheme") var useDarkTheme = false
+    @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
+    @AppStorage("blurInRecents") var blurInRecents = false
 
     // Default true settings here
     @AppStorage("followSystemTheme") var followSystemTheme = true
@@ -39,6 +41,7 @@ struct SettingsView: View {
     @State private var showUrlChangeAlert: Bool = false
     @State private var showDownloadResetAlert: Bool = false
     @State private var showFolderPicker: Bool = false
+    @State private var showAuthenticationToggle: Bool = true
     @State private var backgroundColor: Color = .clear
 
     // Core settings. All prefs saved in UserDefaults
@@ -86,8 +89,8 @@ struct SettingsView: View {
                         }
                     }
                 }
-                Section(header: Text("Privacy"),
-                        footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower.")) {
+                Section(header: Text("Privacy and security"),
+                        footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower. \nBlurring in the recents menu on iDevices will not blur sheets!")) {
                     Toggle(isOn: $incognitoMode) {
                         Text("Incognito mode")
                     }
@@ -112,6 +115,16 @@ struct SettingsView: View {
                             message: Text("The page will refresh when you exit settings"),
                             dismissButton: .cancel(Text("OK!"))
                         )
+                    }
+
+                    Toggle(isOn: $blurInRecents) {
+                        Text("Blur in recents menu")
+                    }
+
+                    if showAuthenticationToggle {
+                        Toggle(isOn: $forceSecurityCredentials) {
+                            Text("Force authentication")
+                        }
                     }
                 }
                 if UIDevice.current.deviceType != .mac {
@@ -220,6 +233,9 @@ struct SettingsView: View {
                     }
                     .keyboardShortcut(.cancelAction)
                 }
+            }
+            .onAppear {
+                showAuthenticationToggle = navModel.authenticationPresent()
             }
         }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
