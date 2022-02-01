@@ -117,8 +117,10 @@ struct SettingsView: View {
                         )
                     }
 
-                    Toggle(isOn: $blurInRecents) {
-                        Text("Blur in recents menu")
+                    if UIDevice.current.deviceType != .mac {
+                        Toggle(isOn: $blurInRecents) {
+                            Text("Blur in recents menu")
+                        }
                     }
 
                     if showAuthenticationToggle {
@@ -238,7 +240,7 @@ struct SettingsView: View {
                 showAuthenticationToggle = navModel.authenticationPresent()
             }
         }
-        .blur(radius: navModel.blurRadius)
+        .blur(radius: UIDevice.current.deviceType == .mac ? 0 : navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }
