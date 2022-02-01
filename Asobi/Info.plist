@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Asobi requires permission to access faceID because of your user defined setting</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -39,6 +37,8 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Asobi requires permission to access faceID because of your user defined setting</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Asobi requires your permission to save to your photo gallery</string>
 	<key>UIApplicationSceneManifest</key>
