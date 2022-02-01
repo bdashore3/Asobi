@@ -86,7 +86,7 @@ struct LibraryView: View {
         .onAppear {
             currentUrl = webModel.webView.url?.absoluteString ?? "No URL found"
         }
-        .blur(radius: navModel.blurRadius)
+        .blur(radius: UIDevice.current.deviceType == .mac ? 0 : navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 

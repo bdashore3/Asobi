@@ -22,7 +22,7 @@ struct MainView: View {
             ContentView()
                 .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 10)
                 .onChange(of: scenePhase) { phase in
-                    if blurInRecents {
+                    if blurInRecents && UIDevice.current.deviceType != .mac {
                         if phase == .active {
                             withAnimation(.easeIn(duration: 0.15)) {
                                 navModel.blurRadius = 0
