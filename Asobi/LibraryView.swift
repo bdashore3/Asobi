@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var webModel: WebViewModel
-    @EnvironmentObject var navView: NavigationViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
@@ -75,7 +75,7 @@ struct LibraryView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        navView.currentSheet = nil
+                        navModel.currentSheet = nil
                     }
                     .keyboardShortcut(.cancelAction)
                 }
@@ -86,6 +86,7 @@ struct LibraryView: View {
         .onAppear {
             currentUrl = webModel.webView.url?.absoluteString ?? "No URL found"
         }
+        .blur(radius: navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 

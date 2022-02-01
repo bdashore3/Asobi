@@ -20,15 +20,15 @@ struct MainView: View {
     var body: some View {
         ZStack {
             ContentView()
-                .blur(radius: navModel.isUnlocked ? blurRadius : 10)
+                .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 10)
                 .onChange(of: scenePhase) { phase in
                     if blurInRecents {
                         if phase == .active {
                             withAnimation(.easeIn(duration: 0.15)) {
-                                blurRadius = 0
+                                navModel.blurRadius = 0
                             }
                         } else {
-                            blurRadius = 15
+                            navModel.blurRadius = 15
                         }
                     }
                 }

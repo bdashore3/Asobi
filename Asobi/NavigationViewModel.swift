@@ -37,6 +37,7 @@ class NavigationViewModel: ObservableObject {
     @Published var showNavigationBar = true
     @Published var isUnlocked = true
     @Published var authErrorAlert: AuthAlertType?
+    @Published var blurRadius: CGFloat = 0
 
     init() {
         if forceSecurityCredentials {
@@ -60,7 +61,7 @@ class NavigationViewModel: ObservableObject {
                 let error = error as NSError
 
                 // The MainActor attribute doesn't fire here, so manually call it to run UI updates
-                if error.code == -2 {
+                if error.code == -2 || error.code == -4 {
                     await MainActor.run {
                         authErrorAlert = .cancelled
                     }

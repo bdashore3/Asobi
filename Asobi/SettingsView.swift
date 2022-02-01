@@ -90,7 +90,7 @@ struct SettingsView: View {
                     }
                 }
                 Section(header: Text("Privacy and security"),
-                        footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower. \nBlurring in the recents menu on iDevices will not blur sheets!")) {
+                        footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower")) {
                     Toggle(isOn: $incognitoMode) {
                         Text("Incognito mode")
                     }
@@ -238,6 +238,7 @@ struct SettingsView: View {
                 showAuthenticationToggle = navModel.authenticationPresent()
             }
         }
+        .blur(radius: navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }
