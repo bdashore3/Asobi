@@ -30,6 +30,8 @@ class NavigationViewModel: ObservableObject {
         case error(localizedDescription: String)
     }
 
+    @AppStorage("persistNavigation") var persistNavigation = false
+    @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
 
     @Published var currentSheet: SheetType?
@@ -42,6 +44,14 @@ class NavigationViewModel: ObservableObject {
     init() {
         if forceSecurityCredentials {
             isUnlocked = false
+        }
+
+        // These two settings should never be enabled and run a check on view init
+        if persistNavigation && autoHideNavigation {
+            UserDefaults.standard.set(false, forKey: "persistNavigation")
+            UserDefaults.standard.set(false, forKey: "autoHideNavigation")
+            
+            showNavigationBar = true
         }
     }
 
