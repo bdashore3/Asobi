@@ -57,11 +57,9 @@ struct SettingsView: View {
 
                     Toggle(isOn: $useDarkTheme) {
                         Text("Use dark theme")
-                            .foregroundColor(followSystemTheme ? .gray : (useDarkTheme ? .white : .black))
                     }
                     .disabled(followSystemTheme)
 
-                    // Make this toggle refresh the settings view to apply the right color
                     Toggle(isOn: $followSystemTheme) {
                         Text("Follow system theme")
                     }
@@ -73,10 +71,18 @@ struct SettingsView: View {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
+                    .onChange(of: persistNavigation) { changed in
+                        if changed {
+                            autoHideNavigation = false
+                        }
+
+                        navModel.showNavigationBar = true
+                    }
 
                     Toggle(isOn: $autoHideNavigation) {
                         Text("Auto hide navigation bar")
                     }
+                    .disabled(persistNavigation)
 
                     Toggle(isOn: $allowSwipeNavGestures) {
                         Text("Allow browser swipe gestures")

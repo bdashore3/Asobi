@@ -16,6 +16,7 @@ struct ContentView: View {
     @StateObject var downloadManager: DownloadManager = .init()
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
@@ -173,7 +174,10 @@ struct ContentView: View {
                                 Task {
                                     try await Task.sleep(seconds: 3)
 
-                                    navModel.showNavigationBar = false
+                                    // If persist navigation is disabled, don't turn off the navbar
+                                    if !persistNavigation {
+                                        navModel.showNavigationBar = false
+                                    }
                                 }
                             }
                         }
