@@ -66,6 +66,13 @@ struct MainView: View {
                     message: Text("It looks like your authentication was turned off, so Asobi automatically unlocked itself. \n\nPlease re-enable an iOS or macOS passcode and turn on the authentication toggle in Asobi's settings to re-enable this feature."),
                     dismissButton: .default(Text("OK"))
                 )
+            // TEMP: Remove this alert in the next version
+            case .autoHideFixed:
+                return Alert(
+                    title: Text("Navbar settings reset"),
+                    message: Text("A bug was recently fixed regarding the auto hide navbar and lock navigation bar being on at the same time. \n\nAsobi detected that this bug was present and reverted the settings for you. \n\nAuto hiding the navigation bar is no longer possible when the navbar is locked. \n\nPlease re-enable your toggles in settings"),
+                    dismissButton: .default(Text("OK"))
+                )
             case let .error(localizedDescription: localizedDescription):
                 return Alert(
                     title: Text("Authentication error"),
