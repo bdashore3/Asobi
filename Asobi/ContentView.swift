@@ -189,7 +189,12 @@ struct ContentView: View {
                 case .library:
                     LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
                 case .settings:
-                    SettingsView()
+                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                        SettingsView()
+                    } else {
+                        SettingsView()
+                            .environmentObject(navModel)
+                    }
                 case .bookmarkEditing:
                     EditBookmarkView(bookmark: .constant(nil))
                 }

@@ -41,7 +41,6 @@ struct SettingsView: View {
     @State private var showUrlChangeAlert: Bool = false
     @State private var showDownloadResetAlert: Bool = false
     @State private var showFolderPicker: Bool = false
-    @State private var showAuthenticationToggle: Bool = true
     @State private var backgroundColor: Color = .clear
 
     // Core settings. All prefs saved in UserDefaults
@@ -129,7 +128,7 @@ struct SettingsView: View {
                         }
                     }
 
-                    if showAuthenticationToggle {
+                    if navModel.authenticationPresent() {
                         Toggle(isOn: $forceSecurityCredentials) {
                             Text("Force authentication")
                         }
@@ -244,11 +243,8 @@ struct SettingsView: View {
                     .keyboardShortcut(.cancelAction)
                 }
             }
-            .onAppear {
-                showAuthenticationToggle = navModel.authenticationPresent()
-            }
         }
-        .blur(radius: UIDevice.current.deviceType == .mac ? 0 : navModel.blurRadius)
+        .blur(radius: navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }
