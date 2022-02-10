@@ -26,10 +26,11 @@ struct AboutView: View {
                 ListRowTextView(leftText: "Version", rightText: UIApplication.appVersion())
                 ListRowTextView(leftText: "Build number", rightText: UIApplication.appBuild())
                 ListRowTextView(leftText: "Build type", rightText: UIApplication.buildType())
-                ListRowLinkView(text: "GitHub repository", link: "https://github.com/bdashore3/Cubari-iOS")
-                ListRowLinkView(text: "Discord support", link: "https://discord.gg/pswt7by")
+                ListRowExternalLinkView(text: "App website", link: "https://kingbri.dev/asobi")
+                ListRowExternalLinkView(text: "GitHub repository", link: "https://github.com/bdashore3/Asobi")
+                ListRowExternalLinkView(text: "Discord support", link: "https://discord.gg/pswt7by")
             }
-            .listStyle(InsetGroupedListStyle())
+            .listStyle(.insetGrouped)
         }
         .navigationTitle("About")
     }
