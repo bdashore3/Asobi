@@ -66,7 +66,7 @@ struct SettingsView: View {
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Behavior"),
-                        footer: Text("The allow browser swipe gestures toggle enables/disables the webview's navigation gestures")) {
+                        footer: Text("The allow browser swipe gestures option toggles the webview's navigation gestures")) {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
@@ -228,7 +228,7 @@ struct SettingsView: View {
                 }
                 Section {
                     ListRowExternalLinkView(text: "Report issues", link: "https://github.com/bdashore3/Asobi/issues")
-                    
+
                     NavigationLink(destination: AboutView()) {
                         Text("About")
                     }
