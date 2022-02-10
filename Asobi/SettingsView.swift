@@ -228,6 +228,8 @@ struct SettingsView: View {
                     }
                 }
                 Section {
+                    ListRowExternalLinkView(text: "Report issues", link: "https://github.com/bdashore3/Asobi/issues")
+                    
                     NavigationLink(destination: AboutView()) {
                         Text("About")
                     }
