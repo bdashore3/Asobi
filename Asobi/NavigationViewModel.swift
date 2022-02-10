@@ -27,8 +27,6 @@ class NavigationViewModel: ObservableObject {
 
         case cancelled
         case missing
-        // TEMP: Remove this alert type in the next version
-        case autoHideFixed
         case error(localizedDescription: String)
     }
 
@@ -54,9 +52,6 @@ class NavigationViewModel: ObservableObject {
             UserDefaults.standard.set(false, forKey: "autoHideNavigation")
 
             showNavigationBar = true
-
-            // TEMP: Remove this alert call in the next Asobi version
-            authErrorAlert = .autoHideFixed
         }
     }
 
