@@ -10,7 +10,9 @@ import SwiftUI
 struct MainView: View {
     @Environment(\.scenePhase) var scenePhase
 
+    @StateObject var webModel: WebViewModel = .init()
     @StateObject var navModel: NavigationViewModel = .init()
+    @StateObject var downloadManager: DownloadManager = .init()
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
@@ -35,13 +37,23 @@ struct MainView: View {
                 .overlay {
                     AuthOverlayView()
                 }
+                .environmentObject(webModel)
                 .environmentObject(navModel)
+                .environmentObject(downloadManager)
                 .onAppear {
+                    if downloadManager.parent == nil {
+                        downloadManager.parent = webModel
+                    }
+
                     if forceSecurityCredentials {
                         Task {
                             await navModel.authenticateOnStartup()
                         }
                     }
+                }
+                .onOpenURL { url in
+                    let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+                    webModel.loadUrl(splitUrl)
                 }
         }
     }

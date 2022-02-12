@@ -10,10 +10,9 @@ import SwiftUIX
 import UniformTypeIdentifiers
 
 struct ContentView: View {
+    @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
-
-    @StateObject var webModel: WebViewModel = .init()
-    @StateObject var downloadManager: DownloadManager = .init()
+    @EnvironmentObject var downloadManager: DownloadManager
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
@@ -201,18 +200,7 @@ struct ContentView: View {
             }
             .zIndex(4)
         }
-        .onOpenURL { url in
-            let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
-            webModel.loadUrl(splitUrl)
-        }
-        .onAppear {
-            if downloadManager.parent == nil {
-                downloadManager.parent = webModel
-            }
-        }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
-        .environmentObject(webModel)
-        .environmentObject(downloadManager)
     }
 }
 
