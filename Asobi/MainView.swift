@@ -32,47 +32,17 @@ struct MainView: View {
                         }
                     }
                 }
-
-            // Prevents interactivity with the ContentView
-            if !navModel.isUnlocked {
-                Color.gray
-                    .opacity(0.2)
-            }
-        }
-        .environmentObject(navModel)
-        .onAppear {
-            if forceSecurityCredentials {
-                Task {
-                    await navModel.authenticateOnStartup()
+                .overlay {
+                    AuthOverlayView()
                 }
-            }
-        }
-        .alert(item: $navModel.authErrorAlert) { alert in
-            switch alert {
-            case .cancelled:
-                return Alert(
-                    title: Text("Authentication error"),
-                    message: Text("The person using Asobi turned on authentication in settings and auth was forcibly cancelled. \n\nYou can retry if this was a mistake."),
-                    primaryButton: .default(Text("Retry")) {
+                .environmentObject(navModel)
+                .onAppear {
+                    if forceSecurityCredentials {
                         Task {
                             await navModel.authenticateOnStartup()
                         }
-                    },
-                    secondaryButton: .cancel()
-                )
-            case .missing:
-                return Alert(
-                    title: Text("Authentication error"),
-                    message: Text("It looks like your authentication was turned off, so Asobi automatically unlocked itself. \n\nPlease re-enable an iOS or macOS passcode and turn on the authentication toggle in Asobi's settings to re-enable this feature."),
-                    dismissButton: .default(Text("OK"))
-                )
-            case let .error(localizedDescription: localizedDescription):
-                return Alert(
-                    title: Text("Authentication error"),
-                    message: Text("Unhandled exception, the description is posted below: \n\n\(localizedDescription)"),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
+                    }
+                }
         }
     }
 }

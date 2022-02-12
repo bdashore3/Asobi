@@ -23,6 +23,7 @@
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
 		0C5CBB8C270D39350045E2FE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CBB8B270D39350045E2FE /* Color.swift */; };
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
+		0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6822C427B8226200D27B68 /* AuthOverlayView.swift */; };
 		0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */; };
 		0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D3FB02717D87D000A4534 /* PersistenceController.swift */; };
 		0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7FADD12786246200564B52 /* LibraryActionsView.swift */; };
@@ -93,6 +94,7 @@
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		0C6822C427B8226200D27B68 /* AuthOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOverlayView.swift; sourceTree = "<group>"; };
 		0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInPageButtonView.swift; sourceTree = "<group>"; };
 		0C7D3FB02717D87D000A4534 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0C7FADD12786246200564B52 /* LibraryActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryActionsView.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				0CDE767D278531F100739EBE /* FindInPageView.swift */,
 				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
 				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
+				0C6822C427B8226200D27B68 /* AuthOverlayView.swift */,
 			);
 			path = Asobi;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
 				0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */,
+				0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */,
 				7C20C0C126BC3B4B004D8618 /* AboutView.swift in Sources */,
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
 				0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */,
