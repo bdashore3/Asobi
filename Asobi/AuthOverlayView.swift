@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AuthOverlayView: View {
     @EnvironmentObject var navModel: NavigationViewModel
-    
+
     var body: some View {
         // Dummy ZStack for alert presentation
         ZStack {

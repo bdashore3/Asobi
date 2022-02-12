@@ -89,7 +89,7 @@ class NavigationViewModel: ObservableObject {
             UserDefaults.standard.set(false, forKey: "forceSecurityCredentials")
         }
     }
-    
+
     // Checks if a user has an authentication method
     func authenticationPresent() -> Bool {
         let context = LAContext()
