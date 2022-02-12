@@ -41,8 +41,8 @@ struct MainView: View {
                 .environmentObject(navModel)
                 .environmentObject(downloadManager)
                 .onAppear {
-                    if downloadManager.parent == nil {
-                        downloadManager.parent = webModel
+                    if downloadManager.webModel == nil {
+                        downloadManager.webModel = webModel
                     }
 
                     if forceSecurityCredentials {
