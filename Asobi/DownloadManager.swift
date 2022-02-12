@@ -28,7 +28,7 @@ enum DownloadType: Identifiable {
 
 @MainActor
 class DownloadManager: ObservableObject {
-    var parent: WebViewModel?
+    var webModel: WebViewModel?
 
     @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
@@ -63,8 +63,8 @@ class DownloadManager: ObservableObject {
         }
 
         if currentDownload != nil {
-            parent?.toastDescription = "Cannot download this file. A download is already in progress."
-            parent?.showToast = true
+            webModel?.toastDescription = "Cannot download this file. A download is already in progress."
+            webModel?.showToast = true
 
             return
         }
@@ -107,25 +107,25 @@ class DownloadManager: ObservableObject {
         downloadProgress = 0.0
 
         if let error = response.error {
-            parent?.toastDescription = "Download could not be completed. \(error)"
-            parent?.showToast = true
+            webModel?.toastDescription = "Download could not be completed. \(error)"
+            webModel?.showToast = true
 
             return
         }
 
         // MacOS uses the user's downloads folder by default
         if UIDevice.current.deviceType == .mac {
-            parent?.toastType = .info
-            parent?.toastDescription = "File successfully downloaded to your downloads directory"
-            parent?.showToast = true
+            webModel?.toastType = .info
+            webModel?.toastDescription = "File successfully downloaded to your downloads directory"
+            webModel?.showToast = true
 
             return
         }
 
         guard let tempUrl = response.value else {
             // The file is in the user's documents directory, break out
-            parent?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
-            parent?.showToast = true
+            webModel?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
+            webModel?.showToast = true
 
             return
         }
@@ -133,17 +133,17 @@ class DownloadManager: ObservableObject {
         if let bookmarkData = downloadDirectoryBookmark, !defaultDownloadDirectory.isEmpty {
             moveToDownloadsDirectory(tempUrl: tempUrl, bookmarkData: bookmarkData)
         } else {
-            parent?.toastType = .info
-            parent?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
-            parent?.showToast = true
+            webModel?.toastType = .info
+            webModel?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
+            webModel?.showToast = true
         }
     }
 
     // Import blob URL
     func blobDownloadWith(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
-            parent?.toastDescription = "Cannot convert blob JSON into data!"
-            parent?.showToast = true
+            webModel?.toastDescription = "Cannot convert blob JSON into data!"
+            webModel?.showToast = true
 
             return
         }
@@ -157,8 +157,8 @@ class DownloadManager: ObservableObject {
                   let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, file.mimeType as CFString, nil),
                   let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
             else {
-                parent?.toastDescription = "Could not get blob data or extension!"
-                parent?.showToast = true
+                webModel?.toastDescription = "Could not get blob data or extension!"
+                webModel?.showToast = true
 
                 return
             }
@@ -172,8 +172,8 @@ class DownloadManager: ObservableObject {
 
             downloadTypeAlert = .blob
         } catch {
-            parent?.toastDescription = error.localizedDescription
-            parent?.showToast = true
+            webModel?.toastDescription = error.localizedDescription
+            webModel?.showToast = true
 
             return
         }
@@ -181,7 +181,7 @@ class DownloadManager: ObservableObject {
 
     // Wrapper function for blob download script
     func executeBlobDownloadJS(url: URL) {
-        parent?.webView.evaluateJavaScript(
+        webModel?.webView.evaluateJavaScript(
             """
             function blobToDataURL(blob, callback) {
                 var a = new FileReader();
@@ -215,16 +215,16 @@ class DownloadManager: ObservableObject {
 
         // MacOS uses the user's downloads folder by default
         if UIDevice.current.deviceType == .mac {
-            parent?.toastType = .info
-            parent?.toastDescription = "File successfully downloaded to your downloads directory"
-            parent?.showToast = true
+            webModel?.toastType = .info
+            webModel?.toastDescription = "File successfully downloaded to your downloads directory"
+            webModel?.showToast = true
 
             return
         }
 
         guard let tempUrl = downloadUrl else {
-            parent?.toastDescription = "Could not get the download URL! Your file is still saved in Asobi's downloads directory"
-            parent?.showToast = true
+            webModel?.toastDescription = "Could not get the download URL! Your file is still saved in Asobi's downloads directory"
+            webModel?.showToast = true
 
             return
         }
@@ -232,9 +232,9 @@ class DownloadManager: ObservableObject {
         if let bookmarkData = downloadDirectoryBookmark, !defaultDownloadDirectory.isEmpty {
             moveToDownloadsDirectory(tempUrl: tempUrl, bookmarkData: bookmarkData)
         } else {
-            parent?.toastType = .info
-            parent?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
-            parent?.showToast = true
+            webModel?.toastType = .info
+            webModel?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
+            webModel?.showToast = true
         }
     }
 
@@ -243,12 +243,12 @@ class DownloadManager: ObservableObject {
             do {
                 try FileManager.default.removeItem(at: tempUrl)
             } catch {
-                parent?.toastDescription = error.localizedDescription
-                parent?.showToast = true
+                webModel?.toastDescription = error.localizedDescription
+                webModel?.showToast = true
             }
         } else {
-            parent?.toastDescription = "Could not get the downloaded file's location! You will have to manually delete it from Asobi's downloads directory"
-            parent?.showToast = true
+            webModel?.toastDescription = "Could not get the downloaded file's location! You will have to manually delete it from Asobi's downloads directory"
+            webModel?.showToast = true
         }
 
         downloadUrl = nil
@@ -265,16 +265,16 @@ class DownloadManager: ObservableObject {
                 UserDefaults.standard.set(nil, forKey: "downloadDirectoryBookmark")
                 UserDefaults.standard.set("", forKey: "defaultDownloadDirectory")
 
-                parent?.toastType = .info
-                parent?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to Asobi's documents folder. You can change this in settings."
-                parent?.showToast = true
+                webModel?.toastType = .info
+                webModel?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to Asobi's documents folder. You can change this in settings."
+                webModel?.showToast = true
 
                 return
             }
 
             guard downloadsUrl.startAccessingSecurityScopedResource() else {
-                parent?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
-                parent?.showToast = true
+                webModel?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
+                webModel?.showToast = true
 
                 return
             }
@@ -290,9 +290,9 @@ class DownloadManager: ObservableObject {
 
             try fileManager.moveItem(at: tempUrl, to: newFileUrl)
 
-            parent?.toastType = .info
-            parent?.toastDescription = "File successfully downloaded to your selected downloads directory"
-            parent?.showToast = true
+            webModel?.toastType = .info
+            webModel?.toastDescription = "File successfully downloaded to your selected downloads directory"
+            webModel?.showToast = true
         } catch {
             let error = error as NSError
 
@@ -301,18 +301,18 @@ class DownloadManager: ObservableObject {
                 UserDefaults.standard.set(nil, forKey: "downloadDirectoryBookmark")
                 UserDefaults.standard.set("", forKey: "defaultDownloadDirectory")
 
-                parent?.toastType = .info
-                parent?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to the Documents folder. You can change this in settings."
-                parent?.showToast = true
+                webModel?.toastType = .info
+                webModel?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to the Documents folder. You can change this in settings."
+                webModel?.showToast = true
             } else {
-                parent?.toastDescription = error.localizedDescription
-                parent?.showToast = true
+                webModel?.toastDescription = error.localizedDescription
+                webModel?.showToast = true
             }
         }
     }
 
     func downloadFavicon() async throws {
-        let urlString = try await parent?.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
+        let urlString = try await webModel?.webView.evaluateJavaScript("document.querySelector(`link[rel='apple-touch-icon']`).href") as! String
 
         let destination: DownloadRequest.Destination = { _, response in
             let documentsURL = self.getFallbackDownloadDirectory(isFavicon: true)
@@ -330,8 +330,8 @@ class DownloadManager: ObservableObject {
 
     func setDefaultDownloadDirectory(downloadPath: URL) {
         guard downloadPath.startAccessingSecurityScopedResource() else {
-            parent?.toastDescription = "Cannot access the provided URL, aborting process"
-            parent?.showToast = true
+            webModel?.toastDescription = "Cannot access the provided URL, aborting process"
+            webModel?.showToast = true
 
             return
         }
@@ -346,8 +346,8 @@ class DownloadManager: ObservableObject {
             // Set the download directory string for settings
             UserDefaults.standard.set(downloadPath.lastPathComponent, forKey: "defaultDownloadDirectory")
         } catch {
-            parent?.toastDescription = error.localizedDescription
-            parent?.showToast = true
+            webModel?.toastDescription = error.localizedDescription
+            webModel?.showToast = true
         }
     }
 
