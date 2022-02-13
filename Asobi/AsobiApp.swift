@@ -19,8 +19,6 @@ struct AsobiApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
         .onChange(of: scenePhase) { scene in
-            if scene != .active {}
-
             persistenceController.save()
         }
     }
