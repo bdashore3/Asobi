@@ -5,6 +5,7 @@
 //  Created by Brian Dashore on 8/5/21.
 //
 
+import LocalAuthentication
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -42,6 +43,7 @@ struct SettingsView: View {
     @State private var showDownloadResetAlert: Bool = false
     @State private var showFolderPicker: Bool = false
     @State private var backgroundColor: Color = .clear
+    @State private var alreadyAuthenticated: Bool = false
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
@@ -131,6 +133,35 @@ struct SettingsView: View {
                     if navModel.authenticationPresent() {
                         Toggle(isOn: $forceSecurityCredentials) {
                             Text("Force authentication")
+                        }
+                        .onChange(of: forceSecurityCredentials) { changed in
+                            // To prevent looping of authentication prompts
+                            if alreadyAuthenticated {
+                                alreadyAuthenticated = false
+                                return
+                            }
+
+                            let context = LAContext()
+
+                            Task {
+                                do {
+                                    let result = try await context.evaluatePolicy(
+                                        .deviceOwnerAuthentication,
+                                        localizedReason: "Authentication is required to change this setting"
+                                    )
+
+                                    forceSecurityCredentials = result ? changed : !changed
+                                } catch {
+                                    // Ignore and log the error
+                                    debugPrint("Settings authentication error!: \(error)")
+
+                                    await MainActor.run {
+                                        alreadyAuthenticated = true
+
+                                        forceSecurityCredentials = !changed
+                                    }
+                                }
+                            }
                         }
                     }
                 }
