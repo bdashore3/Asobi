@@ -61,7 +61,7 @@ struct ContentView: View {
                             primaryButton: .default(Text("Keep")) {
                                 downloadManager.completeBlobDownload()
                             },
-                            secondaryButton: .cancel {
+                            secondaryButton: .destructive(Text("Delete")) {
                                 downloadManager.deleteBlobDownload()
                             }
                         )
@@ -186,7 +186,12 @@ struct ContentView: View {
             .sheet(item: $navModel.currentSheet) { item in
                 switch item {
                 case .library:
-                    LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                    } else {
+                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                            .environmentObject(navModel)
+                    }
                 case .settings:
                     if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
                         SettingsView()
