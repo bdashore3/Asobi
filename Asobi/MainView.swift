@@ -53,6 +53,7 @@ struct MainView: View {
                 }
                 .onOpenURL { url in
                     let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+                    navModel.currentSheet = nil
                     webModel.loadUrl(splitUrl)
                 }
         }
