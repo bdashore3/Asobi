@@ -200,7 +200,12 @@ struct ContentView: View {
                             .environmentObject(navModel)
                     }
                 case .bookmarkEditing:
-                    EditBookmarkView(bookmark: .constant(nil))
+                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                        EditBookmarkView(bookmark: .constant(nil))
+                    } else {
+                        EditBookmarkView(bookmark: .constant(nil))
+                            .environmentObject(navModel)
+                    }
                 }
             }
             .zIndex(4)

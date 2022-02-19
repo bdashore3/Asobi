@@ -13,6 +13,7 @@ struct EditBookmarkView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     @Binding var bookmark: Bookmark?
 
@@ -85,6 +86,7 @@ struct EditBookmarkView: View {
                 }
             }
         }
+        .blur(radius: UIDevice.current.deviceType == .mac ? 0 : navModel.blurRadius)
         .navigationViewStyle(.stack)
     }
 }
