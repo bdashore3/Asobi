@@ -29,8 +29,6 @@ struct FindInPageView: View {
                     webModel.executeFindInPage()
                 }
             )
-            // MacCatalyst breaks if autocorrect is enabled
-            .disableAutocorrection(UIDevice.current.deviceType == .mac ? true : false)
 
             if webModel.totalFindResults == 0 {
                 Text("No results")
