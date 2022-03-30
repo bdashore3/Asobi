@@ -34,6 +34,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
+    @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
 
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
@@ -80,7 +81,10 @@ class WebViewModel: ObservableObject {
 
         // For airplay options to be shown and interacted with
         config.allowsAirPlayForMediaPlayback = true
-        config.allowsInlineMediaPlayback = true
+
+        // Immediately grab inline media playback preference from UserDefaults
+        let forceFullScreen = UserDefaults.standard.bool(forKey: "forceFullScreen")
+        config.allowsInlineMediaPlayback = !forceFullScreen
 
         let zoomJs = """
         let viewport = document.querySelector("meta[name=viewport]");
@@ -164,11 +168,12 @@ class WebViewModel: ObservableObject {
         setUserAgent(changeUserAgent: changeUserAgent)
 
         Task {
-            // Clears the disk and in-memory cache. Doesn't harm accounts.
-            await WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0))
-
             if blockAds {
                 await enableBlocker()
+            }
+
+            if clearCacheAtStart {
+                await clearCache()
             }
         }
 
@@ -347,5 +352,9 @@ class WebViewModel: ObservableObject {
         let dataRecords = await WKWebsiteDataStore.default().dataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes())
 
         await WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: dataRecords)
+    }
+
+    func clearCache() async {
+        await WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0))
     }
 }
