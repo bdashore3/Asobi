@@ -14,6 +14,7 @@ struct LibraryActionsView: View {
             hashValue
         }
 
+        case cache
         case cookies
         case success
         case error
@@ -55,31 +56,55 @@ struct LibraryActionsView: View {
             }
 
             Section {
+                Button("Refresh page") {
+                    webModel.webView.reload()
+                    navModel.currentSheet = nil
+                }
+
                 Button("Find in page") {
                     webModel.showFindInPage = true
                     navModel.currentSheet = nil
                 }
 
-                Button("Save website icon") {
-                    Task {
-                        do {
-                            try await downloadManager.downloadFavicon()
+                // Group all buttons tied to one alert
+                Group {
+                    Button("Save website icon") {
+                        Task {
+                            do {
+                                try await downloadManager.downloadFavicon()
 
-                            alertText = "Image saved in the \(UIDevice.current.deviceType == .mac ? "downloads" : "favicons") folder"
-                            currentAlert = .success
-                        } catch {
-                            alertText = "Cannot get the apple touch icon URL for the website"
-                            currentAlert = .error
+                                alertText = "Image saved in the \(UIDevice.current.deviceType == .mac ? "downloads" : "favicons") folder"
+                                currentAlert = .success
+                            } catch {
+                                alertText = "Cannot get the apple touch icon URL for the website"
+                                currentAlert = .error
+                            }
                         }
                     }
-                }
 
-                Button("Clear all cookies") {
-                    currentAlert = .cookies
+                    Button("Clear all cookies") {
+                        currentAlert = .cookies
+                    }
+
+                    Button("Clear browser cache") {
+                        currentAlert = .cache
+                    }
                 }
                 .accentColor(.red)
                 .alert(item: $currentAlert) { alert in
                     switch alert {
+                    case .cache:
+                        return Alert(
+                            title: Text("Are you sure?"),
+                            message: Text("Clearing browser cache is an irreversible action!"),
+                            primaryButton: .destructive(Text("Yes")) {
+                                Task {
+                                    await webModel.clearCache()
+                                    currentAlert = .success
+                                }
+                            },
+                            secondaryButton: .cancel()
+                        )
                     case .cookies:
                         return Alert(
                             title: Text("Are you sure?"),

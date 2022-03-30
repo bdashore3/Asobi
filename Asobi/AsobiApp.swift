@@ -18,7 +18,7 @@ struct AsobiApp: App {
             MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
-        .onChange(of: scenePhase) { scene in
+        .onChange(of: scenePhase) { _ in
             persistenceController.save()
         }
     }

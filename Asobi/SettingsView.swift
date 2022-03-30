@@ -26,6 +26,8 @@ struct SettingsView: View {
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
+    @AppStorage("forceFullScreen") var forceFullScreen = false
+    @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
 
     // Default true settings here
     @AppStorage("followSystemTheme") var followSystemTheme = true
@@ -40,6 +42,7 @@ struct SettingsView: View {
 
     @State private var showAdblockAlert: Bool = false
     @State private var showUrlChangeAlert: Bool = false
+    @State private var showForceFullScreenAlert: Bool = false
     @State private var showDownloadResetAlert: Bool = false
     @State private var showFolderPicker: Bool = false
     @State private var backgroundColor: Color = .clear
@@ -68,7 +71,9 @@ struct SettingsView: View {
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
                 Section(header: Text("Behavior"),
-                        footer: Text("The allow browser swipe gestures option toggles the webview's navigation gestures")) {
+                        footer: Text(
+                            "The clear cache option clears browser cache on app launch. \nThe allow browser swipe gestures option toggles the webview's navigation gestures."
+                        )) {
                     Toggle(isOn: $persistNavigation) {
                         Text("Lock navigation bar")
                     }
@@ -84,6 +89,24 @@ struct SettingsView: View {
                         Text("Auto hide navigation bar")
                     }
                     .disabled(persistNavigation)
+
+                    Toggle(isOn: $forceFullScreen) {
+                        Text("Force fullscreen video")
+                    }
+                    .onChange(of: forceFullScreen) { _ in
+                        showForceFullScreenAlert.toggle()
+                    }
+                    .alert(isPresented: $showForceFullScreenAlert) {
+                        Alert(
+                            title: Text(forceFullScreen ? "Fullscreen enabled" : "Fullscreen disabled"),
+                            message: Text("Changing this setting requires an app restart"),
+                            dismissButton: .cancel(Text("OK!"))
+                        )
+                    }
+
+                    Toggle(isOn: $clearCacheAtStart) {
+                        Text("Clear cache on app launch")
+                    }
 
                     Toggle(isOn: $allowSwipeNavGestures) {
                         Text("Allow browser swipe gestures")
