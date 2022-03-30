@@ -304,6 +304,8 @@ struct SettingsView: View {
                 // MARK: Credentials and problems
 
                 Section {
+                    ListRowExternalLinkView(text: "Guides", link: "https://github.com/bdashore3/Asobi/wiki")
+
                     ListRowExternalLinkView(text: "Report issues", link: "https://github.com/bdashore3/Asobi/issues")
 
                     NavigationLink(destination: AboutView()) {
