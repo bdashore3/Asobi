@@ -52,6 +52,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
+                // MARK: Appearance settings
+
                 // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
                 // Reported this bug to Apple
                 Section(header: Text("Appearance")) {
@@ -70,6 +72,9 @@ struct SettingsView: View {
 
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
                 }
+
+                // MARK: Browser behavior settings
+
                 Section(header: Text("Behavior"),
                         footer: Text(
                             "The clear cache option clears browser cache on app launch. \nThe allow browser swipe gestures option toggles the webview's navigation gestures."
@@ -119,6 +124,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                // MARK: Privacy settings
+
                 Section(header: Text("Privacy and security"),
                         footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower")) {
                     Toggle(isOn: $incognitoMode) {
@@ -188,6 +196,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                // MARK: Downloads directory (for iDevices)
+
                 if UIDevice.current.deviceType != .mac {
                     Section(header: Text("Download options"),
                             footer: Text("If a downloaded file has the same name as a local file, the local file will be overwritten if the toggle is on.")) {
@@ -235,6 +246,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                // MARK: Website settings (settings that can alter website content)
+
                 Section(header: Text("Website settings")) {
                     Toggle(isOn: $changeUserAgent) {
                         Text("Request \(UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac ? "mobile" : "desktop") website")
@@ -244,6 +258,9 @@ struct SettingsView: View {
                         webModel.webView.reload()
                     }
                 }
+
+                // MARK: Default URL setting
+
                 Section(header: Text("Default URL"),
                         footer:
                         VStack(alignment: .leading, spacing: 4) {
@@ -275,11 +292,17 @@ struct SettingsView: View {
                         )
                     }
                 }
+
+                // MARK: App icon picker (iDevices only)
+
                 if UIDevice.current.deviceType != .mac {
                     Section(header: Text("App Icon")) {
                         AppIconPickerView()
                     }
                 }
+
+                // MARK: Credentials and problems
+
                 Section {
                     ListRowExternalLinkView(text: "Report issues", link: "https://github.com/bdashore3/Asobi/issues")
 
