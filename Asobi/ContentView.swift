@@ -19,6 +19,7 @@ struct ContentView: View {
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarPickerType = .partialHide
 
     var body: some View {
         ZStack {
@@ -27,7 +28,7 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture(count: autoHideNavigation ? 1 : 3) {
-                    navModel.showNavigationBar.toggle()
+                    navModel.toggleNavigationBar()
                 }
                 .edgesIgnoringSafeArea([.bottom, .horizontal])
                 .zIndex(0)
@@ -78,7 +79,7 @@ struct ContentView: View {
 
                     navModel.currentSheet = .settings
                 }
-                .edgesIgnoringSafeArea(.bottom)
+                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : .bottom )
                 .zIndex(1)
 
             // ProgressView for loading
@@ -173,9 +174,9 @@ struct ContentView: View {
                                 Task {
                                     try await Task.sleep(seconds: 3)
 
-                                    // If persist navigation is disabled, don't turn off the navbar
+                                    // If persist navigation is disabled, turn off the navbar
                                     if !persistNavigation {
-                                        navModel.showNavigationBar = false
+                                        navModel.setNavigationBar(false)
                                     }
                                 }
                             }
@@ -210,6 +211,7 @@ struct ContentView: View {
             }
             .zIndex(4)
         }
+        .statusBar(hidden: statusBarPinType == .hide || (!navModel.showNavigationBar && statusBarPinType == .partialHide))
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }
