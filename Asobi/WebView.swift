@@ -209,7 +209,7 @@ struct WebView: UIViewRepresentable {
 
         @objc func toggleNavigation(_ gestureRecognizer: UIGestureRecognizer) {
             if !parent.persistNavigation {
-                parent.navModel.showNavigationBar.toggle()
+                parent.navModel.toggleNavigationBar()
             }
         }
 

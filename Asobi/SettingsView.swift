@@ -30,6 +30,7 @@ struct SettingsView: View {
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
 
     // Default true settings here
+    @AppStorage("autoTintStatusbar") var autoTintStatusbar = true
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
     @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
@@ -37,6 +38,7 @@ struct SettingsView: View {
     // Other setting types here
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarPickerType = .partialHide
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
     @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
 
@@ -47,6 +49,7 @@ struct SettingsView: View {
     @State private var showFolderPicker: Bool = false
     @State private var backgroundColor: Color = .clear
     @State private var alreadyAuthenticated: Bool = false
+    @State private var showStatusBarPicker: Bool = false
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
@@ -87,13 +90,50 @@ struct SettingsView: View {
                             autoHideNavigation = false
                         }
 
-                        navModel.showNavigationBar = true
+                        navModel.setNavigationBar(true)
                     }
 
                     Toggle(isOn: $autoHideNavigation) {
                         Text("Auto hide navigation bar")
                     }
+                    .onChange(of: autoHideNavigation) { changed in
+                        // Immediately hide the navbar to force autohide functionality
+                        if changed {
+                            navModel.setNavigationBar(false)
+                        }
+                    }
                     .disabled(persistNavigation)
+
+                    NavigationLink(isActive: $showStatusBarPicker) {
+                        StatusBarPickerView()
+                            .navigationTitle("Status Bar Behavior")
+                            .navigationBarTitleDisplayMode(.inline)
+                    } label: {
+                        HStack {
+                            Text("Status bar behavior")
+                            Spacer()
+                            Group {
+                                switch statusBarPinType {
+                                case .hide:
+                                    Text("Hidden")
+                                case .partialHide:
+                                    Text("Partially hidden")
+                                case .pin:
+                                    Text("Pinned")
+                                }
+                            }
+                            .foregroundColor(.gray)
+                        }
+                        .onTapGesture {
+                            showStatusBarPicker.toggle()
+                        }
+                    }
+                    .onChange(of: autoHideNavigation) { changed in
+                        // Immediately show the navbar to take up the status bar change
+                        if changed {
+                            navModel.setNavigationBar(true)
+                        }
+                    }
 
                     Toggle(isOn: $forceFullScreen) {
                         Text("Force fullscreen video")

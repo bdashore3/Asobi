@@ -14,6 +14,7 @@
 		0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0C6B7A277A35F6007B9345 /* Introspect */; };
 		0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7D277A3620007B9345 /* Modifiers.swift */; };
 		0C0C6B80277A3708007B9345 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7F277A3708007B9345 /* View.swift */; };
+		0C13677527FBE6E400B6C8D2 /* StatusBarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C13677427FBE6E400B6C8D2 /* StatusBarPickerView.swift */; };
 		0C21519027237E0900C3976A /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C21518F27237E0900C3976A /* BookmarkView.swift */; };
 		0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD1F127698A9E00C764DB /* DownloadManager.swift */; };
 		0C2DBDE6277A5DCA004BC5AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */; };
@@ -86,6 +87,7 @@
 		0C0B87A427A6FDF300FCB6A3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0C0C6B7D277A3620007B9345 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		0C0C6B7F277A3708007B9345 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		0C13677427FBE6E400B6C8D2 /* StatusBarPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarPickerView.swift; sourceTree = "<group>"; };
 		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		0C2AD1F127698A9E00C764DB /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
 				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
 				0C6822C427B8226200D27B68 /* AuthOverlayView.swift */,
+				0C13677427FBE6E400B6C8D2 /* StatusBarPickerView.swift */,
 			);
 			path = Asobi;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */,
 				0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */,
+				0C13677527FBE6E400B6C8D2 /* StatusBarPickerView.swift in Sources */,
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */,

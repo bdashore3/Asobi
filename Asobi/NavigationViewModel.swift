@@ -51,7 +51,21 @@ class NavigationViewModel: ObservableObject {
             UserDefaults.standard.set(false, forKey: "persistNavigation")
             UserDefaults.standard.set(false, forKey: "autoHideNavigation")
 
-            showNavigationBar = true
+            withAnimation {
+                showNavigationBar = true
+            }
+        }
+    }
+    
+    func toggleNavigationBar() {
+        withAnimation {
+            showNavigationBar.toggle()
+        }
+    }
+    
+    func setNavigationBar(_ enabled: Bool) {
+        withAnimation {
+            showNavigationBar = enabled
         }
     }
 
