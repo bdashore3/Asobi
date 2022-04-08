@@ -100,14 +100,7 @@ struct WebView: UIViewRepresentable {
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = false
 
-            // Finds the background color of a webpage
-            parent.webModel.webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { result, _ in
-                if let result = result {
-                    self.parent.webModel.backgroundColor = UIColor(rgb: result as! String)
-                } else {
-                    self.parent.webModel.backgroundColor = nil
-                }
-            }
+            parent.webModel.setStatusbarColor()
 
             if !parent.webModel.incognitoMode {
                 // Save in history

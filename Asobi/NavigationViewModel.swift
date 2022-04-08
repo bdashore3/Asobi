@@ -56,15 +56,15 @@ class NavigationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func toggleNavigationBar() {
-        withAnimation {
+        withAnimation(.easeInOut(duration: 0.3)) {
             showNavigationBar.toggle()
         }
     }
-    
+
     func setNavigationBar(_ enabled: Bool) {
-        withAnimation {
+        withAnimation(.easeInOut(duration: 0.3)) {
             showNavigationBar = enabled
         }
     }

@@ -35,6 +35,8 @@ class WebViewModel: ObservableObject {
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
+    @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
+    @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
 
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
@@ -51,7 +53,7 @@ class WebViewModel: ObservableObject {
 
     // Cosmetic variables
     @Published var showLoadingProgress: Bool = false
-    @Published var backgroundColor: UIColor?
+    @Published var backgroundColor: Color = .clear
 
     // Toast variables
     @Published var toastDescription: String? = nil
@@ -285,6 +287,21 @@ class WebViewModel: ObservableObject {
         webView.configuration.userContentController.removeAllContentRuleLists()
 
         webView.reload()
+    }
+
+    // Finds the background color of a webpage
+    func setStatusbarColor() {
+        webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { result, _ in
+            if let result = result, self.statusBarStyleType == .automatic {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    self.backgroundColor = Color(rgb: result as! String)
+                }
+            } else {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    self.backgroundColor = self.statusBarAccent
+                }
+            }
+        }
     }
 
     func handleFindInPageResult(jsonString: String) {
