@@ -19,18 +19,20 @@ struct ContentView: View {
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarPickerType = .partialHide
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
+
+    @State private var autoHideStarted = false
 
     var body: some View {
         ZStack {
             // Background color for orientation changes
-            Color(webModel.backgroundColor ?? .clear)
+            Rectangle()
+                .foregroundColor(statusBarPinType == .hide ? .clear : webModel.backgroundColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
                 .onTapGesture(count: autoHideNavigation ? 1 : 3) {
                     navModel.toggleNavigationBar()
                 }
-                .edgesIgnoringSafeArea([.bottom, .horizontal])
+                .ignoresSafeArea()
                 .zIndex(0)
 
             // WebView
@@ -79,7 +81,7 @@ struct ContentView: View {
 
                     navModel.currentSheet = .settings
                 }
-                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : .bottom )
+                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : .bottom)
                 .zIndex(1)
 
             // ProgressView for loading
@@ -170,14 +172,17 @@ struct ContentView: View {
                     NavigationBarView()
                         .onAppear {
                             // Marker: If auto hiding is enabled
-                            if autoHideNavigation {
+                            if autoHideNavigation, !autoHideStarted {
                                 Task {
                                     try await Task.sleep(seconds: 3)
+                                    autoHideStarted = true
 
                                     // If persist navigation is disabled, turn off the navbar
-                                    if !persistNavigation {
+                                    if !persistNavigation, !autoHideStarted {
                                         navModel.setNavigationBar(false)
                                     }
+
+                                    autoHideStarted = false
                                 }
                             }
                         }
@@ -211,7 +216,6 @@ struct ContentView: View {
             }
             .zIndex(4)
         }
-        .statusBar(hidden: statusBarPinType == .hide || (!navModel.showNavigationBar && statusBarPinType == .partialHide))
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
     }
 }

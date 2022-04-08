@@ -5,6 +5,7 @@
 //  Created by Brian Dashore on 1/30/22.
 //
 
+import Introspect
 import SwiftUI
 
 struct MainView: View {
@@ -13,15 +14,29 @@ struct MainView: View {
     @StateObject var webModel: WebViewModel = .init()
     @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
+    @StateObject var hostingViewController: HostingViewController = .init(rootViewController: nil, style: .default)
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
 
     @State private var blurRadius: CGFloat = 0
 
     var body: some View {
         ZStack {
             ContentView()
+                .introspectViewController { viewController in
+                    let window = viewController.view.window
+                    guard let rootViewController = window?.rootViewController else { return }
+                    hostingViewController.rootViewController = rootViewController
+                    hostingViewController.ignoreDarkMode = true
+
+                    if statusBarPinType == .hide {
+                        hostingViewController.isHidden = true
+                    }
+
+                    window?.rootViewController = hostingViewController
+                }
                 .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 10)
                 .onChange(of: scenePhase) { phase in
                     if blurInRecents, UIDevice.current.deviceType != .mac {
@@ -49,6 +64,19 @@ struct MainView: View {
                         Task {
                             await navModel.authenticateOnStartup()
                         }
+                    }
+                }
+                .onChange(of: webModel.backgroundColor) { newColor in
+                    hostingViewController.style = newColor.isLight ? .darkContent : .lightContent
+                }
+                .onChange(of: statusBarPinType) { newPinType in
+                    if newPinType == .hide {
+                        hostingViewController.isHidden = true
+                    }
+                }
+                .onChange(of: navModel.showNavigationBar) { showing in
+                    if statusBarPinType == .partialHide {
+                        hostingViewController.isHidden = !showing
                     }
                 }
                 .onOpenURL { url in

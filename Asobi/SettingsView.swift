@@ -30,7 +30,6 @@ struct SettingsView: View {
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
 
     // Default true settings here
-    @AppStorage("autoTintStatusbar") var autoTintStatusbar = true
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
     @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
@@ -38,7 +37,9 @@ struct SettingsView: View {
     // Other setting types here
     @AppStorage("defaultUrl") var defaultUrl = ""
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
-    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarPickerType = .partialHide
+    @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
+    @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
     @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
     @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
 
@@ -49,7 +50,6 @@ struct SettingsView: View {
     @State private var showFolderPicker: Bool = false
     @State private var backgroundColor: Color = .clear
     @State private var alreadyAuthenticated: Bool = false
-    @State private var showStatusBarPicker: Bool = false
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
@@ -67,6 +67,7 @@ struct SettingsView: View {
                     Toggle(isOn: $useDarkTheme) {
                         Text("Use dark theme")
                     }
+                    .disabledAppearance(followSystemTheme)
                     .disabled(followSystemTheme)
 
                     Toggle(isOn: $followSystemTheme) {
@@ -74,6 +75,37 @@ struct SettingsView: View {
                     }
 
                     ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
+
+                    NavigationLink(
+                        destination: StatusBarStylePicker(),
+                        label: {
+                            HStack {
+                                Text("Status bar style")
+                                Spacer()
+                                Group {
+                                    switch statusBarStyleType {
+                                    case .theme:
+                                        Text("Theme")
+                                    case .automatic:
+                                        Text("Automatic")
+                                    case .custom:
+                                        Text("Custom")
+                                    }
+                                }
+                                .foregroundColor(.gray)
+                            }
+                        }
+                    )
+                    .onChange(of: statusBarStyleType) { _ in
+                        webModel.setStatusbarColor()
+                    }
+
+                    ColorPicker("Status bar color", selection: $statusBarAccent, supportsOpacity: true)
+                        .onChange(of: statusBarAccent) { _ in
+                            webModel.setStatusbarColor()
+                        }
+                        .disabledAppearance(statusBarStyleType != .custom)
+                        .disabled(statusBarStyleType != .custom)
                 }
 
                 // MARK: Browser behavior settings
@@ -102,37 +134,31 @@ struct SettingsView: View {
                             navModel.setNavigationBar(false)
                         }
                     }
+                    .disabledAppearance(persistNavigation)
                     .disabled(persistNavigation)
 
-                    NavigationLink(isActive: $showStatusBarPicker) {
-                        StatusBarPickerView()
-                            .navigationTitle("Status Bar Behavior")
-                            .navigationBarTitleDisplayMode(.inline)
-                    } label: {
-                        HStack {
-                            Text("Status bar behavior")
-                            Spacer()
-                            Group {
-                                switch statusBarPinType {
-                                case .hide:
-                                    Text("Hidden")
-                                case .partialHide:
-                                    Text("Partially hidden")
-                                case .pin:
-                                    Text("Pinned")
+                    NavigationLink(
+                        destination: StatusBarBehaviorPicker(),
+                        label: {
+                            HStack {
+                                Text("Status bar behavior")
+                                Spacer()
+                                Group {
+                                    switch statusBarPinType {
+                                    case .hide:
+                                        Text("Hidden")
+                                    case .partialHide:
+                                        Text("Partially hidden")
+                                    case .pin:
+                                        Text("Pinned")
+                                    }
                                 }
+                                .foregroundColor(.gray)
                             }
-                            .foregroundColor(.gray)
                         }
-                        .onTapGesture {
-                            showStatusBarPicker.toggle()
-                        }
-                    }
-                    .onChange(of: autoHideNavigation) { changed in
-                        // Immediately show the navbar to take up the status bar change
-                        if changed {
-                            navModel.setNavigationBar(true)
-                        }
+                    )
+                    .onChange(of: statusBarPinType) { _ in
+                        webModel.setStatusbarColor()
                     }
 
                     Toggle(isOn: $forceFullScreen) {
