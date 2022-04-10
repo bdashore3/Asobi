@@ -202,6 +202,58 @@
 			path = SettingsViews;
 			sourceTree = "<group>";
 		};
+		0CAA093D28028A53007A0F77 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
+				7C2248C526B85D0F00AD3D42 /* ContentView.swift */,
+				7C20C0C026BC3B4B004D8618 /* AboutView.swift */,
+				7C20C0C626BC6E38004D8618 /* SettingsView.swift */,
+				0C070D78271A3B54001F5327 /* LibraryView.swift */,
+				0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */,
+				0C21518F27237E0900C3976A /* BookmarkView.swift */,
+				0CBC61E6273B64B8003A1AAA /* HistoryView.swift */,
+				0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */,
+				0CDE767D278531F100739EBE /* FindInPageView.swift */,
+				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
+				0C6822C427B8226200D27B68 /* AuthOverlayView.swift */,
+				7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */,
+				7C20C0C826BC6F96004D8618 /* NavigationBarViews */,
+				7C20C0C226BC3BC2004D8618 /* CommonViews */,
+				0CAA0931280281F6007A0F77 /* SettingsViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0CAA093E28028AE1007A0F77 /* DataManagement */ = {
+			isa = PBXGroup;
+			children = (
+				0C05EB0C273B6A60009ADF84 /* DataClasses */,
+				0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */,
+				0C7D3FB02717D87D000A4534 /* PersistenceController.swift */,
+			);
+			path = DataManagement;
+			sourceTree = "<group>";
+		};
+		0CAA093F28028B1B007A0F77 /* RepresentableViews */ = {
+			isa = PBXGroup;
+			children = (
+				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
+				0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */,
+			);
+			path = RepresentableViews;
+			sourceTree = "<group>";
+		};
+		0CAA094028028BB2007A0F77 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */,
+				0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */,
+				0C2AD1F127698A9E00C764DB /* DownloadManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		0CB54E81270682690091897E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,39 +325,19 @@
 		7C2248C226B85D0F00AD3D42 /* Asobi */ = {
 			isa = PBXGroup;
 			children = (
-				0CAA0931280281F6007A0F77 /* SettingsViews */,
+				0CAA094028028BB2007A0F77 /* Models */,
+				0CAA093F28028B1B007A0F77 /* RepresentableViews */,
+				0CAA093E28028AE1007A0F77 /* DataManagement */,
+				0CAA093D28028A53007A0F77 /* Views */,
 				0CDE767F278537CD00739EBE /* JavaScript */,
-				0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */,
-				0C05EB0C273B6A60009ADF84 /* DataClasses */,
 				0C908C3F271088BA00CD6236 /* Asobi.entitlements */,
 				0CB54E81270682690091897E /* Extensions */,
-				7C20C0C826BC6F96004D8618 /* NavigationBarViews */,
-				7C20C0C226BC3BC2004D8618 /* CommonViews */,
-				7C20C0C026BC3B4B004D8618 /* AboutView.swift */,
 				7C2248C326B85D0F00AD3D42 /* AsobiApp.swift */,
-				7C2248C526B85D0F00AD3D42 /* ContentView.swift */,
-				7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */,
 				7C2248C726B85D1000AD3D42 /* Assets.xcassets */,
 				7C2248CC26B85D1000AD3D42 /* Info.plist */,
 				7C2248C926B85D1000AD3D42 /* Preview Content */,
-				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
-				7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */,
-				7C20C0C626BC6E38004D8618 /* SettingsView.swift */,
 				0C58C77127064209008D8A79 /* blocklist.json */,
-				0C7D3FB02717D87D000A4534 /* PersistenceController.swift */,
-				0C070D78271A3B54001F5327 /* LibraryView.swift */,
-				0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */,
-				0C21518F27237E0900C3976A /* BookmarkView.swift */,
-				0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */,
-				0CBC61E6273B64B8003A1AAA /* HistoryView.swift */,
-				0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */,
-				0C2AD1F127698A9E00C764DB /* DownloadManager.swift */,
 				0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */,
-				0CDE767D278531F100739EBE /* FindInPageView.swift */,
-				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
-				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
-				0C6822C427B8226200D27B68 /* AuthOverlayView.swift */,
-				0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */,
 			);
 			path = Asobi;
 			sourceTree = "<group>";
