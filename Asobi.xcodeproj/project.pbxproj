@@ -34,6 +34,11 @@
 		0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D72779220000F25471 /* AppIconButtonView.swift */; };
 		0C979FDD278F437100FF4186 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C979FDC278F437100FF4186 /* Task.swift */; };
 		0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */; };
+		0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093228028226007A0F77 /* SettingsAppearanceView.swift */; };
+		0CAA09352802836E007A0F77 /* SettingsBehaviorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA09342802836E007A0F77 /* SettingsBehaviorView.swift */; };
+		0CAA093828028504007A0F77 /* SettingsPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093728028504007A0F77 /* SettingsPrivacyView.swift */; };
+		0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA0939280285E4007A0F77 /* SettingsDownloadsView.swift */; };
+		0CAA093C280286BE007A0F77 /* SettingsWebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093B280286BE007A0F77 /* SettingsWebsiteView.swift */; };
 		0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */; };
 		0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 0CB4DBA2271BB58700ADBE5A /* SwiftUIX */; };
 		0CB54E83270682AF0091897E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB54E82270682AF0091897E /* UIApplication.swift */; };
@@ -107,6 +112,11 @@
 		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
 		0C979FDC278F437100FF4186 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
+		0CAA093228028226007A0F77 /* SettingsAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceView.swift; sourceTree = "<group>"; };
+		0CAA09342802836E007A0F77 /* SettingsBehaviorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBehaviorView.swift; sourceTree = "<group>"; };
+		0CAA093728028504007A0F77 /* SettingsPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPrivacyView.swift; sourceTree = "<group>"; };
+		0CAA0939280285E4007A0F77 /* SettingsDownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDownloadsView.swift; sourceTree = "<group>"; };
+		0CAA093B280286BE007A0F77 /* SettingsWebsiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWebsiteView.swift; sourceTree = "<group>"; };
 		0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
 		0CB54E82270682AF0091897E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		0CBC61E6273B64B8003A1AAA /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -180,6 +190,18 @@
 			path = DataClasses;
 			sourceTree = "<group>";
 		};
+		0CAA0931280281F6007A0F77 /* SettingsViews */ = {
+			isa = PBXGroup;
+			children = (
+				0CAA093228028226007A0F77 /* SettingsAppearanceView.swift */,
+				0CAA09342802836E007A0F77 /* SettingsBehaviorView.swift */,
+				0CAA093728028504007A0F77 /* SettingsPrivacyView.swift */,
+				0CAA0939280285E4007A0F77 /* SettingsDownloadsView.swift */,
+				0CAA093B280286BE007A0F77 /* SettingsWebsiteView.swift */,
+			);
+			path = SettingsViews;
+			sourceTree = "<group>";
+		};
 		0CB54E81270682690091897E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +228,7 @@
 		7C20C0C226BC3BC2004D8618 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				0C099D6527FF2958008E87B5 /* StatusBarPickerViews.swift */,
 				7C20C0C326BC3BD7004D8618 /* ListRowViews.swift */,
 				0C8DF1D52779217300F25471 /* AppIconPickerView.swift */,
 				0C8DF1D72779220000F25471 /* AppIconButtonView.swift */,
@@ -250,6 +273,7 @@
 		7C2248C226B85D0F00AD3D42 /* Asobi */ = {
 			isa = PBXGroup;
 			children = (
+				0CAA0931280281F6007A0F77 /* SettingsViews */,
 				0CDE767F278537CD00739EBE /* JavaScript */,
 				0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */,
 				0C05EB0C273B6A60009ADF84 /* DataClasses */,
@@ -281,7 +305,6 @@
 				0C7FADD12786246200564B52 /* LibraryActionsView.swift */,
 				0C0B87A427A6FDF300FCB6A3 /* MainView.swift */,
 				0C6822C427B8226200D27B68 /* AuthOverlayView.swift */,
-				0C099D6527FF2958008E87B5 /* StatusBarPickerViews.swift */,
 				0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */,
 			);
 			path = Asobi;
@@ -461,6 +484,7 @@
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
 				0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */,
+				0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				0C979FDD278F437100FF4186 /* Task.swift in Sources */,
 				0C099D7227FFBE7D008E87B5 /* HostingViewController.swift in Sources */,
@@ -469,6 +493,7 @@
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
 				0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */,
 				0C0C6B80277A3708007B9345 /* View.swift in Sources */,
+				0CAA09352802836E007A0F77 /* SettingsBehaviorView.swift in Sources */,
 				7C20C0CA26BC6FA5004D8618 /* ForwardBackButtonView.swift in Sources */,
 				0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
@@ -481,6 +506,7 @@
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C099D6627FF2958008E87B5 /* StatusBarPickerViews.swift in Sources */,
 				0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */,
+				0CAA093C280286BE007A0F77 /* SettingsWebsiteView.swift in Sources */,
 				0C5CBB8C270D39350045E2FE /* Color.swift in Sources */,
 				0CC4B4F327277CEC00E258B7 /* NavigationViewModel.swift in Sources */,
 				0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */,
@@ -490,6 +516,7 @@
 				0CF362B0274BFC5700466CB2 /* History+CoreDataClass.swift in Sources */,
 				0C580953277566F80005CA40 /* CGFloat.swift in Sources */,
 				0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */,
+				0CAA093828028504007A0F77 /* SettingsPrivacyView.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
 				0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */,
 				0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */,
@@ -497,6 +524,7 @@
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
 				0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
+				0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */,
 				0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */,
 				0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */,
 			);
