@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsAppearanceView: View {
     @EnvironmentObject var webModel: WebViewModel
-    
+
     @AppStorage("leftHandMode") var leftHandMode = false
     @AppStorage("useDarkTheme") var useDarkTheme = false
 

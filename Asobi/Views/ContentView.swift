@@ -50,7 +50,6 @@ struct ContentView: View {
                                     }
                                 } else {
                                     webModel.toastDescription = "The download URL is invalid"
-                                    webModel.showToast = true
                                 }
                             },
                             secondaryButton: .cancel {
@@ -76,7 +75,6 @@ struct ContentView: View {
                         downloadManager.setDefaultDownloadDirectory(downloadPath: path)
                     case let .failure(error):
                         webModel.toastDescription = error.localizedDescription
-                        webModel.showToast.toggle()
                     }
 
                     navModel.currentSheet = .settings
@@ -118,14 +116,6 @@ struct ContentView: View {
                     }
                     .transition(AnyTransition.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.3))
-                    .onAppear {
-                        Task {
-                            try await Task.sleep(seconds: 5)
-
-                            webModel.showToast = false
-                            webModel.toastType = .error
-                        }
-                    }
                     .padding()
                 }
 

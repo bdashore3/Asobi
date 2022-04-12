@@ -64,8 +64,6 @@ class DownloadManager: ObservableObject {
 
         if currentDownload != nil {
             webModel?.toastDescription = "Cannot download this file. A download is already in progress."
-            webModel?.showToast = true
-
             return
         }
 
@@ -108,8 +106,6 @@ class DownloadManager: ObservableObject {
 
         if let error = response.error {
             webModel?.toastDescription = "Download could not be completed. \(error)"
-            webModel?.showToast = true
-
             return
         }
 
@@ -117,16 +113,12 @@ class DownloadManager: ObservableObject {
         if UIDevice.current.deviceType == .mac {
             webModel?.toastType = .info
             webModel?.toastDescription = "File successfully downloaded to your downloads directory"
-            webModel?.showToast = true
-
             return
         }
 
         guard let tempUrl = response.value else {
             // The file is in the user's documents directory, break out
             webModel?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
-            webModel?.showToast = true
-
             return
         }
 
@@ -135,7 +127,6 @@ class DownloadManager: ObservableObject {
         } else {
             webModel?.toastType = .info
             webModel?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
-            webModel?.showToast = true
         }
     }
 
@@ -143,8 +134,6 @@ class DownloadManager: ObservableObject {
     func blobDownloadWith(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
             webModel?.toastDescription = "Cannot convert blob JSON into data!"
-            webModel?.showToast = true
-
             return
         }
 
@@ -158,8 +147,6 @@ class DownloadManager: ObservableObject {
                   let ext = UTTypeCopyPreferredTagWithClass(uti.takeRetainedValue(), kUTTagClassFilenameExtension)
             else {
                 webModel?.toastDescription = "Could not get blob data or extension!"
-                webModel?.showToast = true
-
                 return
             }
 
@@ -173,8 +160,6 @@ class DownloadManager: ObservableObject {
             downloadTypeAlert = .blob
         } catch {
             webModel?.toastDescription = error.localizedDescription
-            webModel?.showToast = true
-
             return
         }
     }
@@ -217,15 +202,11 @@ class DownloadManager: ObservableObject {
         if UIDevice.current.deviceType == .mac {
             webModel?.toastType = .info
             webModel?.toastDescription = "File successfully downloaded to your downloads directory"
-            webModel?.showToast = true
-
             return
         }
 
         guard let tempUrl = downloadUrl else {
             webModel?.toastDescription = "Could not get the download URL! Your file is still saved in Asobi's downloads directory"
-            webModel?.showToast = true
-
             return
         }
 
@@ -234,7 +215,6 @@ class DownloadManager: ObservableObject {
         } else {
             webModel?.toastType = .info
             webModel?.toastDescription = "File successfully downloaded to Asobi's downloads directory"
-            webModel?.showToast = true
         }
     }
 
@@ -244,11 +224,9 @@ class DownloadManager: ObservableObject {
                 try FileManager.default.removeItem(at: tempUrl)
             } catch {
                 webModel?.toastDescription = error.localizedDescription
-                webModel?.showToast = true
             }
         } else {
             webModel?.toastDescription = "Could not get the downloaded file's location! You will have to manually delete it from Asobi's downloads directory"
-            webModel?.showToast = true
         }
 
         downloadUrl = nil
@@ -267,15 +245,11 @@ class DownloadManager: ObservableObject {
 
                 webModel?.toastType = .info
                 webModel?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to Asobi's documents folder. You can change this in settings."
-                webModel?.showToast = true
-
                 return
             }
 
             guard downloadsUrl.startAccessingSecurityScopedResource() else {
                 webModel?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
-                webModel?.showToast = true
-
                 return
             }
 
@@ -292,7 +266,6 @@ class DownloadManager: ObservableObject {
 
             webModel?.toastType = .info
             webModel?.toastDescription = "File successfully downloaded to your selected downloads directory"
-            webModel?.showToast = true
         } catch {
             let error = error as NSError
 
@@ -303,10 +276,8 @@ class DownloadManager: ObservableObject {
 
                 webModel?.toastType = .info
                 webModel?.toastDescription = "The download successfully completed, but Asobi couldn't access your downloads folder. \nThe directory has been reset to the Documents folder. You can change this in settings."
-                webModel?.showToast = true
             } else {
                 webModel?.toastDescription = error.localizedDescription
-                webModel?.showToast = true
             }
         }
     }
@@ -331,8 +302,6 @@ class DownloadManager: ObservableObject {
     func setDefaultDownloadDirectory(downloadPath: URL) {
         guard downloadPath.startAccessingSecurityScopedResource() else {
             webModel?.toastDescription = "Cannot access the provided URL, aborting process"
-            webModel?.showToast = true
-
             return
         }
 
@@ -347,7 +316,6 @@ class DownloadManager: ObservableObject {
             UserDefaults.standard.set(downloadPath.lastPathComponent, forKey: "defaultDownloadDirectory")
         } catch {
             webModel?.toastDescription = error.localizedDescription
-            webModel?.showToast = true
         }
     }
 
