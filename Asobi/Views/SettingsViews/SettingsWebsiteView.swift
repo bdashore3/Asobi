@@ -28,7 +28,7 @@ struct SettingsWebsiteView: View {
                 webModel.webView.reload()
             }
         }
-        
+
         // MARK: Default URL setting
 
         Section(header: Text("Default URL"),

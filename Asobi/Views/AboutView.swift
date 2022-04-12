@@ -23,9 +23,9 @@ struct AboutView: View {
                 .padding()
 
             List {
-                ListRowTextView(leftText: "Version", rightText: UIApplication.appVersion())
-                ListRowTextView(leftText: "Build number", rightText: UIApplication.appBuild())
-                ListRowTextView(leftText: "Build type", rightText: UIApplication.buildType())
+                ListRowTextView(leftText: "Version", rightText: UIApplication.shared.appVersion)
+                ListRowTextView(leftText: "Build number", rightText: UIApplication.shared.appBuild)
+                ListRowTextView(leftText: "Build type", rightText: UIApplication.shared.buildType)
                 ListRowExternalLinkView(text: "App website", link: "https://kingbri.dev/asobi")
                 ListRowExternalLinkView(text: "GitHub repository", link: "https://github.com/bdashore3/Asobi")
                 ListRowExternalLinkView(text: "Discord support", link: "https://discord.gg/pswt7by")

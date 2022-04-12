@@ -19,6 +19,12 @@ struct FindInPageResult: Codable {
 class WebViewModel: ObservableObject {
     let webView: WKWebView
 
+    let internalScripts: [JSScript] = [
+        JSScript(name: "ZoomUnlocker", devices: [.phone, .pad]),
+        JSScript(name: "MacOSPaste", devices: [.mac]),
+        JSScript(name: "FindInPage", devices: [.phone, .pad, .mac])
+    ]
+
     enum ToastType: Identifiable {
         var id: Int {
             hashValue
@@ -38,6 +44,8 @@ class WebViewModel: ObservableObject {
     @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
     @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
 
+    private let javaScriptLoader: JavaScriptLoader = .init()
+
     // Make a non mutable fallback URL
     private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
 
@@ -56,7 +64,20 @@ class WebViewModel: ObservableObject {
     @Published var backgroundColor: Color = .clear
 
     // Toast variables
-    @Published var toastDescription: String? = nil
+    @Published var toastDescription: String? = nil {
+        didSet {
+            Task {
+                try? await Task.sleep(seconds: 0.1)
+                showToast = true
+
+                try await Task.sleep(seconds: 5)
+
+                showToast = false
+                toastType = .error
+            }
+        }
+    }
+
     @Published var showToast: Bool = false
 
     // Default the toast type to error since the majority of toasts are errors
@@ -88,76 +109,20 @@ class WebViewModel: ObservableObject {
         let forceFullScreen = UserDefaults.standard.bool(forKey: "forceFullScreen")
         config.allowsInlineMediaPlayback = !forceFullScreen
 
-        let zoomJs = """
-        let viewport = document.querySelector("meta[name=viewport]");
-
-        // Edit the existing viewport, otherwise create a new element
-        if (viewport) {
-            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=1');
-        } else {
-            let meta = document.createElement('meta');
-            meta.name = 'viewport'
-            meta.content = 'width=device-width, initial-scale=1.0'
-            document.head.appendChild(meta)
-        }
-        """
-
-        let pasteJs = """
-        const inputs = document.querySelectorAll("input[type=text]")
-        let alreadyPasted = false
-
-        for (const input of inputs) {
-          input.addEventListener("paste", (event) => {
-            event.preventDefault()
-
-            // Don't call paste event two times in a single paste command
-            if (alreadyPasted) {
-              alreadyPasted = false
-              return
-            }
-
-            const paste = (event.clipboardData || window.clipboardData).getData("text")
-
-            const beginningString =
-              input.value.substring(0, input.selectionStart) + paste
-
-            input.value =
-              beginningString +
-              input.value.substring(input.selectionEnd, input.value.length)
-
-            alreadyPasted = true
-
-            input.setSelectionRange(beginningString.length, beginningString.length)
-
-            input.scrollLeft = input.scrollWidth
-          })
-        }
-        """
-
-        if UIDevice.current.deviceType == .mac {
-            let pasteEvent = WKUserScript(source: pasteJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-            config.userContentController.addUserScript(pasteEvent)
-        } else {
-            let zoomEvent = WKUserScript(source: zoomJs, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-            config.userContentController.addUserScript(zoomEvent)
-        }
-
-        if let path = Bundle.main.path(forResource: "FindInPage", ofType: "js") {
-            do {
-                let jsString = try String(contentsOfFile: path, encoding: .utf8)
-                let findJs = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-                config.userContentController.addUserScript(findJs)
-            } catch {
-                toastDescription = "Cannot load the find in page JS code. Find in page is disabled, please try restarting the app."
-                showToast = true
-                findInPageEnabled = false
-            }
-        }
-
         webView = WKWebView(
             frame: .zero,
             configuration: config
         )
+
+        let JSLoadErrors = javaScriptLoader.loadScripts(scripts: internalScripts, webView)
+
+        if !JSLoadErrors.isEmpty {
+            for error in JSLoadErrors {
+                handleJSError(scriptName: error)
+            }
+
+            toastDescription = "Could not load scripts: \"\(JSLoadErrors.joined(separator: ", "))\" \nPlease try restarting the app."
+        }
 
         if allowSwipeNavGestures {
             webView.allowsBackForwardNavigationGestures = true
@@ -289,6 +254,23 @@ class WebViewModel: ObservableObject {
         webView.reload()
     }
 
+    func addToHistory() {
+        let managedObjectContext = PersistenceController.shared.container.viewContext
+
+        let newHistoryEntry = HistoryEntry(context: managedObjectContext)
+        newHistoryEntry.name = webView.title
+        newHistoryEntry.url = webView.url?.absoluteString
+
+        let now = Date()
+
+        newHistoryEntry.timestamp = now.timeIntervalSince1970
+        newHistoryEntry.parentHistory = History(context: managedObjectContext)
+        newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
+        newHistoryEntry.parentHistory?.date = now
+
+        PersistenceController.shared.save()
+    }
+
     // Finds the background color of a webpage
     func setStatusbarColor() {
         webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { result, _ in
@@ -304,10 +286,19 @@ class WebViewModel: ObservableObject {
         }
     }
 
+    // Handles the model part of a JS loading error
+    func handleJSError(scriptName: String) {
+        switch scriptName {
+        case "FindInPage":
+            findInPageEnabled = false
+        default:
+            break
+        }
+    }
+
     func handleFindInPageResult(jsonString: String) {
         guard let jsonData = jsonString.data(using: .utf8) else {
             toastDescription = "Cannot convert find in page JSON into data!"
-            showToast = true
 
             return
         }
@@ -320,7 +311,6 @@ class WebViewModel: ObservableObject {
             totalFindResults = result.totalResultLength
         } catch {
             toastDescription = error.localizedDescription
-            showToast = true
         }
     }
 

@@ -9,8 +9,6 @@ import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
-    @Environment(\.managedObjectContext) var context
-
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
@@ -31,8 +29,6 @@ struct WebView: UIViewRepresentable {
             case "blobListener":
                 guard let jsonString = message.body as? String else {
                     parent.webModel.toastDescription = "Invalid blob JSON."
-                    parent.webModel.showToast = true
-
                     return
                 }
 
@@ -40,8 +36,6 @@ struct WebView: UIViewRepresentable {
             case "findListener":
                 guard let jsonString = message.body as? String else {
                     parent.webModel.toastDescription = "Invalid find in page JSON."
-                    parent.webModel.showToast = true
-
                     return
                 }
 
@@ -93,7 +87,6 @@ struct WebView: UIViewRepresentable {
 
         // Navigation delegate methods for ProgressView/errors
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            parent.webModel.showToast = false
             parent.webModel.showLoadingProgress = true
         }
 
@@ -103,19 +96,7 @@ struct WebView: UIViewRepresentable {
             parent.webModel.setStatusbarColor()
 
             if !parent.webModel.incognitoMode {
-                // Save in history
-                let newHistoryEntry = HistoryEntry(context: parent.context)
-                newHistoryEntry.name = parent.webModel.webView.title
-                newHistoryEntry.url = parent.webModel.webView.url?.absoluteString
-
-                let now = Date()
-
-                newHistoryEntry.timestamp = now.timeIntervalSince1970
-                newHistoryEntry.parentHistory = History(context: parent.context)
-                newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
-                newHistoryEntry.parentHistory?.date = now
-
-                PersistenceController.shared.save()
+                parent.webModel.addToHistory()
             }
         }
 
@@ -172,7 +153,6 @@ struct WebView: UIViewRepresentable {
             }
 
             parent.webModel.toastDescription = error.localizedDescription
-            parent.webModel.showToast = true
         }
 
         // Function for any provisional navigation errors
@@ -192,8 +172,6 @@ struct WebView: UIViewRepresentable {
             default:
                 parent.webModel.toastDescription = error.localizedDescription
             }
-
-            parent.webModel.showToast = true
         }
 
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
