@@ -11,6 +11,7 @@ struct SettingsWebsiteView: View {
     @EnvironmentObject var webModel: WebViewModel
 
     @AppStorage("changeUserAgent") var changeUserAgent = false
+    @AppStorage("loadLastHistory") var loadLastHistory = false
 
     @AppStorage("defaultUrl") var defaultUrl = ""
 
@@ -36,8 +37,10 @@ struct SettingsWebsiteView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
                     Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
-                    Text("If the loading animation keeps going, make sure your URL is correct!")
-                }) {
+                    Text("The load most recent URL option loads the last URL from history on app launch.")
+                })
+        {
+
             // Auto capitalization modifier will be deprecated at some point
             TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                 if !begin, UIDevice.current.deviceType != .mac {
@@ -60,6 +63,12 @@ struct SettingsWebsiteView: View {
                     message: Text("Your page should have refreshed to the new URL"),
                     dismissButton: .cancel(Text("OK!"))
                 )
+            }
+            .disabledAppearance(loadLastHistory)
+            .disabled(loadLastHistory)
+
+            Toggle(isOn: $loadLastHistory) {
+                Text("Load most recent URL")
             }
         }
     }
