@@ -43,6 +43,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
     @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
     @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
+    @AppStorage("loadLastHistory") var loadLastHistory = false
 
     private let javaScriptLoader: JavaScriptLoader = .init()
 
@@ -144,7 +145,12 @@ class WebViewModel: ObservableObject {
             }
         }
 
-        loadUrl()
+        if let historyUrl = fetchLastHistoryEntry(), loadLastHistory {
+            loadUrl(historyUrl)
+        } else {
+            loadUrl()
+        }
+
         firstLoad = false
 
         setupBindings()
@@ -269,6 +275,22 @@ class WebViewModel: ObservableObject {
         newHistoryEntry.parentHistory?.date = now
 
         PersistenceController.shared.save()
+    }
+    
+    func fetchLastHistoryEntry() -> String? {
+        let request = HistoryEntry.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+        request.fetchLimit = 1
+        
+        do {
+            let lastHistoryObject = try PersistenceController.shared.container.viewContext.fetch(request).first
+            return lastHistoryObject?.url
+        } catch {
+            toastDescription = "Failed to fetch your last history entry. Loading the default URL."
+        }
+
+        return nil
     }
 
     // Finds the background color of a webpage
