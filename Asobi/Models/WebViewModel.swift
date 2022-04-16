@@ -276,13 +276,13 @@ class WebViewModel: ObservableObject {
 
         PersistenceController.shared.save()
     }
-    
+
     func fetchLastHistoryEntry() -> String? {
         let request = HistoryEntry.fetchRequest()
         let sortDescriptor = NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)
         request.sortDescriptors = [sortDescriptor]
         request.fetchLimit = 1
-        
+
         do {
             let lastHistoryObject = try PersistenceController.shared.container.viewContext.fetch(request).first
             return lastHistoryObject?.url
