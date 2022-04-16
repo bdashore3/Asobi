@@ -38,9 +38,7 @@ struct SettingsWebsiteView: View {
                     Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
                     Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
                     Text("The load most recent URL option loads the last URL from history on app launch.")
-                })
-        {
-
+                }) {
             // Auto capitalization modifier will be deprecated at some point
             TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                 if !begin, UIDevice.current.deviceType != .mac {
