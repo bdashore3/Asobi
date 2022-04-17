@@ -52,28 +52,30 @@ struct SettingsBehaviorView: View {
             .disabledAppearance(persistNavigation)
             .disabled(persistNavigation)
 
-            NavigationLink(
-                destination: StatusBarBehaviorPicker(),
-                label: {
-                    HStack {
-                        Text("Status bar behavior")
-                        Spacer()
-                        Group {
-                            switch statusBarPinType {
-                            case .hide:
-                                Text("Hidden")
-                            case .partialHide:
-                                Text("Partially hidden")
-                            case .pin:
-                                Text("Pinned")
+            if UIDevice.current.deviceType != .mac {
+                NavigationLink(
+                    destination: StatusBarBehaviorPicker(),
+                    label: {
+                        HStack {
+                            Text("Status bar behavior")
+                            Spacer()
+                            Group {
+                                switch statusBarPinType {
+                                case .hide:
+                                    Text("Hidden")
+                                case .partialHide:
+                                    Text("Partially hidden")
+                                case .pin:
+                                    Text("Pinned")
+                                }
                             }
+                            .foregroundColor(.gray)
                         }
-                        .foregroundColor(.gray)
                     }
+                )
+                .onChange(of: statusBarPinType) { _ in
+                    webModel.setStatusbarColor()
                 }
-            )
-            .onChange(of: statusBarPinType) { _ in
-                webModel.setStatusbarColor()
             }
 
             Toggle(isOn: $forceFullScreen) {

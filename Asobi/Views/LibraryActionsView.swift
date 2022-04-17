@@ -85,12 +85,13 @@ struct LibraryActionsView: View {
                     Button("Clear all cookies") {
                         currentAlert = .cookies
                     }
+                    .accentColor(.red)
 
                     Button("Clear browser cache") {
                         currentAlert = .cache
                     }
+                    .accentColor(.red)
                 }
-                .accentColor(.red)
                 .alert(item: $currentAlert) { alert in
                     switch alert {
                     case .cache:
