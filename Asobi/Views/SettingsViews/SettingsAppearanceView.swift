@@ -41,36 +41,38 @@ struct SettingsAppearanceView: View {
 
             ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
 
-            NavigationLink(
-                destination: StatusBarStylePicker(),
-                label: {
-                    HStack {
-                        Text("Status bar style")
-                        Spacer()
-                        Group {
-                            switch statusBarStyleType {
-                            case .theme:
-                                Text("Theme")
-                            case .automatic:
-                                Text("Automatic")
-                            case .custom:
-                                Text("Custom")
+            if UIDevice.current.deviceType != .mac {
+                NavigationLink(
+                    destination: StatusBarStylePicker(),
+                    label: {
+                        HStack {
+                            Text("Status bar style")
+                            Spacer()
+                            Group {
+                                switch statusBarStyleType {
+                                case .theme:
+                                    Text("Theme")
+                                case .automatic:
+                                    Text("Automatic")
+                                case .custom:
+                                    Text("Custom")
+                                }
                             }
+                            .foregroundColor(.gray)
                         }
-                        .foregroundColor(.gray)
                     }
-                }
-            )
-            .onChange(of: statusBarStyleType) { _ in
-                webModel.setStatusbarColor()
-            }
-
-            ColorPicker("Status bar color", selection: $statusBarAccent, supportsOpacity: true)
-                .onChange(of: statusBarAccent) { _ in
+                )
+                .onChange(of: statusBarStyleType) { _ in
                     webModel.setStatusbarColor()
                 }
-                .disabledAppearance(statusBarStyleType != .custom)
-                .disabled(statusBarStyleType != .custom)
+
+                ColorPicker("Status bar color", selection: $statusBarAccent, supportsOpacity: true)
+                    .onChange(of: statusBarAccent) { _ in
+                        webModel.setStatusbarColor()
+                    }
+                    .disabledAppearance(statusBarStyleType != .custom)
+                    .disabled(statusBarStyleType != .custom)
+            }
         }
     }
 }

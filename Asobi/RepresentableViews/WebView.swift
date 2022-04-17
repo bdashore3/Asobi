@@ -167,7 +167,8 @@ struct WebView: UIViewRepresentable {
             case -1022:
                 parent.webModel.toastDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
             // Error 102 can be ignored since that's used for downloading files
-            case 102:
+            // Error 999 can be ignored since that's an error for loading a cached webpage
+            case 102, -999:
                 return
             default:
                 parent.webModel.toastDescription = error.localizedDescription

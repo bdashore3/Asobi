@@ -16,6 +16,8 @@ struct SettingsView: View {
 
     @AppStorage("followSystemTheme") var followSystemTheme = true
 
+    @AppStorage("navigationAccent") var navigationAccent: Color = .red
+
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
         NavigationView {
@@ -46,6 +48,7 @@ struct SettingsView: View {
                     }
                 }
             }
+            .toggleStyle(SwitchToggleStyle(tint: navigationAccent))
             .navigationBarTitle("Settings")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

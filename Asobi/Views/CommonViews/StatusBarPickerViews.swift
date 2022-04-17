@@ -17,8 +17,8 @@ struct StatusBarStylePicker: View {
     @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
 
     var body: some View {
-        Form {
-            Picker("Status bar theme", selection: $statusBarStyleType) {
+        List {
+            Picker(selection: $statusBarStyleType, label: EmptyView()) {
                 Text("Follow theme")
                     .tag(StatusBarStyleType.theme)
                 Text("Automatic tint")
@@ -27,8 +27,8 @@ struct StatusBarStylePicker: View {
                     .tag(StatusBarStyleType.custom)
             }
         }
-        .labelsHidden()
         .pickerStyle(.inline)
+        .listStyle(.insetGrouped)
         .navigationTitle("Status bar theme")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -44,8 +44,8 @@ struct StatusBarBehaviorPicker: View {
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
 
     var body: some View {
-        Form {
-            Picker("Status bar type", selection: $statusBarPinType) {
+        List {
+            Picker(selection: $statusBarPinType, label: EmptyView()) {
                 Text("Hidden")
                     .tag(StatusBarBehaviorType.hide)
                 Text("Partially hidden")
@@ -54,8 +54,8 @@ struct StatusBarBehaviorPicker: View {
                     .tag(StatusBarBehaviorType.pin)
             }
         }
-        .labelsHidden()
         .pickerStyle(.inline)
+        .listStyle(.insetGrouped)
         .navigationTitle("Status Bar Behavior")
         .navigationBarTitleDisplayMode(.inline)
     }
