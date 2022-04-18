@@ -41,6 +41,8 @@ class NavigationViewModel: ObservableObject {
     @Published var authErrorAlert: AuthAlertType?
     @Published var blurRadius: CGFloat = 0
 
+    private var autoHideTask: Task<Void, Error>? = nil
+
     init() {
         if forceSecurityCredentials {
             isUnlocked = false
@@ -110,5 +112,21 @@ class NavigationViewModel: ObservableObject {
         var error: NSError?
 
         return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+    }
+    
+    func autoHideNavigationBar() {
+        // Marker: If auto hiding is enabled
+        if let autoHideTask = autoHideTask {
+            autoHideTask.cancel()
+        }
+
+        autoHideTask = Task {
+            try await Task.sleep(seconds: 3)
+
+                // If persist navigation is disabled, turn off the navbar
+            if !persistNavigation {
+                setNavigationBar(false)
+            }
+        }
     }
 }
