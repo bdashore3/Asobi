@@ -21,8 +21,6 @@ struct ContentView: View {
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
 
-    @State private var autoHideStarted = false
-
     var body: some View {
         ZStack {
             // Background color for orientation changes
@@ -161,19 +159,8 @@ struct ContentView: View {
                 if navModel.showNavigationBar {
                     NavigationBarView()
                         .onAppear {
-                            // Marker: If auto hiding is enabled
-                            if autoHideNavigation, !autoHideStarted {
-                                Task {
-                                    try await Task.sleep(seconds: 3)
-                                    autoHideStarted = true
-
-                                    // If persist navigation is disabled, turn off the navbar
-                                    if !persistNavigation, !autoHideStarted {
-                                        navModel.setNavigationBar(false)
-                                    }
-
-                                    autoHideStarted = false
-                                }
+                            if autoHideNavigation {
+                                navModel.autoHideNavigationBar()
                             }
                         }
                 }
