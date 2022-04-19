@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
 
     @StateObject var webModel: WebViewModel = .init()
     @StateObject var navModel: NavigationViewModel = .init()
@@ -18,6 +19,8 @@ struct MainView: View {
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
+    @AppStorage("useDarkTheme") var useDarkTheme = false
+    @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
 
     @State private var blurRadius: CGFloat = 0
@@ -65,6 +68,12 @@ struct MainView: View {
                             await navModel.authenticateOnStartup()
                         }
                     }
+                }
+                .onChange(of: colorScheme) { _ in
+                    webModel.setStatusbarColor()
+                }
+                .onChange(of: useDarkTheme || followSystemTheme) { _ in
+                    webModel.setStatusbarColor()
                 }
                 .onChange(of: webModel.backgroundColor) { newColor in
                     hostingViewController.style = newColor.isLight ? .darkContent : .lightContent

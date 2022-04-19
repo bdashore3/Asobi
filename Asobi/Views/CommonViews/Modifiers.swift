@@ -27,10 +27,6 @@ struct ApplyTheme: ViewModifier {
                 default:
                     UIViewController.overrideUserInterfaceStyle = .unspecified
                 }
-
-                if statusBarStyleType == .theme {
-                    webModel.setStatusbarColor()
-                }
             }
     }
 }
