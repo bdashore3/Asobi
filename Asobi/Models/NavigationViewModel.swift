@@ -30,9 +30,9 @@ class NavigationViewModel: ObservableObject {
         case error(localizedDescription: String)
     }
 
-    @AppStorage("persistNavigation") var persistNavigation = false
-    @AppStorage("autoHideNavigation") var autoHideNavigation = false
-    @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
+    @AppStorage("persistNavigation") private var persistNavigation = false
+    @AppStorage("autoHideNavigation") private var autoHideNavigation = false
+    @AppStorage("forceSecurityCredentials") private var forceSecurityCredentials = false
 
     @Published var currentSheet: SheetType?
     @Published var isKeyboardShowing = false
@@ -41,7 +41,7 @@ class NavigationViewModel: ObservableObject {
     @Published var authErrorAlert: AuthAlertType?
     @Published var blurRadius: CGFloat = 0
 
-    private var autoHideTask: Task<Void, Error>? = nil
+    private var autoHideTask: Task<Void, Error>?
 
     init() {
         if forceSecurityCredentials {
@@ -113,7 +113,7 @@ class NavigationViewModel: ObservableObject {
 
         return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
     }
-    
+
     func autoHideNavigationBar() {
         // Marker: If auto hiding is enabled
         if let autoHideTask = autoHideTask {
@@ -123,7 +123,7 @@ class NavigationViewModel: ObservableObject {
         autoHideTask = Task {
             try await Task.sleep(seconds: 3)
 
-                // If persist navigation is disabled, turn off the navbar
+            // If persist navigation is disabled, turn off the navbar
             if !persistNavigation {
                 setNavigationBar(false)
             }

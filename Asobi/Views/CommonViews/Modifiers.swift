@@ -12,6 +12,7 @@ import SwiftUI
 struct ApplyTheme: ViewModifier {
     @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
     @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
+    @EnvironmentObject var webModel: WebViewModel
 
     let colorScheme: String?
 
@@ -21,26 +22,14 @@ struct ApplyTheme: ViewModifier {
                 switch colorScheme {
                 case "dark":
                     UIViewController.overrideUserInterfaceStyle = .dark
-
-                    if statusBarStyleType == .theme {
-                        statusBarAccent = .black
-                    }
                 case "light":
                     UIViewController.overrideUserInterfaceStyle = .light
-
-                    if statusBarStyleType == .theme {
-                        statusBarAccent = .white
-                    }
                 default:
                     UIViewController.overrideUserInterfaceStyle = .unspecified
+                }
 
-                    if statusBarStyleType == .theme {
-                        if UITraitCollection.current.userInterfaceStyle == .dark {
-                            statusBarAccent = .black
-                        } else {
-                            statusBarAccent = .white
-                        }
-                    }
+                if statusBarStyleType == .theme {
+                    webModel.setStatusbarColor()
                 }
             }
     }

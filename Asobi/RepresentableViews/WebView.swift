@@ -13,6 +13,7 @@ struct WebView: UIViewRepresentable {
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
 
+    @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
 
@@ -95,7 +96,7 @@ struct WebView: UIViewRepresentable {
 
             parent.webModel.setStatusbarColor()
 
-            if !parent.webModel.incognitoMode {
+            if !parent.incognitoMode {
                 parent.webModel.addToHistory()
             }
         }

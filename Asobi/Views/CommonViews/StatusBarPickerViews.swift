@@ -10,6 +10,7 @@ import SwiftUI
 enum StatusBarStyleType: String {
     case theme
     case automatic
+    case accent
     case custom
 }
 
@@ -19,10 +20,12 @@ struct StatusBarStylePicker: View {
     var body: some View {
         List {
             Picker(selection: $statusBarStyleType, label: EmptyView()) {
-                Text("Follow theme")
-                    .tag(StatusBarStyleType.theme)
                 Text("Automatic tint")
                     .tag(StatusBarStyleType.automatic)
+                Text("Follow theme")
+                    .tag(StatusBarStyleType.theme)
+                Text("App accent color")
+                    .tag(StatusBarStyleType.accent)
                 Text("Custom color")
                     .tag(StatusBarStyleType.custom)
             }
