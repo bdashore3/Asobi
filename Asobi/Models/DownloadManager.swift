@@ -30,9 +30,9 @@ enum DownloadType: Identifiable {
 class DownloadManager: ObservableObject {
     var webModel: WebViewModel?
 
-    @AppStorage("overwriteDownloadedFiles") var overwriteDownloadedFiles = true
-    @AppStorage("defaultDownloadDirectory") var defaultDownloadDirectory = ""
-    @AppStorage("downloadDirectoryBookmark") var downloadDirectoryBookmark: Data?
+    @AppStorage("overwriteDownloadedFiles") private var overwriteDownloadedFiles = true
+    @AppStorage("defaultDownloadDirectory") private var defaultDownloadDirectory = ""
+    @AppStorage("downloadDirectoryBookmark") private var downloadDirectoryBookmark: Data?
 
     // Download handling variables
     @Published var downloadUrl: URL? = nil

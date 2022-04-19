@@ -35,15 +35,24 @@ class WebViewModel: ObservableObject {
     }
 
     // All Settings go here
-    @AppStorage("blockAds") var blockAds = false
-    @AppStorage("changeUserAgent") var changeUserAgent = false
-    @AppStorage("incognitoMode") var incognitoMode = false
-    @AppStorage("defaultUrl") var defaultUrl = ""
-    @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
-    @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
-    @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
-    @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
-    @AppStorage("loadLastHistory") var loadLastHistory = false
+
+    // Default false settings
+    @AppStorage("blockAds") private var blockAds = false
+    @AppStorage("changeUserAgent") private var changeUserAgent = false
+    @AppStorage("incognitoMode") private var incognitoMode = false
+    @AppStorage("clearCacheAtStart") private var clearCacheAtStart = false
+    @AppStorage("useDarkTheme") private var useDarkTheme = false
+    @AppStorage("loadLastHistory") private var loadLastHistory = false
+
+    // Default true settings
+    @AppStorage("followSystemTheme") private var followSystemTheme = true
+    @AppStorage("allowSwipeNavGestures") private var allowSwipeNavGestures = true
+
+    // Non-boolean settings
+    @AppStorage("defaultUrl") private var defaultUrl = ""
+    @AppStorage("navigationAccent") private var navigationAccent: Color = .red
+    @AppStorage("statusBarAccent") private var statusBarAccent: Color = .clear
+    @AppStorage("statusBarStyleType") private var statusBarStyleType: StatusBarStyleType = .automatic
 
     private let javaScriptLoader: JavaScriptLoader = .init()
 
@@ -296,14 +305,36 @@ class WebViewModel: ObservableObject {
     // Finds the background color of a webpage
     func setStatusbarColor() {
         webView.evaluateJavaScript("window.getComputedStyle(document.body).getPropertyValue('background-color');") { result, _ in
+            var tempBackgroundColor: Color = .clear
+
             if let result = result, self.statusBarStyleType == .automatic {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    self.backgroundColor = Color(rgb: result as! String)
+                tempBackgroundColor = Color(rgb: result as! String)
+            }
+
+            // Automatic is already handled in tandem with the result
+            switch self.statusBarStyleType {
+            case .automatic:
+                break
+            case .accent:
+                tempBackgroundColor = self.navigationAccent
+            case .theme:
+                if self.useDarkTheme {
+                    tempBackgroundColor = .black
+                } else if self.followSystemTheme {
+                    if UITraitCollection.current.userInterfaceStyle == .dark {
+                        tempBackgroundColor = .black
+                    } else {
+                        tempBackgroundColor = .white
+                    }
+                } else {
+                    tempBackgroundColor = .white
                 }
-            } else {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    self.backgroundColor = self.statusBarAccent
-                }
+            default:
+                tempBackgroundColor = self.statusBarAccent
+            }
+
+            withAnimation(.easeInOut(duration: 0.3)) {
+                self.backgroundColor = tempBackgroundColor
             }
         }
     }

@@ -72,6 +72,8 @@ struct MainView: View {
                 .onChange(of: statusBarPinType) { newPinType in
                     if newPinType == .hide {
                         hostingViewController.isHidden = true
+                    } else if newPinType == .pin {
+                        hostingViewController.isHidden = false
                     }
                 }
                 .onChange(of: navModel.showNavigationBar) { showing in

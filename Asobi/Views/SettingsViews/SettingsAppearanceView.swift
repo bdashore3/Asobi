@@ -40,6 +40,11 @@ struct SettingsAppearanceView: View {
             }
 
             ColorPicker("Accent color", selection: $navigationAccent, supportsOpacity: false)
+                .onChange(of: navigationAccent) { _ in
+                    if statusBarStyleType == .accent {
+                        webModel.setStatusbarColor()
+                    }
+                }
 
             if UIDevice.current.deviceType != .mac {
                 NavigationLink(
@@ -50,10 +55,12 @@ struct SettingsAppearanceView: View {
                             Spacer()
                             Group {
                                 switch statusBarStyleType {
-                                case .theme:
-                                    Text("Theme")
                                 case .automatic:
                                     Text("Automatic")
+                                case .theme:
+                                    Text("Theme")
+                                case .accent:
+                                    Text("Accent")
                                 case .custom:
                                     Text("Custom")
                                 }
