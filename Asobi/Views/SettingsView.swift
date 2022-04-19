@@ -13,9 +13,7 @@ struct SettingsView: View {
     @EnvironmentObject var navModel: NavigationViewModel
 
     @AppStorage("useDarkTheme") var useDarkTheme = false
-
     @AppStorage("followSystemTheme") var followSystemTheme = true
-
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
     // Core settings. All prefs saved in UserDefaults

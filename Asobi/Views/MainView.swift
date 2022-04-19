@@ -69,6 +69,11 @@ struct MainView: View {
                         }
                     }
                 }
+                .onOpenURL { url in
+                    let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+                    navModel.currentSheet = nil
+                    webModel.loadUrl(splitUrl)
+                }
                 .onChange(of: colorScheme) { _ in
                     webModel.setStatusbarColor()
                 }
@@ -89,11 +94,6 @@ struct MainView: View {
                     if statusBarPinType == .partialHide {
                         hostingViewController.isHidden = !showing
                     }
-                }
-                .onOpenURL { url in
-                    let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
-                    navModel.currentSheet = nil
-                    webModel.loadUrl(splitUrl)
                 }
         }
     }
