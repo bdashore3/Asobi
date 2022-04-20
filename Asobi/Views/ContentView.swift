@@ -10,6 +10,8 @@ import SwiftUIX
 import UniformTypeIdentifiers
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) var managedObjectContext
+
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
@@ -173,6 +175,7 @@ struct ContentView: View {
                         LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
                     } else {
                         LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
                             .environmentObject(navModel)
                     }
                 case .settings:
@@ -180,6 +183,7 @@ struct ContentView: View {
                         SettingsView()
                     } else {
                         SettingsView()
+                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
                             .environmentObject(navModel)
                     }
                 case .bookmarkEditing:
@@ -187,6 +191,7 @@ struct ContentView: View {
                         EditBookmarkView(bookmark: .constant(nil))
                     } else {
                         EditBookmarkView(bookmark: .constant(nil))
+                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
                             .environmentObject(navModel)
                     }
                 }
