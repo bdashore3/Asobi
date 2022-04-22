@@ -64,7 +64,7 @@ struct ListRowExternalLinkView: View {
 
             Spacer()
 
-            Image(systemName: "chevron.right")
+            Image(systemName: "arrow.up.forward.app.fill")
                 .foregroundColor(.gray)
         }
     }
