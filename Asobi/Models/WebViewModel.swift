@@ -20,7 +20,7 @@ class WebViewModel: ObservableObject {
     let webView: WKWebView
 
     let internalScripts: [JSScript] = [
-        JSScript(name: "ZoomUnlocker", devices: [.phone, .pad]),
+        JSScript(name: "ZoomUnlocker", devices: [.phone, .pad, .mac]),
         JSScript(name: "MacOSPaste", devices: [.mac]),
         JSScript(name: "FindInPage", devices: [.phone, .pad, .mac])
     ]
