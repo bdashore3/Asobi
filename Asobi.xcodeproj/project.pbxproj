@@ -11,7 +11,7 @@
 		0C02727E2741FFC6007C2CC9 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */; };
 		0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C070D78271A3B54001F5327 /* LibraryView.swift */; };
 		0C099D6627FF2958008E87B5 /* StatusBarPickerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C099D6527FF2958008E87B5 /* StatusBarPickerViews.swift */; };
-		0C099D7227FFBE7D008E87B5 /* HostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */; };
+		0C099D7227FFBE7D008E87B5 /* AsobiRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C099D7127FFBE7D008E87B5 /* AsobiRootViewController.swift */; };
 		0C0B87A527A6FDF300FCB6A3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B87A427A6FDF300FCB6A3 /* MainView.swift */; };
 		0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0C6B7A277A35F6007B9345 /* Introspect */; };
 		0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0C6B7D277A3620007B9345 /* Modifiers.swift */; };
@@ -93,7 +93,7 @@
 		0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		0C070D78271A3B54001F5327 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		0C099D6527FF2958008E87B5 /* StatusBarPickerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarPickerViews.swift; sourceTree = "<group>"; };
-		0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingViewController.swift; sourceTree = "<group>"; };
+		0C099D7127FFBE7D008E87B5 /* AsobiRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsobiRootViewController.swift; sourceTree = "<group>"; };
 		0C0B87A427A6FDF300FCB6A3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0C0C6B7D277A3620007B9345 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		0C0C6B7F277A3708007B9345 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
-				0C099D7127FFBE7D008E87B5 /* HostingViewController.swift */,
+				0C099D7127FFBE7D008E87B5 /* AsobiRootViewController.swift */,
 			);
 			path = RepresentableViews;
 			sourceTree = "<group>";
@@ -530,7 +530,7 @@
 				0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				0C979FDD278F437100FF4186 /* Task.swift in Sources */,
-				0C099D7227FFBE7D008E87B5 /* HostingViewController.swift in Sources */,
+				0C099D7227FFBE7D008E87B5 /* AsobiRootViewController.swift in Sources */,
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,

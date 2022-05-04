@@ -11,7 +11,7 @@ import UIKit
 // Article: https://barstool.engineering/set-the-ios-status-bar-style-in-swiftui-using-a-custom-view-modifier/
 
 // ObservableObject to observe statusbar changes and set accordingly
-class HostingViewController: UIViewController, ObservableObject {
+class AsobiRootViewController: UIViewController, ObservableObject {
     var rootViewController: UIViewController?
     var style: UIStatusBarStyle = .lightContent {
         didSet {
