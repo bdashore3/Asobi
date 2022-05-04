@@ -9,13 +9,12 @@ import Introspect
 import SwiftUI
 
 struct MainView: View {
-    @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
 
     @StateObject var webModel: WebViewModel = .init()
     @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
-    @StateObject var hostingViewController: HostingViewController = .init(rootViewController: nil, style: .default)
+    @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
@@ -31,27 +30,30 @@ struct MainView: View {
                 .introspectViewController { viewController in
                     let window = viewController.view.window
                     guard let rootViewController = window?.rootViewController else { return }
-                    hostingViewController.rootViewController = rootViewController
-                    hostingViewController.ignoreDarkMode = true
+                    self.rootViewController.rootViewController = rootViewController
+                    self.rootViewController.ignoreDarkMode = true
 
                     if statusBarPinType == .hide {
-                        hostingViewController.isHidden = true
+                        self.rootViewController.isHidden = true
                     }
 
-                    window?.rootViewController = hostingViewController
+                    window?.rootViewController = self.rootViewController
                 }
-                .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 10)
-                .onChange(of: scenePhase) { phase in
-                    if blurInRecents, UIDevice.current.deviceType != .mac {
-                        if phase == .active {
-                            withAnimation(.easeIn(duration: 0.15)) {
-                                navModel.blurRadius = 0
-                            }
-                        } else {
-                            navModel.blurRadius = 15
-                        }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    withAnimation(.easeIn(duration: 0.15)) {
+                        navModel.blurRadius = 0
                     }
+
+                    PersistenceController.shared.save()
                 }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                    if blurInRecents, UIDevice.current.deviceType != .mac {
+                        navModel.blurRadius = 15
+                    }
+
+                    PersistenceController.shared.save()
+                }
+                .blur(radius: navModel.blurRadius)
                 .overlay {
                     AuthOverlayView()
                 }
@@ -81,18 +83,18 @@ struct MainView: View {
                     webModel.setStatusbarColor()
                 }
                 .onChange(of: webModel.backgroundColor) { newColor in
-                    hostingViewController.style = newColor.isLight ? .darkContent : .lightContent
+                    rootViewController.style = newColor.isLight ? .darkContent : .lightContent
                 }
                 .onChange(of: statusBarPinType) { newPinType in
                     if newPinType == .hide {
-                        hostingViewController.isHidden = true
+                        rootViewController.isHidden = true
                     } else if newPinType == .pin {
-                        hostingViewController.isHidden = false
+                        rootViewController.isHidden = false
                     }
                 }
                 .onChange(of: navModel.showNavigationBar) { showing in
                     if statusBarPinType == .partialHide {
-                        hostingViewController.isHidden = !showing
+                        rootViewController.isHidden = !showing
                     }
                 }
         }
