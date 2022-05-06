@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) var managedObjectContext
 
     @StateObject var webModel: WebViewModel = .init()
     @StateObject var navModel: NavigationViewModel = .init()
@@ -38,6 +39,34 @@ struct MainView: View {
                     }
 
                     window?.rootViewController = self.rootViewController
+                }
+                .sheet(item: $navModel.currentSheet) { item in
+                    switch item {
+                    case .library:
+                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                            LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                        } else {
+                            LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                                .environment(\.managedObjectContext, managedObjectContext)
+                                .environmentObject(navModel)
+                        }
+                    case .settings:
+                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                            SettingsView()
+                        } else {
+                            SettingsView()
+                                .environment(\.managedObjectContext, managedObjectContext)
+                                .environmentObject(navModel)
+                        }
+                    case .bookmarkEditing:
+                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                            EditBookmarkView(bookmark: .constant(nil))
+                        } else {
+                            EditBookmarkView(bookmark: .constant(nil))
+                                .environment(\.managedObjectContext, managedObjectContext)
+                                .environmentObject(navModel)
+                        }
+                    }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     withAnimation(.easeIn(duration: 0.15)) {
