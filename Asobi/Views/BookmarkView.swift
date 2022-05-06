@@ -13,6 +13,8 @@ struct BookmarkView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
+    let backgroundContext = PersistenceController.shared.backgroundContext
+
     @FetchRequest(
         entity: Bookmark.entity(),
         sortDescriptors: [
@@ -43,7 +45,7 @@ struct BookmarkView: View {
                                 .tint(.blue)
 
                                 Button("Delete") {
-                                    PersistenceController.shared.delete(bookmark)
+                                    PersistenceController.shared.delete(bookmark, context: backgroundContext)
                                 }
                                 .tint(.red)
                             }
@@ -67,7 +69,7 @@ struct BookmarkView: View {
                                 }
 
                                 Button {
-                                    PersistenceController.shared.delete(bookmark)
+                                    PersistenceController.shared.delete(bookmark, context: backgroundContext)
                                 } label: {
                                     Label("Delete bookmark", systemImage: "trash")
                                 }
@@ -92,7 +94,7 @@ struct BookmarkView: View {
     func removeItem(at offsets: IndexSet) {
         for index in offsets {
             let bookmark = bookmarks[index]
-            PersistenceController.shared.delete(bookmark)
+            PersistenceController.shared.delete(bookmark, context: backgroundContext)
         }
     }
 
@@ -105,7 +107,7 @@ struct BookmarkView: View {
             changedBookmarks[reverseIndex].orderNum = Int16(reverseIndex)
         }
 
-        PersistenceController.shared.save()
+        PersistenceController.shared.save(backgroundContext)
     }
 }
 

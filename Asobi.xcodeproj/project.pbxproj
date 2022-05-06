@@ -35,7 +35,6 @@
 		0C977CE82805A798000D7323 /* ZoomUnlocker.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C977CE72805A798000D7323 /* ZoomUnlocker.js */; };
 		0C977CEA2805A7D5000D7323 /* MacOSPaste.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C977CE92805A7D5000D7323 /* MacOSPaste.js */; };
 		0C979FDD278F437100FF4186 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C979FDC278F437100FF4186 /* Task.swift */; };
-		0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */; };
 		0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093228028226007A0F77 /* SettingsAppearanceView.swift */; };
 		0CAA09352802836E007A0F77 /* SettingsBehaviorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA09342802836E007A0F77 /* SettingsBehaviorView.swift */; };
 		0CAA093828028504007A0F77 /* SettingsPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093728028504007A0F77 /* SettingsPrivacyView.swift */; };
@@ -116,7 +115,6 @@
 		0C977CE72805A798000D7323 /* ZoomUnlocker.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ZoomUnlocker.js; sourceTree = "<group>"; };
 		0C977CE92805A7D5000D7323 /* MacOSPaste.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = MacOSPaste.js; sourceTree = "<group>"; };
 		0C979FDC278F437100FF4186 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		0CAA093228028226007A0F77 /* SettingsAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceView.swift; sourceTree = "<group>"; };
 		0CAA09342802836E007A0F77 /* SettingsBehaviorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBehaviorView.swift; sourceTree = "<group>"; };
 		0CAA093728028504007A0F77 /* SettingsPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPrivacyView.swift; sourceTree = "<group>"; };
@@ -266,7 +264,6 @@
 				0CB54E82270682AF0091897E /* UIApplication.swift */,
 				0C5CBB8B270D39350045E2FE /* Color.swift */,
 				0C615B89271214C80090198B /* UIDevice.swift */,
-				0C9CEEB1273CC3E8006B4FE2 /* NSManagedObjectContext.swift */,
 				0C02727D2741FFC6007C2CC9 /* DateFormatter.swift */,
 				0C580952277566F80005CA40 /* CGFloat.swift */,
 				0C0C6B7F277A3708007B9345 /* View.swift */,
@@ -566,7 +563,6 @@
 				0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */,
 				7C20C0C126BC3B4B004D8618 /* AboutView.swift in Sources */,
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
-				0C9CEEB2273CC3E8006B4FE2 /* NSManagedObjectContext.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 				0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */,
 				0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */,
