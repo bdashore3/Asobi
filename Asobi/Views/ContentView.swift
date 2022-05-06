@@ -10,8 +10,6 @@ import SwiftUIX
 import UniformTypeIdentifiers
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
-
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
@@ -168,34 +166,6 @@ struct ContentView: View {
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
-            .sheet(item: $navModel.currentSheet) { item in
-                switch item {
-                case .library:
-                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
-                    } else {
-                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
-                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-                            .environmentObject(navModel)
-                    }
-                case .settings:
-                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                        SettingsView()
-                    } else {
-                        SettingsView()
-                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-                            .environmentObject(navModel)
-                    }
-                case .bookmarkEditing:
-                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                        EditBookmarkView(bookmark: .constant(nil))
-                    } else {
-                        EditBookmarkView(bookmark: .constant(nil))
-                            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-                            .environmentObject(navModel)
-                    }
-                }
-            }
             .zIndex(4)
         }
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
