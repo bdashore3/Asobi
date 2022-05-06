@@ -9,11 +9,12 @@ import CoreData
 import SwiftUI
 
 struct EditBookmarkView: View {
-    @Environment(\.managedObjectContext) var context
     @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
+
+    let backgroundContext = PersistenceController.shared.backgroundContext
 
     @Binding var bookmark: Bookmark?
 
@@ -71,12 +72,12 @@ struct EditBookmarkView: View {
                             unwrappedBookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         } else {
                             // Set a new bookmark
-                            let bookmark = Bookmark(context: context)
+                            let bookmark = Bookmark(context: backgroundContext)
                             bookmark.name = bookmarkName.trimmingCharacters(in: .whitespaces)
                             bookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         }
 
-                        PersistenceController.shared.save()
+                        PersistenceController.shared.save(backgroundContext)
 
                         presentationMode.wrappedValue.dismiss()
 

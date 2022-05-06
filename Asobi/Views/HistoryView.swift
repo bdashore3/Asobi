@@ -15,6 +15,8 @@ struct HistoryView: View {
         formatter.timeStyle = .none
     }
 
+    let backgroundContext = PersistenceController.shared.backgroundContext
+
     @FetchRequest(
         entity: History.entity(),
         sortDescriptors: [
@@ -47,7 +49,7 @@ struct HistoryView: View {
             history.removeFromEntries(entry)
 
             if history.entryArray.isEmpty {
-                PersistenceController.shared.delete(history)
+                PersistenceController.shared.delete(history, context: backgroundContext)
             }
         }
     }

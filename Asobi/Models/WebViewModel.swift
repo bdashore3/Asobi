@@ -270,30 +270,31 @@ class WebViewModel: ObservableObject {
     }
 
     func addToHistory() {
-        let managedObjectContext = PersistenceController.shared.container.viewContext
+        let backgroundContext = PersistenceController.shared.backgroundContext
 
-        let newHistoryEntry = HistoryEntry(context: managedObjectContext)
+        let newHistoryEntry = HistoryEntry(context: backgroundContext)
         newHistoryEntry.name = webView.title
         newHistoryEntry.url = webView.url?.absoluteString
 
         let now = Date()
 
         newHistoryEntry.timestamp = now.timeIntervalSince1970
-        newHistoryEntry.parentHistory = History(context: managedObjectContext)
+        newHistoryEntry.parentHistory = History(context: backgroundContext)
         newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
         newHistoryEntry.parentHistory?.date = now
 
-        PersistenceController.shared.save()
+        PersistenceController.shared.save(backgroundContext)
     }
 
     func fetchLastHistoryEntry() -> String? {
+        let viewContext = PersistenceController.shared.container.viewContext
         let request = HistoryEntry.fetchRequest()
         let sortDescriptor = NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)
         request.sortDescriptors = [sortDescriptor]
         request.fetchLimit = 1
 
         do {
-            let lastHistoryObject = try PersistenceController.shared.container.viewContext.fetch(request).first
+            let lastHistoryObject = try viewContext.fetch(request).first
             return lastHistoryObject?.url
         } catch {
             toastDescription = "Failed to fetch your last history entry. Loading the default URL."
