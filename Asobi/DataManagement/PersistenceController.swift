@@ -25,6 +25,9 @@ struct PersistenceController {
     // Coredata storage
     let container: NSPersistentContainer
 
+    // Background context for writes
+    let backgroundContext: NSManagedObjectContext
+
     // Coredata load
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "AsobiDB")
@@ -33,7 +36,12 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
 
+        container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+
+        backgroundContext = container.newBackgroundContext()
+        backgroundContext.automaticallyMergesChangesFromParent = true
+        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
 
         container.loadPersistentStores { _, error in
             if let error = error {
@@ -42,8 +50,8 @@ struct PersistenceController {
         }
     }
 
-    func save() {
-        let context = container.viewContext
+    func save(_ context: NSManagedObjectContext? = nil) {
+        let context = context ?? container.viewContext
 
         if context.hasChanges {
             do {
@@ -54,10 +62,22 @@ struct PersistenceController {
         }
     }
 
-    func delete(_ object: NSManagedObject) {
-        let context = container.viewContext
-        context.delete(object)
+    // By default, delete objects using the ViewContext unless specified
+    func delete(_ object: NSManagedObject, context: NSManagedObjectContext? = nil) {
+        let context = context ?? container.viewContext
 
+        if context !== container.viewContext {
+            let wrappedObject = try? context.existingObject(with: object.objectID)
+
+            if let backgroundObject = wrappedObject {
+                context.delete(backgroundObject)
+                save(context)
+
+                return
+            }
+        }
+
+        container.viewContext.delete(object)
         save()
     }
 
@@ -102,9 +122,9 @@ struct PersistenceController {
         return predicate
     }
 
-    // Possibly change this to a default batchDelete function in the future
+    // Always use the background context to batch delete
+    // Merge changes into both contexts to update views
     func batchDeleteHistory(range: HistoryDeleteRange) throws {
-        let context = container.viewContext
         let predicate = getHistoryPredicate(range: range)
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "History")
@@ -115,10 +135,13 @@ struct PersistenceController {
             throw HistoryDeleteError.noDate("No history date range was provided and you weren't trying to clear everything! Try relaunching the app?")
         }
 
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
-            try context.executeAndMergeChanges(using: deleteRequest)
+            batchDeleteRequest.resultType = .resultTypeObjectIDs
+            let result = try backgroundContext.execute(batchDeleteRequest) as? NSBatchDeleteResult
+            let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext, backgroundContext])
         } catch {
             throw HistoryDeleteError.unknown(error.localizedDescription)
         }
