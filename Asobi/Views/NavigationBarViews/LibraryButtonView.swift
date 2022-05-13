@@ -41,6 +41,15 @@ struct LibraryButtonView: View {
                     Image(systemName: "magnifyingglass")
                 }
             }
+
+            if UIDevice.current.deviceType == .phone {
+                Button {
+                    webModel.webView.reload()
+                } label: {
+                    Text("Refresh page")
+                    Image(systemName: "arrow.clockwise")
+                }
+            }
         }
     }
 }
