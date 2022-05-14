@@ -4,33 +4,17 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="orderNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="String"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="name"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="History" representedClassName="History" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateString" optional="YES" attributeType="String"/>
         <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryEntry" inverseName="parentHistory" inverseEntity="HistoryEntry"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="dateString"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="HistoryEntry" representedClassName="HistoryEntry" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <relationship name="parentHistory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="History" inverseName="entries" inverseEntity="History"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="url"/>
-                <constraint value="parentHistory"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="Bookmark" positionX="-63" positionY="-18" width="128" height="74"/>
