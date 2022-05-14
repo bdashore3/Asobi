@@ -71,9 +71,20 @@ struct EditBookmarkView: View {
                             unwrappedBookmark.name = bookmarkName.trimmingCharacters(in: .whitespaces)
                             unwrappedBookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         } else {
+                            // If called from a context menu, we need to upsert the bookmark
+                            let tempName = bookmarkName.trimmingCharacters(in: .whitespaces)
+
+                            let bookmarkRequest = Bookmark.fetchRequest()
+                            bookmarkRequest.predicate = NSPredicate(format: "name == %@", tempName)
+                            bookmarkRequest.fetchLimit = 1
+
+                            if let existingBookmark = try? backgroundContext.fetch(bookmarkRequest).first {
+                                PersistenceController.shared.delete(existingBookmark, context: backgroundContext)
+                            }
+
                             // Set a new bookmark
                             let bookmark = Bookmark(context: backgroundContext)
-                            bookmark.name = bookmarkName.trimmingCharacters(in: .whitespaces)
+                            bookmark.name = tempName
                             bookmark.url = bookmarkUrl.trimmingCharacters(in: .whitespaces)
                         }
 

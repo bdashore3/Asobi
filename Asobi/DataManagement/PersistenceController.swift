@@ -23,18 +23,24 @@ struct PersistenceController {
     static let shared = PersistenceController()
 
     // Coredata storage
-    let container: NSPersistentContainer
+    let container: NSPersistentCloudKitContainer
 
     // Background context for writes
     let backgroundContext: NSManagedObjectContext
 
     // Coredata load
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "AsobiDB")
+        container = NSPersistentCloudKitContainer(name: "AsobiDB")
 
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
+        
+        guard let description = container.persistentStoreDescriptions.first else {
+            fatalError("CoreData: Failed to find a persistent store description")
+        }
+        description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -42,7 +48,7 @@ struct PersistenceController {
         backgroundContext = container.newBackgroundContext()
         backgroundContext.automaticallyMergesChangesFromParent = true
         backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-
+        
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Error: \(error.localizedDescription)")
