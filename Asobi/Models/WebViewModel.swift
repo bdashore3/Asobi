@@ -277,17 +277,32 @@ class WebViewModel: ObservableObject {
         newHistoryEntry.url = webView.url?.absoluteString
 
         let now = Date()
-
         newHistoryEntry.timestamp = now.timeIntervalSince1970
-        newHistoryEntry.parentHistory = History(context: backgroundContext)
-        newHistoryEntry.parentHistory?.dateString = DateFormatter.historyDateFormatter.string(from: now)
+
+        let dateString = DateFormatter.historyDateFormatter.string(from: now)
+
+        let historyRequest = History.fetchRequest()
+        historyRequest.predicate = NSPredicate(format: "dateString == %@", dateString)
+        historyRequest.fetchLimit = 1
+
+        if let history = try? backgroundContext.fetch(historyRequest).first {
+            if let existingEntry = history.entryArray.first(where: {$0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name}) {
+                PersistenceController.shared.delete(existingEntry, context: backgroundContext)
+            }
+
+            newHistoryEntry.parentHistory = history
+        } else {
+            newHistoryEntry.parentHistory = History(context: backgroundContext)
+        }
+
+        newHistoryEntry.parentHistory?.dateString = dateString
         newHistoryEntry.parentHistory?.date = now
 
         PersistenceController.shared.save(backgroundContext)
     }
 
     func fetchLastHistoryEntry() -> String? {
-        let viewContext = PersistenceController.shared.container.viewContext
+        let viewContext = PersistenceController.shared.backgroundContext
         let request = HistoryEntry.fetchRequest()
         let sortDescriptor = NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)
         request.sortDescriptors = [sortDescriptor]

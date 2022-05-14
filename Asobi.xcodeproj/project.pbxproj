@@ -19,6 +19,11 @@
 		0C21519027237E0900C3976A /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C21518F27237E0900C3976A /* BookmarkView.swift */; };
 		0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD1F127698A9E00C764DB /* DownloadManager.swift */; };
 		0C2DBDE6277A5DCA004BC5AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */; };
+		0C30B3D6282F1EA700D59AA1 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C30B3D5282F1EA700D59AA1 /* CloudKit.framework */; };
+		0C30B3E1282F2F1100D59AA1 /* History+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E0282F2F1100D59AA1 /* History+CoreDataClass.swift */; };
+		0C30B3E3282F2F1D00D59AA1 /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */; };
+		0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */; };
+		0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */; };
 		0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C447E95274C6C2100DF0186 /* Alamofire */; };
 		0C55FD1C27823127001FA90E /* FindInPage.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C55FD1B27823127001FA90E /* FindInPage.js */; };
 		0C580953277566F80005CA40 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C580952277566F80005CA40 /* CGFloat.swift */; };
@@ -47,10 +52,6 @@
 		0CC4B4F327277CEC00E258B7 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */; };
 		0CC938A428045474003E5338 /* JSLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC938A328045474003E5338 /* JSLoader.swift */; };
 		0CDE767E278531F100739EBE /* FindInPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE767D278531F100739EBE /* FindInPageView.swift */; };
-		0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */; };
-		0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */; };
-		0CF362B0274BFC5700466CB2 /* History+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */; };
-		0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */; };
 		0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */; };
 		7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */; };
 		7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */; };
@@ -99,6 +100,12 @@
 		0C21518F27237E0900C3976A /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		0C2AD1F127698A9E00C764DB /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		0C2DBDE5277A5DCA004BC5AB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0C30B3D5282F1EA700D59AA1 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		0C30B3D7282F213D00D59AA1 /* AsobiDB_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AsobiDB_v2.xcdatamodel; sourceTree = "<group>"; };
+		0C30B3E0282F2F1100D59AA1 /* History+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0C55FD1B27823127001FA90E /* FindInPage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = FindInPage.js; sourceTree = "<group>"; };
 		0C580952277566F80005CA40 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
@@ -126,10 +133,6 @@
 		0CC4B4F227277CEC00E258B7 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
 		0CC938A328045474003E5338 /* JSLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSLoader.swift; sourceTree = "<group>"; };
 		0CDE767D278531F100739EBE /* FindInPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInPageView.swift; sourceTree = "<group>"; };
-		0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "History+CoreDataClass.swift"; sourceTree = "<group>"; };
-		0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0CFCBD3D2740C229003020D9 /* HistoryActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryActionView.swift; sourceTree = "<group>"; };
 		7C20C0BC26B9AF5A004D8618 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		7C20C0BE26BB4C02004D8618 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
@@ -161,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */,
+				0C30B3D6282F1EA700D59AA1 /* CloudKit.framework in Frameworks */,
 				0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */,
 				0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */,
 			);
@@ -186,12 +190,20 @@
 		0C05EB0C273B6A60009ADF84 /* DataClasses */ = {
 			isa = PBXGroup;
 			children = (
-				0CF362AC274BFC5700466CB2 /* History+CoreDataClass.swift */,
-				0CF362AA274BFC5700466CB2 /* History+CoreDataProperties.swift */,
-				0CF362AD274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift */,
-				0CF362AB274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift */,
+				0C30B3E0282F2F1100D59AA1 /* History+CoreDataClass.swift */,
+				0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */,
+				0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */,
+				0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */,
 			);
 			path = DataClasses;
+			sourceTree = "<group>";
+		};
+		0C30B3D4282F1EA700D59AA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C30B3D5282F1EA700D59AA1 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0CAA0931280281F6007A0F77 /* SettingsViews */ = {
@@ -315,6 +327,7 @@
 				7C2248D426B85D1000AD3D42 /* AsobiTests */,
 				7C2248DF26B85D1000AD3D42 /* AsobiUITests */,
 				7C2248C126B85D0F00AD3D42 /* Products */,
+				0C30B3D4282F1EA700D59AA1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -518,12 +531,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C30B3E3282F2F1D00D59AA1 /* History+CoreDataProperties.swift in Sources */,
 				0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */,
 				0C0B87A527A6FDF300FCB6A3 /* MainView.swift in Sources */,
-				0CF362AE274BFC5700466CB2 /* History+CoreDataProperties.swift in Sources */,
 				7C2248EF26B85D8C00AD3D42 /* WebView.swift in Sources */,
 				0C21519027237E0900C3976A /* BookmarkView.swift in Sources */,
 				0C2AD1F227698A9E00C764DB /* DownloadManager.swift in Sources */,
+				0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */,
+				0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				0C979FDD278F437100FF4186 /* Task.swift in Sources */,
@@ -541,7 +556,6 @@
 				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
 				7C2248C426B85D0F00AD3D42 /* AsobiApp.swift in Sources */,
 				0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */,
-				0CF362AF274BFC5700466CB2 /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				0C0C6B7E277A3620007B9345 /* Modifiers.swift in Sources */,
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
@@ -554,18 +568,17 @@
 				7C20C0CF26BC6FF1004D8618 /* LibraryButtonView.swift in Sources */,
 				0CDE767E278531F100739EBE /* FindInPageView.swift in Sources */,
 				0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */,
-				0CF362B0274BFC5700466CB2 /* History+CoreDataClass.swift in Sources */,
 				0C580953277566F80005CA40 /* CGFloat.swift in Sources */,
 				0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */,
 				0CAA093828028504007A0F77 /* SettingsPrivacyView.swift in Sources */,
 				7C20C0BD26B9AF5A004D8618 /* WebViewModel.swift in Sources */,
+				0C30B3E1282F2F1100D59AA1 /* History+CoreDataClass.swift in Sources */,
 				0C070D79271A3B54001F5327 /* LibraryView.swift in Sources */,
 				0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */,
 				7C20C0C126BC3B4B004D8618 /* AboutView.swift in Sources */,
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 				0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */,
-				0CF362B1274BFC5700466CB2 /* HistoryEntry+CoreDataClass.swift in Sources */,
 				0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,9 +963,10 @@
 		0C02727A2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0C30B3D7282F213D00D59AA1 /* AsobiDB_v2.xcdatamodel */,
 				0C02727B2741FA4F007C2CC9 /* AsobiDB.xcdatamodel */,
 			);
-			currentVersion = 0C02727B2741FA4F007C2CC9 /* AsobiDB.xcdatamodel */;
+			currentVersion = 0C30B3D7282F213D00D59AA1 /* AsobiDB_v2.xcdatamodel */;
 			path = AsobiDB.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
