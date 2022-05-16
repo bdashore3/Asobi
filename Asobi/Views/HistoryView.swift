@@ -25,16 +25,24 @@ struct HistoryView: View {
     ) var history: FetchedResults<History>
 
     @State private var historyIndex = 0
+    
+    func groupedEntries(_ result: FetchedResults<History>) -> [[History]] {
+        return Dictionary(grouping: result) { (element: History) in
+            element.dateString ?? ""
+        }.values.sorted() { $0[0].date ?? Date() > $1[0].date ?? Date() }
+    }
 
     var body: some View {
         List {
-            ForEach(history, id: \.self) { history in
-                Section(header: Text(formatter.string(from: history.date ?? Date()))) {
-                    ForEach(history.entryArray) { entry in
-                        ListRowLinkView(text: entry.name ?? "Unknown", link: entry.url ?? "", subText: entry.url)
-                    }
-                    .onDelete { offsets in
-                        self.removeEntry(at: offsets, from: history)
+            ForEach(groupedEntries(history), id: \.self) { (section: [History]) in
+                Section(header: Text(formatter.string(from: section[0].date ?? Date()))) {
+                    ForEach(section, id: \.self) { history in
+                        ForEach(history.entryArray) { entry in
+                            ListRowLinkView(text: entry.name ?? "Unknown", link: entry.url ?? "", subText: entry.url)
+                        }
+                        .onDelete { offsets in
+                            self.removeEntry(at: offsets, from: history)
+                        }
                     }
                 }
             }
