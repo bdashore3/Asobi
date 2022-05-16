@@ -25,6 +25,7 @@ struct SettingsView: View {
                 SettingsPrivacyView()
                 SettingsDownloadsView()
                 SettingsWebsiteView()
+                SettingsSyncView()
 
                 // MARK: App icon picker (iDevices only)
 
