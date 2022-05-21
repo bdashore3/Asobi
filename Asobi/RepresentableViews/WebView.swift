@@ -88,6 +88,12 @@ struct WebView: UIViewRepresentable {
             if !UserDefaults.standard.bool(forKey: "incognitoMode") {
                 parent.webModel.addToHistory()
             }
+
+            // One-shot boolean which makes the webview opaque again
+            if parent.webModel.firstLoad {
+                parent.webModel.firstLoad = false
+                parent.webModel.webView.isOpaque = true
+            }
         }
 
         // Check if a page can be downloaded

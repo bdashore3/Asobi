@@ -107,6 +107,8 @@ class WebViewModel: ObservableObject {
     @Published var totalFindResults: Int = -1
 
     init() {
+        firstLoad = true
+
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true
 
@@ -141,7 +143,6 @@ class WebViewModel: ObservableObject {
 
         // Clears the white background on webpage load
         webView.isOpaque = false
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
 
         setUserAgent(changeUserAgent: changeUserAgent)
 
@@ -160,8 +161,6 @@ class WebViewModel: ObservableObject {
         } else {
             loadUrl()
         }
-
-        firstLoad = false
 
         setupBindings()
     }
