@@ -13,7 +13,6 @@ struct WebView: UIViewRepresentable {
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
 
-    @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
 
@@ -76,16 +75,6 @@ struct WebView: UIViewRepresentable {
             parent.webModel.isZoomedOut = scale.roundToPlaces(2) <= scrollView.minimumZoomScale.roundToPlaces(2)
         }
 
-        func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-            if let frame = navigationAction.targetFrame,
-               frame.isMainFrame
-            {
-                return nil
-            }
-            webView.load(navigationAction.request)
-            return nil
-        }
-
         // Navigation delegate methods for ProgressView/errors
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.webModel.showLoadingProgress = true
@@ -96,7 +85,7 @@ struct WebView: UIViewRepresentable {
 
             parent.webModel.setStatusbarColor()
 
-            if !parent.incognitoMode {
+            if !UserDefaults.standard.bool(forKey: "incognitoMode") {
                 parent.webModel.addToHistory()
             }
         }
@@ -123,6 +112,10 @@ struct WebView: UIViewRepresentable {
             if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
                 switch scheme {
                 case "https", "http":
+                    if navigationAction.targetFrame == nil {
+                        parent.webModel.handlePopup(navigationAction)
+                    }
+
                     // Any web URL
                     decisionHandler(.allow)
                 case "blob":

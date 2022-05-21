@@ -14,17 +14,19 @@ struct SettingsPrivacyView: View {
 
     @AppStorage("incognitoMode") var incognitoMode = false
     @AppStorage("blockAds") var blockAds = false
+    @AppStorage("blockPopups") var blockPopups = false
     @AppStorage("blurInRecents") var blurInRecents = false
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
 
     @State private var showAdblockAlert: Bool = false
     @State private var alreadyAuthenticated: Bool = false
+    @State private var presentAlert: Bool = false
 
     var body: some View {
         // MARK: Privacy settings
 
         Section(header: Text("Privacy and security"),
-                footer: Text("Only enable adblock if you need it! This will cause app launching to become somewhat slower")) {
+                footer: Text("The adblocker blocks in-page ads and the popup blocker blocks popups. Make sure to enable what you need.")) {
             Toggle(isOn: $incognitoMode) {
                 Text("Incognito mode")
             }
@@ -49,6 +51,14 @@ struct SettingsPrivacyView: View {
                     message: Text("The page will refresh when you exit settings"),
                     dismissButton: .cancel(Text("OK!"))
                 )
+            }
+
+            Toggle(isOn: $blockPopups) {
+                Text("Block popups")
+            }
+            
+            if blockPopups {
+                NavigationLink("Popup exceptions", destination: PopupExceptionView())
             }
 
             if UIDevice.current.deviceType != .mac {

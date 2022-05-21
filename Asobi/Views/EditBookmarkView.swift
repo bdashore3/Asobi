@@ -29,7 +29,6 @@ struct EditBookmarkView: View {
                 Section {
                     TextField("Enter title", text: $bookmarkName)
                     TextField("Enter URL", text: $bookmarkUrl)
-                        .textCase(.lowercase)
                         .disableAutocorrection(true)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
