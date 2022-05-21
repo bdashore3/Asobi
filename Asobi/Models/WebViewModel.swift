@@ -40,6 +40,7 @@ class WebViewModel: ObservableObject {
     @AppStorage("blockAds") private var blockAds = false
     @AppStorage("changeUserAgent") private var changeUserAgent = false
     @AppStorage("incognitoMode") private var incognitoMode = false
+    @AppStorage("blockPopups") private var blockPopups = false
     @AppStorage("clearCacheAtStart") private var clearCacheAtStart = false
     @AppStorage("useDarkTheme") private var useDarkTheme = false
     @AppStorage("loadLastHistory") private var loadLastHistory = false
@@ -60,7 +61,7 @@ class WebViewModel: ObservableObject {
     private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
 
     // Has the page loaded once?
-    private var firstLoad: Bool = false
+    @Published var firstLoad: Bool = false
 
     // URL variable for application URL schemes
     @Published var appUrl: URL?
@@ -316,6 +317,35 @@ class WebViewModel: ObservableObject {
         }
 
         return nil
+    }
+
+    func handlePopup(_ navigationAction: WKNavigationAction) {
+        if blockPopups {
+            toastType = .info
+
+            guard let url = webView.url else {
+                toastDescription = "The URL could not be found, so the popup was blocked based on your preferences"
+
+                return
+            }
+
+            let backgroundContext = PersistenceController.shared.backgroundContext
+            let popupRequest = AllowedPopup.fetchRequest()
+
+            guard let allowedPopups = try? backgroundContext.fetch(popupRequest) else {
+                toastDescription = "There was an internal error, so the popup was blocked based on your preferences"
+
+                return
+            }
+            
+            if allowedPopups.contains(where: {$0.url != nil && url.absoluteString.contains($0.url!)}) {
+                webView.load(navigationAction.request)
+            } else {
+                toastDescription = "Popup blocked based on your preferences"
+            }
+        } else {
+            webView.load(navigationAction.request)
+        }
     }
 
     // Finds the background color of a webpage

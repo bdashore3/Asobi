@@ -25,6 +25,7 @@
 		0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */; };
 		0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */; };
 		0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C447E95274C6C2100DF0186 /* Alamofire */; };
+		0C552ADC2837FB3B0003CBBC /* PopupExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C552ADB2837FB3B0003CBBC /* PopupExceptionView.swift */; };
 		0C55FD1C27823127001FA90E /* FindInPage.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C55FD1B27823127001FA90E /* FindInPage.js */; };
 		0C580953277566F80005CA40 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C580952277566F80005CA40 /* CGFloat.swift */; };
 		0C58C77227064209008D8A79 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C58C77127064209008D8A79 /* blocklist.json */; };
@@ -107,6 +108,7 @@
 		0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0C552ADB2837FB3B0003CBBC /* PopupExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupExceptionView.swift; sourceTree = "<group>"; };
 		0C55FD1B27823127001FA90E /* FindInPage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = FindInPage.js; sourceTree = "<group>"; };
 		0C580952277566F80005CA40 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
 		0C58C77127064209008D8A79 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				0C8DF1D52779217300F25471 /* AppIconPickerView.swift */,
 				0C8DF1D72779220000F25471 /* AppIconButtonView.swift */,
 				0C0C6B7D277A3620007B9345 /* Modifiers.swift */,
+				0C552ADB2837FB3B0003CBBC /* PopupExceptionView.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */,
 				0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */,
 				0CAA093328028226007A0F77 /* SettingsAppearanceView.swift in Sources */,
+				0C552ADC2837FB3B0003CBBC /* PopupExceptionView.swift in Sources */,
 				0CB54E83270682AF0091897E /* UIApplication.swift in Sources */,
 				0C979FDD278F437100FF4186 /* Task.swift in Sources */,
 				0C099D7227FFBE7D008E87B5 /* AsobiRootViewController.swift in Sources */,
