@@ -286,7 +286,7 @@ class WebViewModel: ObservableObject {
         historyRequest.fetchLimit = 1
 
         if let history = try? backgroundContext.fetch(historyRequest).first {
-            if let existingEntry = history.entryArray.first(where: {$0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name}) {
+            if let existingEntry = history.entryArray.first(where: { $0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name }) {
                 PersistenceController.shared.delete(existingEntry, context: backgroundContext)
             }
 
@@ -336,8 +336,8 @@ class WebViewModel: ObservableObject {
 
                 return
             }
-            
-            if allowedPopups.contains(where: {$0.url != nil && url.absoluteString.contains($0.url!)}) {
+
+            if allowedPopups.contains(where: { $0.url != nil && url.absoluteString.contains($0.url!) }) {
                 webView.load(navigationAction.request)
             } else {
                 toastDescription = "Popup blocked based on your preferences"
