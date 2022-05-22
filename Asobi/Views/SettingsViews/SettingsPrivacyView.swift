@@ -56,7 +56,7 @@ struct SettingsPrivacyView: View {
             Toggle(isOn: $blockPopups) {
                 Text("Block popups")
             }
-            
+
             if blockPopups {
                 NavigationLink("Popup exceptions", destination: PopupExceptionView())
             }

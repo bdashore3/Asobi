@@ -25,11 +25,11 @@ struct HistoryView: View {
     ) var history: FetchedResults<History>
 
     @State private var historyIndex = 0
-    
+
     func groupedEntries(_ result: FetchedResults<History>) -> [[History]] {
-        return Dictionary(grouping: result) { (element: History) in
+        Dictionary(grouping: result) { (element: History) in
             element.dateString ?? ""
-        }.values.sorted() { $0[0].date ?? Date() > $1[0].date ?? Date() }
+        }.values.sorted { $0[0].date ?? Date() > $1[0].date ?? Date() }
     }
 
     var body: some View {

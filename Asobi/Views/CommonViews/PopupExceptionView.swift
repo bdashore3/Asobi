@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PopupExceptionView: View {    
+struct PopupExceptionView: View {
     @EnvironmentObject var webModel: WebViewModel
 
     let backgroundContext = PersistenceController.shared.backgroundContext
@@ -40,7 +40,7 @@ struct PopupExceptionView: View {
                         guard let count = try? backgroundContext.count(for: popupRequest) else {
                             return
                         }
-                        
+
                         if count < 1 {
                             let newAllowedSite = AllowedPopup(context: backgroundContext)
                             newAllowedSite.url = newAllowedSiteUrl
@@ -75,7 +75,7 @@ struct PopupExceptionView: View {
         .navigationTitle("Popup exceptions")
         .navigationBarTitleDisplayMode(.inline)
     }
-    
+
     func removeItem(at offsets: IndexSet) {
         for index in offsets {
             let allowedPopup = allowedPopups[index]

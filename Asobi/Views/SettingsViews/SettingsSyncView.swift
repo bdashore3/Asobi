@@ -11,7 +11,7 @@ struct SettingsSyncView: View {
     @AppStorage("iCloudEnabled") var iCloudEnabled = false
 
     @State private var showiCloudAlert = false
-    
+
     var body: some View {
         Section(header: Text("Sync options"), footer: Text("iCloud syncing is currently experimental! You may have duplicates in history or bookmarks")) {
             Toggle(isOn: $iCloudEnabled) {
