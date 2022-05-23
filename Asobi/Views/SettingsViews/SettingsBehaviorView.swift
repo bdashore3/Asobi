@@ -13,6 +13,8 @@ struct SettingsBehaviorView: View {
 
     @AppStorage("persistNavigation") var persistNavigation = false
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
+    @AppStorage("grayHomeIndicator") var grayHomeIndicator = false
+    @AppStorage("showBottomInset") var showBottomInset = false
     @AppStorage("forceFullScreen") var forceFullScreen = false
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
 
@@ -51,6 +53,16 @@ struct SettingsBehaviorView: View {
             }
             .disabledAppearance(persistNavigation)
             .disabled(persistNavigation)
+
+            if UIDevice.current.hasNotch, UIDevice.current.deviceType != .mac {
+                Toggle(isOn: $grayHomeIndicator) {
+                    Text("Gray out home indicator")
+                }
+
+                Toggle(isOn: $showBottomInset) {
+                    Text("Show bottom inset")
+                }
+            }
 
             if UIDevice.current.deviceType != .mac {
                 NavigationLink(

@@ -20,6 +20,7 @@ struct ContentView: View {
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
+    @AppStorage("showBottomInset") var showBottomInset = false
 
     var body: some View {
         ZStack {
@@ -77,7 +78,7 @@ struct ContentView: View {
 
                     navModel.currentSheet = .settings
                 }
-                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : .bottom)
+                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : (showBottomInset ? [] : .bottom))
                 .zIndex(1)
 
             // ProgressView for loading
