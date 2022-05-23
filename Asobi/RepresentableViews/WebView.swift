@@ -12,6 +12,7 @@ struct WebView: UIViewRepresentable {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
+    @EnvironmentObject var rootViewController: AsobiRootViewController
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
@@ -177,6 +178,129 @@ struct WebView: UIViewRepresentable {
 
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             true
+        }
+
+        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
+            let alert = UIAlertController(
+                title: nil,
+                message: message,
+                preferredStyle: .alert
+            )
+
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            }
+
+            alert.addAction(okAction)
+
+            parent.rootViewController.present(alert, animated: true, completion: nil)
+        }
+
+        func webView(_ webView: WKWebView,
+                     runJavaScriptConfirmPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (Bool) -> Void)
+        {
+            let alert = UIAlertController(
+                title: nil,
+                message: message,
+                preferredStyle: .alert
+            )
+
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                completionHandler(true)
+            }
+
+            alert.addAction(okAction)
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                completionHandler(false)
+            }
+
+            alert.addAction(cancelAction)
+
+            // Display the NSAlert
+            parent.rootViewController.present(alert, animated: true, completion: nil)
+        }
+
+        func webView(_ webView: WKWebView,
+                     runJavaScriptTextInputPanelWithPrompt prompt: String,
+                     defaultText: String?,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (String?) -> Void)
+        {
+            let alert = UIAlertController(
+                title: nil,
+                message: prompt,
+                preferredStyle: .alert
+            )
+
+            alert.addTextField { textField in
+                textField.text = defaultText
+            }
+
+            let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
+                completionHandler(alert.textFields?.first?.text)
+            }
+
+            alert.addAction(submitAction)
+
+            parent.rootViewController.present(alert, animated: true, completion: nil)
+        }
+
+        func webView(_ webView: WKWebView,
+                     didReceive challenge: URLAuthenticationChallenge,
+                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+        {
+            guard let hostname = webView.url?.host else {
+                completionHandler(.cancelAuthenticationChallenge, nil)
+                return
+            }
+
+            let authenticationMethod = challenge.protectionSpace.authenticationMethod
+            switch authenticationMethod {
+            case NSURLAuthenticationMethodDefault, NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest:
+                let alert = UIAlertController(
+                    title: "Authentication Required",
+                    message: "\(hostname) is asking for your credentials",
+                    preferredStyle: .alert
+                )
+
+                alert.addTextField { textField in
+                    textField.placeholder = "Username"
+                }
+
+                alert.addTextField { textField in
+                    textField.placeholder = "Password"
+                    textField.isSecureTextEntry = true
+                }
+
+                let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
+                    guard let username = alert.textFields?.first?.text else {
+                        return
+                    }
+
+                    guard let password = alert.textFields?.last?.text else {
+                        return
+                    }
+
+                    let credentials = URLCredential(user: username, password: password, persistence: .forSession)
+                    completionHandler(.useCredential, credentials)
+                }
+
+                alert.addAction(submitAction)
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+                    completionHandler(.cancelAuthenticationChallenge, nil)
+                }
+
+                alert.addAction(cancelAction)
+
+                parent.rootViewController.present(alert, animated: true, completion: nil)
+            case NSURLAuthenticationMethodServerTrust:
+                completionHandler(.performDefaultHandling, nil)
+            default:
+                completionHandler(.cancelAuthenticationChallenge, nil)
+            }
         }
 
         @objc func toggleNavigation(_ gestureRecognizer: UIGestureRecognizer) {

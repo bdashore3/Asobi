@@ -89,6 +89,7 @@ struct MainView: View {
                 .environmentObject(webModel)
                 .environmentObject(navModel)
                 .environmentObject(downloadManager)
+                .environmentObject(rootViewController)
                 .onAppear {
                     if downloadManager.webModel == nil {
                         downloadManager.webModel = webModel
