@@ -22,6 +22,7 @@ struct MainView: View {
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
+    @AppStorage("grayHomeIndicator") var grayHomeIndicator = false
 
     @State private var blurRadius: CGFloat = 0
 
@@ -35,7 +36,7 @@ struct MainView: View {
                     self.rootViewController.ignoreDarkMode = true
 
                     if statusBarPinType == .hide {
-                        self.rootViewController.isHidden = true
+                        self.rootViewController.statusBarHidden = true
                     }
 
                     window?.rootViewController = self.rootViewController
@@ -117,14 +118,20 @@ struct MainView: View {
                 }
                 .onChange(of: statusBarPinType) { newPinType in
                     if newPinType == .hide {
-                        rootViewController.isHidden = true
+                        rootViewController.statusBarHidden = true
                     } else if newPinType == .pin {
-                        rootViewController.isHidden = false
+                        rootViewController.statusBarHidden = false
                     }
                 }
                 .onChange(of: navModel.showNavigationBar) { showing in
+                    print("Navigation bar showing?: \(showing)")
+
                     if statusBarPinType == .partialHide {
-                        rootViewController.isHidden = !showing
+                        rootViewController.statusBarHidden = !showing
+                    }
+
+                    if grayHomeIndicator {
+                        rootViewController.grayHomeIndicator = !showing
                     }
                 }
         }

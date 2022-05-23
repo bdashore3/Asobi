@@ -19,11 +19,17 @@ class AsobiRootViewController: UIViewController, ObservableObject {
         }
     }
 
-    var isHidden: Bool = false {
+    var statusBarHidden: Bool = false {
         didSet {
             UIView.animate(withDuration: 0.3) {
                 self.rootViewController?.setNeedsStatusBarAppearanceUpdate()
             }
+        }
+    }
+
+    var grayHomeIndicator: Bool = false {
+        didSet {
+            rootViewController?.setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
         }
     }
 
@@ -61,11 +67,19 @@ class AsobiRootViewController: UIViewController, ObservableObject {
     }
 
     override var prefersStatusBarHidden: Bool {
-        isHidden
+        statusBarHidden
     }
 
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         .fade
+    }
+
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        if grayHomeIndicator {
+            return [.bottom]
+        } else {
+            return []
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
