@@ -118,13 +118,25 @@ struct WebView: UIViewRepresentable {
         {
             if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
                 switch scheme {
-                case "https", "http":
+                case "https":
                     if navigationAction.targetFrame == nil {
                         parent.webModel.handlePopup(navigationAction)
                     }
 
-                    // Any web URL
                     decisionHandler(.allow)
+                case "http":
+                    if UserDefaults.standard.bool(forKey: "httpsOnlyMode") {
+                        parent.webModel.toastType = .info
+                        parent.webModel.toastDescription = "Https only mode is enabled! Aborting navigation according to your preferences."
+
+                        decisionHandler(.cancel)
+                    } else {
+                        if navigationAction.targetFrame == nil {
+                            parent.webModel.handlePopup(navigationAction)
+                        }
+
+                        decisionHandler(.allow)
+                    }
                 case "blob":
                     // Defer to JS handling
                     parent.downloadManager.executeBlobDownloadJS(url: url)
