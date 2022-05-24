@@ -18,6 +18,8 @@ struct SettingsPrivacyView: View {
     @AppStorage("blurInRecents") var blurInRecents = false
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
 
+    @AppStorage("httpsOnlyMode") var httpsOnlyMode = true
+
     @State private var showAdblockAlert: Bool = false
     @State private var alreadyAuthenticated: Bool = false
     @State private var presentAlert: Bool = false
@@ -29,6 +31,10 @@ struct SettingsPrivacyView: View {
                 footer: Text("The adblocker blocks in-page ads and the popup blocker blocks popups. Make sure to enable what you need.")) {
             Toggle(isOn: $incognitoMode) {
                 Text("Incognito mode")
+            }
+
+            Toggle(isOn: $httpsOnlyMode) {
+                Text("Https only mode")
             }
 
             Toggle(isOn: $blockAds) {
