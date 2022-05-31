@@ -33,10 +33,8 @@ struct SettingsWebsiteView: View {
         // MARK: Default URL setting
 
         Section(header: Text("Default URL"),
-                footer:
-                VStack(alignment: .leading, spacing: 4) {
+                footer: VStack(alignment: .leading, spacing: 8) {
                     Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
-                    Text("MacCatalyst users have to hit enter or return in the textbox for the URL change to appear.")
                     Text("The load most recent URL option loads the last URL from history on app launch.")
                 }) {
             // Auto capitalization modifier will be deprecated at some point

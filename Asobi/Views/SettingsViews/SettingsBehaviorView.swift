@@ -17,6 +17,7 @@ struct SettingsBehaviorView: View {
     @AppStorage("showBottomInset") var showBottomInset = false
     @AppStorage("forceFullScreen") var forceFullScreen = false
     @AppStorage("clearCacheAtStart") var clearCacheAtStart = false
+    @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
 
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
 
@@ -28,9 +29,11 @@ struct SettingsBehaviorView: View {
         // MARK: Browser behavior settings
 
         Section(header: Text("Behavior"),
-                footer: Text(
-                    "The clear cache option clears browser cache on app launch. \nThe allow browser swipe gestures option toggles the webview's navigation gestures."
-                )) {
+                footer: VStack(alignment: .leading, spacing: 8) {
+                    Text("The clear cache option clears browser cache on app launch.")
+                    Text("The allow browser swipe gestures option toggles the webview's navigation gestures.")
+                    Text("Smart bookmarks will remember the last page you visited for that website")
+                }) {
             Toggle(isOn: $persistNavigation) {
                 Text("Lock navigation bar")
             }
@@ -117,6 +120,10 @@ struct SettingsBehaviorView: View {
                 } else {
                     webModel.webView.allowsBackForwardNavigationGestures = false
                 }
+            }
+
+            Toggle(isOn: $useStatefulBookmarks) {
+                Text("Smart bookmarks")
             }
         }
     }

@@ -19,6 +19,7 @@ struct ListRowLinkView: View {
     let text: String
     let link: String
     var subText: String?
+    @State var useStatefulBookmarks: Bool = false
 
     var body: some View {
         ZStack {
@@ -46,7 +47,22 @@ struct ListRowLinkView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            webModel.loadUrl(link)
+            var loadLink = link
+
+            if useStatefulBookmarks {
+                let cutUrl = link.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: "")
+
+                let historyRequest = HistoryEntry.fetchRequest()
+                historyRequest.predicate = NSPredicate(format: "url CONTAINS %@", cutUrl)
+                historyRequest.sortDescriptors = [NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)]
+                historyRequest.fetchLimit = 1
+
+                if let entry = try? PersistenceController.shared.backgroundContext.fetch(historyRequest).first, let url = entry.url {
+                    loadLink = url
+                }
+            }
+
+            webModel.loadUrl(loadLink)
 
             navModel.currentSheet = nil
         }

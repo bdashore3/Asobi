@@ -23,6 +23,7 @@ struct MainView: View {
     @AppStorage("followSystemTheme") var followSystemTheme = true
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
     @AppStorage("grayHomeIndicator") var grayHomeIndicator = false
+    @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
 
     @State private var blurRadius: CGFloat = 0
 
@@ -103,8 +104,20 @@ struct MainView: View {
                     }
                 }
                 .onOpenURL { url in
-                    let splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+                    var splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
                     navModel.currentSheet = nil
+
+                    if useStatefulBookmarks {
+                        let historyRequest = HistoryEntry.fetchRequest()
+                        historyRequest.predicate = NSPredicate(format: "url CONTAINS %@", splitUrl)
+                        historyRequest.sortDescriptors = [NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)]
+                        historyRequest.fetchLimit = 1
+
+                        if let entry = try? PersistenceController.shared.backgroundContext.fetch(historyRequest).first, let url = entry.url {
+                            splitUrl = url
+                        }
+                    }
+
                     webModel.loadUrl(splitUrl)
                 }
                 .onChange(of: colorScheme) { _ in
