@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BookmarkView: View {
     @AppStorage("defaultUrl") var defaultUrl = ""
+    @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
@@ -35,7 +36,7 @@ struct BookmarkView: View {
                 ForEach(bookmarks, id: \.self) { bookmark in
                     // Check for iOS 15 and ONLY iOS 15
                     if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
+                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button("Edit") {
                                     currentBookmark = bookmark
@@ -58,7 +59,7 @@ struct BookmarkView: View {
                                 .tint(.green)
                             }
                     } else {
-                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "")
+                        ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .contextMenu {
                                 Button {
                                     currentBookmark = bookmark
