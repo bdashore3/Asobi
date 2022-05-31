@@ -85,10 +85,14 @@ struct ContentView: View {
             if webModel.showLoadingProgress {
                 GroupBox {
                     VStack {
-                        CircularProgressBar(webModel.webView.estimatedProgress)
-                            .lineWidth(6)
-                            .foregroundColor(navigationAccent)
-                            .frame(width: 60, height: 60)
+                        ZStack {
+                            Text("\(String(format: "%.0f", round(webModel.webView.estimatedProgress * 100)))%")
+
+                            CircularProgressBar(webModel.webView.estimatedProgress)
+                                .lineWidth(6)
+                                .foregroundColor(navigationAccent)
+                                .frame(width: 60, height: 60)
+                        }
 
                         Text("Loading...")
                             .font(.title2)
