@@ -25,6 +25,7 @@ struct PopupExceptionView: View {
             Section(header: "Add a website") {
                 HStack {
                     TextField("Enter URL", text: $newAllowedSiteUrl)
+                        .clearButtonMode(.whileEditing)
                         .disableAutocorrection(true)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
