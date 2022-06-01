@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import Introspect
 import SwiftUI
 
 struct EditBookmarkView: View {
@@ -28,7 +29,10 @@ struct EditBookmarkView: View {
                 // Because onAppear doesn't work properly with sheet + form
                 Section {
                     TextField("Enter title", text: $bookmarkName)
+                        .clearButtonMode(.whileEditing)
+
                     TextField("Enter URL", text: $bookmarkUrl)
+                        .clearButtonMode(.whileEditing)
                         .disableAutocorrection(true)
                         .keyboardType(.URL)
                         .autocapitalization(.none)

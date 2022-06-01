@@ -49,6 +49,7 @@ struct SettingsWebsiteView: View {
                     webModel.loadUrl()
                 }
             })
+            .clearButtonMode(.whileEditing)
             .textCase(.lowercase)
             .disableAutocorrection(true)
             .keyboardType(.URL)
@@ -61,7 +62,6 @@ struct SettingsWebsiteView: View {
                 )
             }
             .disabledAppearance(loadLastHistory)
-            .disabled(loadLastHistory)
 
             Toggle(isOn: $loadLastHistory) {
                 Text("Load most recent URL")

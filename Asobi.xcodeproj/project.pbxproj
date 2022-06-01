@@ -32,6 +32,7 @@
 		0C5CBB8C270D39350045E2FE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CBB8B270D39350045E2FE /* Color.swift */; };
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
 		0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6822C427B8226200D27B68 /* AuthOverlayView.swift */; };
+		0C6BFEC22847B52D008AEAFE /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BFEC12847B52D008AEAFE /* TextField.swift */; };
 		0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */; };
 		0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D3FB02717D87D000A4534 /* PersistenceController.swift */; };
 		0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7FADD12786246200564B52 /* LibraryActionsView.swift */; };
@@ -115,6 +116,7 @@
 		0C5CBB8B270D39350045E2FE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		0C6822C427B8226200D27B68 /* AuthOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOverlayView.swift; sourceTree = "<group>"; };
+		0C6BFEC12847B52D008AEAFE /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInPageButtonView.swift; sourceTree = "<group>"; };
 		0C7D3FB02717D87D000A4534 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0C7FADD12786246200564B52 /* LibraryActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryActionsView.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				0C580952277566F80005CA40 /* CGFloat.swift */,
 				0C0C6B7F277A3708007B9345 /* View.swift */,
 				0C979FDC278F437100FF4186 /* Task.swift */,
+				0C6BFEC12847B52D008AEAFE /* TextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */,
 				7C20C0D126BC6FFC004D8618 /* SettingsButtonView.swift in Sources */,
 				0C099D6627FF2958008E87B5 /* StatusBarPickerViews.swift in Sources */,
+				0C6BFEC22847B52D008AEAFE /* TextField.swift in Sources */,
 				0C02727C2741FA4F007C2CC9 /* AsobiDB.xcdatamodeld in Sources */,
 				0CAA093C280286BE007A0F77 /* SettingsWebsiteView.swift in Sources */,
 				0C5CBB8C270D39350045E2FE /* Color.swift in Sources */,

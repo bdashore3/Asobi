@@ -33,7 +33,6 @@ struct SettingsAppearanceView: View {
                 Text("Use dark theme")
             }
             .disabledAppearance(followSystemTheme)
-            .disabled(followSystemTheme)
 
             Toggle(isOn: $followSystemTheme) {
                 Text("Follow system theme")
@@ -78,7 +77,6 @@ struct SettingsAppearanceView: View {
                         webModel.setStatusbarColor()
                     }
                     .disabledAppearance(statusBarStyleType != .custom)
-                    .disabled(statusBarStyleType != .custom)
             }
         }
     }

@@ -36,6 +36,18 @@ struct DisabledAppearance: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .disabled(disabled)
             .opacity(disabled ? 0.5 : 1)
+    }
+}
+
+struct TextFieldClearMode: ViewModifier {
+    let clearButtonMode: UITextField.ViewMode
+
+    func body(content: Content) -> some View {
+        content
+            .introspectTextField { textField in
+                textField.clearButtonMode = clearButtonMode
+            }
     }
 }
