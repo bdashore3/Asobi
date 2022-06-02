@@ -14,6 +14,7 @@ struct LibraryActionsView: View {
             hashValue
         }
 
+        case repairHistory
         case cache
         case cookies
         case success
@@ -28,6 +29,7 @@ struct LibraryActionsView: View {
     @State private var isCopiedButton = false
     @State private var currentAlert: LibraryActionAlertType?
     @State private var alertText = ""
+    @State private var showLibraryActionProgress = false
 
     var body: some View {
         Form {
@@ -82,6 +84,10 @@ struct LibraryActionsView: View {
                         }
                     }
 
+                    Button("Repair history") {
+                        currentAlert = .repairHistory
+                    }
+
                     Button("Clear all cookies") {
                         currentAlert = .cookies
                     }
@@ -94,6 +100,20 @@ struct LibraryActionsView: View {
                 }
                 .alert(item: $currentAlert) { alert in
                     switch alert {
+                    case .repairHistory:
+                        return Alert(
+                            title: Text("Are you sure?"),
+                            message: Text("This will attempt to re-link any leftover (zombie) history entries. Do you want to proceed?"),
+                            primaryButton: .default(Text("Yes")) {
+                                showLibraryActionProgress = true
+                                webModel.repairZombieHistory()
+                                showLibraryActionProgress = false
+
+                                alertText = "All history entries have been re-associated. \n\nIf you still have problems, consider clearing browsing data."
+                                currentAlert = .success
+                            },
+                            secondaryButton: .cancel()
+                        )
                     case .cache:
                         return Alert(
                             title: Text("Are you sure?"),
@@ -138,6 +158,19 @@ struct LibraryActionsView: View {
                 }
 
                 HistoryActionView(labelText: "Clear browsing data")
+            }
+        }
+        .overlay {
+            if showLibraryActionProgress {
+                GroupBox {
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+
+                        Text("Working...")
+                    }
+                }
+                .shadow(radius: 10)
             }
         }
     }
