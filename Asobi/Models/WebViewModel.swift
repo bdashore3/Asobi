@@ -515,6 +515,8 @@ class WebViewModel: ObservableObject {
     }
 
     func clearCookies() async {
+        debugPrint("User requested to clear cookies")
+
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
 
         let dataRecords = await WKWebsiteDataStore.default().dataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes())
@@ -523,6 +525,8 @@ class WebViewModel: ObservableObject {
     }
 
     func clearCache() async {
+        debugPrint("User requested to begin history cache")
+
         await WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0))
     }
 }

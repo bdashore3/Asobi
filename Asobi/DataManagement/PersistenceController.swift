@@ -81,7 +81,7 @@ struct PersistenceController {
     func delete(_ object: NSManagedObject, context: NSManagedObjectContext? = nil) {
         let context = context ?? container.viewContext
 
-        if context !== container.viewContext {
+        if context != container.viewContext {
             let wrappedObject = try? context.existingObject(with: object.objectID)
 
             if let backgroundObject = wrappedObject {
@@ -140,6 +140,8 @@ struct PersistenceController {
     // Always use the background context to batch delete
     // Merge changes into both contexts to update views
     func batchDeleteHistory(range: HistoryDeleteRange) throws {
+        debugPrint("User requested to clear browsing data")
+
         let predicate = getHistoryPredicate(range: range)
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "History")
