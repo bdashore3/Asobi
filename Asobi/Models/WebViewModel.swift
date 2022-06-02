@@ -287,18 +287,25 @@ class WebViewModel: ObservableObject {
 
         let historyRequest = History.fetchRequest()
         historyRequest.predicate = NSPredicate(format: "dateString == %@", dateString)
-        historyRequest.fetchLimit = 1
 
-        if let history = try? backgroundContext.fetch(historyRequest).first {
-            let existingEntries = history.entryArray.filter { $0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name }
+        // Count should usually be 1, but removes duplicates if they are present
+        if var histories = try? backgroundContext.fetch(historyRequest) {
+            for (i, history) in histories.enumerated() {
+                let existingEntries = history.entryArray.filter { $0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name }
 
-            if !existingEntries.isEmpty {
-                for entry in existingEntries {
-                    PersistenceController.shared.delete(entry, context: backgroundContext)
+                if !existingEntries.isEmpty {
+                    for entry in existingEntries {
+                        PersistenceController.shared.delete(entry, context: backgroundContext)
+                    }
+                }
+
+                if history.entryArray.isEmpty {
+                    PersistenceController.shared.delete(history, context: backgroundContext)
+                    histories.remove(at: i)
                 }
             }
 
-            newHistoryEntry.parentHistory = history
+            newHistoryEntry.parentHistory = histories.first ?? History(context: backgroundContext)
         } else {
             newHistoryEntry.parentHistory = History(context: backgroundContext)
         }
