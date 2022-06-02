@@ -156,8 +156,12 @@ class WebViewModel: ObservableObject {
             }
         }
 
-        if let historyUrl = fetchLastHistoryEntry(), loadLastHistory {
-            loadUrl(historyUrl)
+        if loadLastHistory {
+            if let historyUrl = fetchLastHistoryEntry() {
+                loadUrl(historyUrl)
+            } else {
+                loadUrl()
+            }
         } else {
             loadUrl()
         }
