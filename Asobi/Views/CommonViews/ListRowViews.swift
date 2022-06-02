@@ -58,6 +58,10 @@ struct ListRowLinkView: View {
                 historyRequest.fetchLimit = 1
 
                 if let entry = try? PersistenceController.shared.backgroundContext.fetch(historyRequest).first, let url = entry.url {
+                    if entry.parentHistory == nil {
+                        webModel.toastDescription = "This history entry is a zombie! You may want to repair your history in Library > Actions"
+                    }
+
                     loadLink = url
                 }
             }

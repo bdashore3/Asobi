@@ -286,8 +286,12 @@ class WebViewModel: ObservableObject {
         historyRequest.fetchLimit = 1
 
         if let history = try? backgroundContext.fetch(historyRequest).first {
-            if let existingEntry = history.entryArray.first(where: { $0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name }) {
-                PersistenceController.shared.delete(existingEntry, context: backgroundContext)
+            let existingEntries = history.entryArray.filter { $0.url == newHistoryEntry.url && $0.name == newHistoryEntry.name }
+
+            if !existingEntries.isEmpty {
+                for entry in existingEntries {
+                    PersistenceController.shared.delete(entry, context: backgroundContext)
+                }
             }
 
             newHistoryEntry.parentHistory = history
@@ -310,12 +314,67 @@ class WebViewModel: ObservableObject {
 
         do {
             let lastHistoryObject = try viewContext.fetch(request).first
+
+            if lastHistoryObject?.parentHistory == nil {
+                toastDescription = "This history entry is a zombie! You may want to repair your history in Library > Actions"
+            }
+
             return lastHistoryObject?.url
         } catch {
             toastDescription = "Failed to fetch your last history entry. Loading the default URL."
         }
 
         return nil
+    }
+
+    // TODO: May need to add delete logic if saving fails, but probably unlikely.
+    func repairZombieHistory() {
+        debugPrint("User requested to begin history repair")
+
+        let backgroundContext = PersistenceController.shared.backgroundContext
+        let request = HistoryEntry.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: true)]
+        request.predicate = NSPredicate(format: "parentHistory == nil")
+
+        var currentDateString = ""
+        var storedParentHistory: History?
+
+        if let zombieEntries = try? backgroundContext.fetch(request) {
+            let parentHistoryRequest = History.fetchRequest()
+            parentHistoryRequest.fetchLimit = 1
+
+            for entry in zombieEntries {
+                let date = Date(timeIntervalSince1970: entry.timestamp)
+                let dateString = DateFormatter.historyDateFormatter.string(from: date)
+
+                debugPrint("Working on entry with URL: \(entry.url ?? "nil") and timestamp: \(entry.timestamp)")
+
+                if let parentHistory = storedParentHistory, dateString == currentDateString {
+                    debugPrint("Assigning entry to existing parent history")
+
+                    entry.parentHistory = parentHistory
+                } else {
+                    parentHistoryRequest.predicate = NSPredicate(format: "dateString == %@", dateString)
+
+                    if let parentHistory = try? backgroundContext.fetch(parentHistoryRequest).first {
+                        debugPrint("Assigning entry to existing parent history")
+                        entry.parentHistory = parentHistory
+                        storedParentHistory = parentHistory
+                        currentDateString = dateString
+                    } else {
+                        debugPrint("Assigning entry to a new parent history")
+                        let newParentHistory = History(context: backgroundContext)
+                        newParentHistory.dateString = dateString
+                        newParentHistory.date = date
+
+                        entry.parentHistory = newParentHistory
+                    }
+                }
+            }
+
+            PersistenceController.shared.save(backgroundContext)
+            debugPrint("history repair complete")
+        }
     }
 
     func handlePopup(_ navigationAction: WKNavigationAction) {
