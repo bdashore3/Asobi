@@ -106,10 +106,10 @@ struct LibraryActionsView: View {
                             message: Text("This will attempt to re-link any leftover (zombie) history entries. Do you want to proceed?"),
                             primaryButton: .default(Text("Yes")) {
                                 showLibraryActionProgress = true
-                                webModel.repairZombieHistory()
+                                let repairedCount = webModel.repairZombieHistory()
                                 showLibraryActionProgress = false
 
-                                alertText = "All history entries have been re-associated. \n\nIf you still have problems, consider clearing browsing data."
+                                alertText = "A total of \(repairedCount) history entries have been re-associated. \n\nIf you still have problems, consider clearing browsing data."
                                 currentAlert = .success
                             },
                             secondaryButton: .cancel()
@@ -121,6 +121,8 @@ struct LibraryActionsView: View {
                             primaryButton: .destructive(Text("Yes")) {
                                 Task {
                                     await webModel.clearCache()
+
+                                    alertText = "Browser cache has been cleared"
                                     currentAlert = .success
                                 }
                             },
@@ -133,6 +135,8 @@ struct LibraryActionsView: View {
                             primaryButton: .destructive(Text("Yes")) {
                                 Task {
                                     await webModel.clearCookies()
+
+                                    alertText = "Cookies have been cleared"
                                     currentAlert = .success
                                 }
                             },
