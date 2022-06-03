@@ -79,8 +79,9 @@ struct PopupExceptionView: View {
 
     func removeItem(at offsets: IndexSet) {
         for index in offsets {
-            let allowedPopup = allowedPopups[index]
-            PersistenceController.shared.delete(allowedPopup, context: backgroundContext)
+            if let allowedPopup = allowedPopups[safe: index] {
+                PersistenceController.shared.delete(allowedPopup, context: backgroundContext)
+            }
         }
     }
 }

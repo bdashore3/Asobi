@@ -94,8 +94,9 @@ struct BookmarkView: View {
 
     func removeItem(at offsets: IndexSet) {
         for index in offsets {
-            let bookmark = bookmarks[index]
-            PersistenceController.shared.delete(bookmark, context: backgroundContext)
+            if let bookmark = bookmarks[safe: index] {
+                PersistenceController.shared.delete(bookmark, context: backgroundContext)
+            }
         }
     }
 
