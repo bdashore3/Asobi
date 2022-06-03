@@ -51,7 +51,7 @@ struct AppIconButtonView: View {
             Alert(
                 title: Text("Error!"),
                 message: Text("App icon error: \(errorAlertText)"),
-                dismissButton: .cancel(Text("OK!"))
+                dismissButton: .cancel(Text("OK"))
             )
         }
     }

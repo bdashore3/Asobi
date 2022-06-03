@@ -55,7 +55,7 @@ struct SettingsPrivacyView: View {
                 Alert(
                     title: Text(blockAds ? "Adblock enabled" : "Adblock disabled"),
                     message: Text("The page will refresh when you exit settings"),
-                    dismissButton: .cancel(Text("OK!"))
+                    dismissButton: .cancel(Text("OK"))
                 )
             }
 

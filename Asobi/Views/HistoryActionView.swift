@@ -15,6 +15,7 @@ struct HistoryActionView: View {
 
         case warn
         case error
+        case success
     }
 
     @State var labelText: String
@@ -22,6 +23,7 @@ struct HistoryActionView: View {
     @State private var currentHistoryAlert: HistoryAlertType?
     @State private var showActionSheet = false
     @State private var historyDeleteRange: HistoryDeleteRange = .day
+    @State private var successAlertRange: String = ""
     @State private var errorMessage: String?
 
     var body: some View {
@@ -38,14 +40,17 @@ struct HistoryActionView: View {
                 buttons: [
                     .destructive(Text("Past day")) {
                         historyDeleteRange = .day
+                        successAlertRange = "day"
                         currentHistoryAlert = .warn
                     },
                     .destructive(Text("Past week")) {
                         historyDeleteRange = .week
+                        successAlertRange = "week"
                         currentHistoryAlert = .warn
                     },
                     .destructive(Text("Past 4 weeks")) {
                         historyDeleteRange = .month
+                        successAlertRange = "4 weeks"
                         currentHistoryAlert = .warn
                     },
                     .destructive(Text("All time")) {
@@ -65,6 +70,7 @@ struct HistoryActionView: View {
                     primaryButton: .destructive(Text("Yes")) {
                         do {
                             try PersistenceController.shared.batchDeleteHistory(range: historyDeleteRange)
+                            currentHistoryAlert = .success
                         } catch {
                             errorMessage = error.localizedDescription
                             currentHistoryAlert = .error
@@ -76,7 +82,15 @@ struct HistoryActionView: View {
                 return Alert(
                     title: Text("Error when clearing data!"),
                     message: Text(errorMessage ?? "This alert popped up by accident, send feedback to the dev."),
-                    dismissButton: .default(Text("OK!"))
+                    dismissButton: .default(Text("OK"))
+                )
+            case .success:
+                return Alert(
+                    title: Text("Success!"),
+                    message: Text("Your browsing data \(successAlertRange.isEmpty ? "" : "from the past \(successAlertRange)") has been cleared"),
+                    dismissButton: .default(Text("OK")) {
+                        successAlertRange = ""
+                    }
                 )
             }
         }

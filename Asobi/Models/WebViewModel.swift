@@ -339,8 +339,10 @@ class WebViewModel: ObservableObject {
     }
 
     // TODO: May need to add delete logic if saving fails, but probably unlikely.
-    func repairZombieHistory() {
+    func repairZombieHistory() -> Int {
         debugPrint("User requested to begin history repair")
+
+        var repairedCount = 0
 
         let backgroundContext = PersistenceController.shared.backgroundContext
         let request = HistoryEntry.fetchRequest()
@@ -381,11 +383,16 @@ class WebViewModel: ObservableObject {
                         entry.parentHistory = newParentHistory
                     }
                 }
+
+                repairedCount += 1
             }
 
             PersistenceController.shared.save(backgroundContext)
-            debugPrint("history repair complete")
         }
+
+        debugPrint("history repair complete")
+
+        return repairedCount
     }
 
     func handlePopup(_ navigationAction: WKNavigationAction) {

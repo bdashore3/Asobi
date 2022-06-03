@@ -24,7 +24,7 @@ struct SettingsSyncView: View {
                 Alert(
                     title: Text(iCloudEnabled ? "Syncing enabled" : "Syncing disabled"),
                     message: Text("Changing this setting requires an app restart"),
-                    dismissButton: .cancel(Text("OK!"))
+                    dismissButton: .cancel(Text("OK"))
                 )
             }
         }
