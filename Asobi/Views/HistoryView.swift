@@ -52,9 +52,9 @@ struct HistoryView: View {
 
     func removeEntry(at offsets: IndexSet, from history: History) {
         for index in offsets {
-            let entry = history.entryArray[index]
-
-            history.removeFromEntries(entry)
+            if let entry = history.entryArray[safe: index] {
+                PersistenceController.shared.delete(entry, context: backgroundContext)
+            }
 
             if history.entryArray.isEmpty {
                 PersistenceController.shared.delete(history, context: backgroundContext)

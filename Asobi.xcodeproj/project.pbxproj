@@ -40,6 +40,7 @@
 		0C8BB6B6270E50DB0083C9D1 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */; };
 		0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D52779217300F25471 /* AppIconPickerView.swift */; };
 		0C8DF1D82779220000F25471 /* AppIconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DF1D72779220000F25471 /* AppIconButtonView.swift */; };
+		0C92B28D284992A10026A1F2 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92B28C284992A10026A1F2 /* Collection.swift */; };
 		0C977CE82805A798000D7323 /* ZoomUnlocker.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C977CE72805A798000D7323 /* ZoomUnlocker.js */; };
 		0C977CEA2805A7D5000D7323 /* MacOSPaste.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C977CE92805A7D5000D7323 /* MacOSPaste.js */; };
 		0C979FDD278F437100FF4186 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C979FDC278F437100FF4186 /* Task.swift */; };
@@ -125,6 +126,7 @@
 		0C8DF1D52779217300F25471 /* AppIconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconPickerView.swift; sourceTree = "<group>"; };
 		0C8DF1D72779220000F25471 /* AppIconButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButtonView.swift; sourceTree = "<group>"; };
 		0C908C3F271088BA00CD6236 /* Asobi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asobi.entitlements; sourceTree = "<group>"; };
+		0C92B28C284992A10026A1F2 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		0C977CE72805A798000D7323 /* ZoomUnlocker.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ZoomUnlocker.js; sourceTree = "<group>"; };
 		0C977CE92805A7D5000D7323 /* MacOSPaste.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = MacOSPaste.js; sourceTree = "<group>"; };
 		0C979FDC278F437100FF4186 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				0C0C6B7F277A3708007B9345 /* View.swift */,
 				0C979FDC278F437100FF4186 /* Task.swift */,
 				0C6BFEC12847B52D008AEAFE /* TextField.swift */,
+				0C92B28C284992A10026A1F2 /* Collection.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				0C099D7227FFBE7D008E87B5 /* AsobiRootViewController.swift in Sources */,
 				7C20C0C726BC6E38004D8618 /* SettingsView.swift in Sources */,
 				7C20C0C426BC3BD7004D8618 /* ListRowViews.swift in Sources */,
+				0C92B28D284992A10026A1F2 /* Collection.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
 				0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */,
 				0C0C6B80277A3708007B9345 /* View.swift in Sources */,
