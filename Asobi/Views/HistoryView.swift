@@ -53,6 +53,7 @@ struct HistoryView: View {
     func removeEntry(at offsets: IndexSet, from history: History) {
         for index in offsets {
             if let entry = history.entryArray[safe: index] {
+                history.removeFromEntries(entry)
                 PersistenceController.shared.delete(entry, context: backgroundContext)
             }
 
