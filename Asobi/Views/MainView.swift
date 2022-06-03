@@ -27,6 +27,10 @@ struct MainView: View {
 
     @State private var blurRadius: CGFloat = 0
 
+    // TEMP: Remove in next Asobi version
+    @State private var showHistoryRepairedAlert = false
+    @State private var repairedHistoryAmount = 0
+
     var body: some View {
         ZStack {
             ContentView()
@@ -102,6 +106,24 @@ struct MainView: View {
                             await navModel.authenticateOnStartup()
                         }
                     }
+
+                    // TEMP: Remove in next Asobi version
+                    if !UserDefaults.standard.bool(forKey: "firstLaunchRepairHistory") {
+                        repairedHistoryAmount = webModel.repairZombieHistory()
+                        showHistoryRepairedAlert.toggle()
+                        debugPrint("History repair on firstRun has been executed")
+                        UserDefaults.standard.set(true, forKey: "firstLaunchRepairHistory")
+                    }
+                }
+                // TEMP: Remove in next Asobi version
+                .alert(isPresented: $showHistoryRepairedAlert) {
+                    return Alert(
+                        title: Text("History repair complete"),
+                        message: Text("A bug was recently fixed regarding browser history and Asobi has fixed the issues. \n\n" +
+                                      "A total of \(repairedHistoryAmount) entries have been repaired. This will not show up again. \n\n" +
+                                      "If you still have problems, click the repair history button in library."),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
                 .onOpenURL { url in
                     var splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
