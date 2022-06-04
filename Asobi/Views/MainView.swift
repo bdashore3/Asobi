@@ -117,11 +117,11 @@ struct MainView: View {
                 }
                 // TEMP: Remove in next Asobi version
                 .alert(isPresented: $showHistoryRepairedAlert) {
-                    return Alert(
+                    Alert(
                         title: Text("History repair complete"),
                         message: Text("A bug was recently fixed regarding browser history and Asobi has fixed the issues. \n\n" +
-                                      "A total of \(repairedHistoryAmount) entries have been repaired. This will not show up again. \n\n" +
-                                      "If you still have problems, click the repair history button in library."),
+                            "A total of \(repairedHistoryAmount) entries have been repaired. This will not show up again. \n\n" +
+                            "If you still have problems, click the repair history button in library."),
                         dismissButton: .default(Text("OK"))
                     )
                 }
