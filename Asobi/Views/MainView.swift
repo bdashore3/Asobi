@@ -12,7 +12,8 @@ struct MainView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var managedObjectContext
 
-    @StateObject var webModel: WebViewModel = .init()
+    @EnvironmentObject var webModel: WebViewModel
+
     @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
     @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
