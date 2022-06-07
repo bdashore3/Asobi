@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @EnvironmentObject var navModel: NavigationViewModel
 
     @AppStorage("useDarkTheme") var useDarkTheme = false
@@ -18,7 +16,7 @@ struct SettingsView: View {
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
-        NavigationView {
+        NavView {
             Form {
                 SettingsAppearanceView()
                 SettingsBehaviorView()

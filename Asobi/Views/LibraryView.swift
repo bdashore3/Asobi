@@ -25,7 +25,7 @@ struct LibraryView: View {
     @State private var editMode: EditMode = .inactive
 
     var body: some View {
-        NavigationView {
+        NavView {
             VStack {
                 Picker("Tabs", selection: $tabSelect) {
                     Text("Bookmarks").tag(0)
@@ -50,9 +50,7 @@ struct LibraryView: View {
 
                 Spacer()
             }
-            .background(
-                navigationSwitchView
-            )
+            .background(navigationSwitchView)
             .navigationBarTitle(getNavigationBarTitle(tabSelect), displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -80,7 +78,7 @@ struct LibraryView: View {
                     .keyboardShortcut(.cancelAction)
                 }
             }
-            .navigationViewStyle(.stack)
+            .id(showEditing)
             .environment(\.editMode, $editMode)
         }
         .onAppear {
@@ -103,10 +101,11 @@ struct LibraryView: View {
         }
     }
 
+    // TODO: iOS 16: Replace with navigationDestination
     @ViewBuilder
     var navigationSwitchView: some View {
         if tabSelect == 0 {
-            NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark), isActive: $showEditing)
+            NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark, calledFromLibrary: true), isActive: $showEditing)
         }
     }
 }

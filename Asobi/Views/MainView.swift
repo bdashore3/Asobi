@@ -66,12 +66,14 @@ struct MainView: View {
                                 .environmentObject(navModel)
                         }
                     case .bookmarkEditing:
-                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                            EditBookmarkView(bookmark: .constant(nil))
-                        } else {
-                            EditBookmarkView(bookmark: .constant(nil))
-                                .environment(\.managedObjectContext, managedObjectContext)
-                                .environmentObject(navModel)
+                        NavView {
+                            if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                                EditBookmarkView(bookmark: .constant(nil))
+                            } else {
+                                EditBookmarkView(bookmark: .constant(nil))
+                                    .environment(\.managedObjectContext, managedObjectContext)
+                                    .environmentObject(navModel)
+                            }
                         }
                     }
                 }
