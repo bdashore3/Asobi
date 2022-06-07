@@ -68,9 +68,9 @@ struct MainView: View {
                     case .bookmarkEditing:
                         NavView {
                             if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                                EditBookmarkView(bookmark: .constant(nil))
+                                EditBookmarkView()
                             } else {
-                                EditBookmarkView(bookmark: .constant(nil))
+                                EditBookmarkView()
                                     .environment(\.managedObjectContext, managedObjectContext)
                                     .environmentObject(navModel)
                             }

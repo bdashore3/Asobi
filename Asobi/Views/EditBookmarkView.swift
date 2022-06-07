@@ -17,9 +17,8 @@ struct EditBookmarkView: View {
 
     let backgroundContext = PersistenceController.shared.backgroundContext
 
-    @Binding var bookmark: Bookmark?
+    @State var bookmark: Bookmark? = nil
 
-    @State var calledFromLibrary = false
     @State private var bookmarkName = ""
     @State private var bookmarkUrl = ""
     @State private var showUrlError = false
@@ -56,7 +55,7 @@ struct EditBookmarkView: View {
         .navigationBarTitle("Editing Bookmark", displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                if !calledFromLibrary {
+                if navModel.currentSheet != .library {
                     Button("Cancel") {
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -108,6 +107,6 @@ struct EditBookmarkView: View {
 
 struct EditBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookmarkView(bookmark: .constant(nil))
+        EditBookmarkView(bookmark: nil)
     }
 }

@@ -51,3 +51,12 @@ struct TextFieldClearMode: ViewModifier {
             }
     }
 }
+
+struct WillDisappearModifier: ViewModifier {
+    let callback: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .background(WillDisappearHandler(onWillDisappear: callback))
+    }
+}
