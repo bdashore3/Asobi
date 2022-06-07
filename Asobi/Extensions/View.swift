@@ -15,4 +15,8 @@ extension View {
     func disabledAppearance(_ disabled: Bool = false) -> some View {
         modifier(DisabledAppearance(disabled: disabled))
     }
+
+    func onWillDisappear(_ perform: @escaping () -> Void) -> some View {
+        self.modifier(WillDisappearModifier(callback: perform))
+    }
 }

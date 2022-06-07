@@ -20,7 +20,6 @@ struct LibraryView: View {
     @State private var dismissSelf = false
     @State private var tabSelect = 0
     @State private var showEditing = false
-    @State private var currentBookmark: Bookmark?
     @State private var isCopiedButton = false
     @State private var editMode: EditMode = .inactive
 
@@ -39,7 +38,7 @@ struct LibraryView: View {
 
                 switch tabSelect {
                 case 0:
-                    BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
+                    BookmarkView()
                 case 1:
                     LibraryActionsView(currentUrl: $currentUrl)
                 case 2:
@@ -50,15 +49,20 @@ struct LibraryView: View {
 
                 Spacer()
             }
-            .background(navigationSwitchView)
             .navigationBarTitle(getNavigationBarTitle(tabSelect), displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     if tabSelect == 0 {
                         // Showing bookmark view
-                        Button("Add") {
-                            showEditing.toggle()
-                        }
+                        NavigationLink("Add", destination:
+                            EditBookmarkView()
+                                .onAppear {
+                                    showEditing = true
+                                }
+                                .onWillDisappear {
+                                    showEditing = false
+                                }
+                        )
                     } else if #available(iOS 15, *), tabSelect == 2 {
                         // Show history action sheet in toolbar if iOS 15 or up
                         HistoryActionView(labelText: "Clear")
@@ -98,14 +102,6 @@ struct LibraryView: View {
             return "History"
         default:
             return ""
-        }
-    }
-
-    // TODO: iOS 16: Replace with navigationDestination
-    @ViewBuilder
-    var navigationSwitchView: some View {
-        if tabSelect == 0 {
-            NavigationLink("", destination: EditBookmarkView(bookmark: $currentBookmark, calledFromLibrary: true), isActive: $showEditing)
         }
     }
 }

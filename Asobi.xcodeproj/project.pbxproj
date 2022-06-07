@@ -34,6 +34,7 @@
 		0C615B8A271214C80090198B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C615B89271214C80090198B /* UIDevice.swift */; };
 		0C6822C527B8226200D27B68 /* AuthOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6822C427B8226200D27B68 /* AuthOverlayView.swift */; };
 		0C6BFEC22847B52D008AEAFE /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BFEC12847B52D008AEAFE /* TextField.swift */; };
+		0C6C7538284FEE28006C814A /* WillDisappearHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6C7537284FEE28006C814A /* WillDisappearHandler.swift */; };
 		0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */; };
 		0C7D3FB12717D87D000A4534 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D3FB02717D87D000A4534 /* PersistenceController.swift */; };
 		0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7FADD12786246200564B52 /* LibraryActionsView.swift */; };
@@ -120,6 +121,7 @@
 		0C615B89271214C80090198B /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		0C6822C427B8226200D27B68 /* AuthOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOverlayView.swift; sourceTree = "<group>"; };
 		0C6BFEC12847B52D008AEAFE /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		0C6C7537284FEE28006C814A /* WillDisappearHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WillDisappearHandler.swift; sourceTree = "<group>"; };
 		0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInPageButtonView.swift; sourceTree = "<group>"; };
 		0C7D3FB02717D87D000A4534 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		0C7FADD12786246200564B52 /* LibraryActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryActionsView.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				7C2248EE26B85D8C00AD3D42 /* WebView.swift */,
 				0C099D7127FFBE7D008E87B5 /* AsobiRootViewController.swift */,
+				0C6C7537284FEE28006C814A /* WillDisappearHandler.swift */,
 			);
 			path = RepresentableViews;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				0C92B28D284992A10026A1F2 /* Collection.swift in Sources */,
 				7C20C0CD26BC6FBA004D8618 /* HomeButtonView.swift in Sources */,
 				0C77E7D8278B4AF400CBE07A /* FindInPageButtonView.swift in Sources */,
+				0C6C7538284FEE28006C814A /* WillDisappearHandler.swift in Sources */,
 				0C0C6B80277A3708007B9345 /* View.swift in Sources */,
 				0CC938A428045474003E5338 /* JSLoader.swift in Sources */,
 				0CAA09352802836E007A0F77 /* SettingsBehaviorView.swift in Sources */,
