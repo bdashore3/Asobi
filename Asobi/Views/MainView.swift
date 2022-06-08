@@ -61,6 +61,7 @@ struct MainView: View {
                         .environmentObject(navModel)
                     }
                 }
+                .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     withAnimation(.easeIn(duration: 0.15)) {
                         navModel.blurRadius = 0
