@@ -173,7 +173,7 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(4)
         }
-        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
+        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
     }
 }
 

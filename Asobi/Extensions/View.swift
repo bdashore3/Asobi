@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    func applyTheme(_ colorScheme: String?) -> some View {
+    func applyTheme(_ colorScheme: ColorScheme?) -> some View {
         modifier(ApplyTheme(colorScheme: colorScheme))
     }
 
