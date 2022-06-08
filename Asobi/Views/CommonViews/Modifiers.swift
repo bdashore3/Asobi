@@ -10,19 +10,15 @@ import SwiftUI
 
 // All custom view modifiers go here
 struct ApplyTheme: ViewModifier {
-    @AppStorage("statusBarStyleType") var statusBarStyleType: StatusBarStyleType = .automatic
-    @AppStorage("statusBarAccent") var statusBarAccent: Color = .clear
-    @EnvironmentObject var webModel: WebViewModel
-
-    let colorScheme: String?
+    let colorScheme: ColorScheme?
 
     func body(content: Content) -> some View {
         content
             .introspectViewController { UIViewController in
                 switch colorScheme {
-                case "dark":
+                case .dark:
                     UIViewController.overrideUserInterfaceStyle = .dark
-                case "light":
+                case .light:
                     UIViewController.overrideUserInterfaceStyle = .light
                 default:
                     UIViewController.overrideUserInterfaceStyle = .unspecified

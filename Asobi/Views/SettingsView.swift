@@ -57,7 +57,7 @@ struct SettingsView: View {
             }
         }
         .blur(radius: navModel.blurRadius)
-        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? "dark" : "light"))
+        .applyTheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
     }
 }
 
