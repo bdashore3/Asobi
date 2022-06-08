@@ -50,31 +50,19 @@ struct MainView: View {
                 .sheet(item: $navModel.currentSheet) { item in
                     switch item {
                     case .library:
-                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                            LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
-                        } else {
-                            LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
-                                .environment(\.managedObjectContext, managedObjectContext)
-                                .environmentObject(navModel)
-                        }
+                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
+                            .environment(\.managedObjectContext, managedObjectContext)
+                            .environmentObject(navModel)
                     case .settings:
-                        if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                            SettingsView()
-                        } else {
-                            SettingsView()
-                                .environment(\.managedObjectContext, managedObjectContext)
-                                .environmentObject(navModel)
-                        }
+                        SettingsView()
+                            .environment(\.managedObjectContext, managedObjectContext)
+                            .environmentObject(navModel)
                     case .bookmarkEditing:
                         NavView {
-                            if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
-                                EditBookmarkView()
-                            } else {
-                                EditBookmarkView()
-                                    .environment(\.managedObjectContext, managedObjectContext)
-                                    .environmentObject(navModel)
-                            }
+                            EditBookmarkView()
                         }
+                        .environment(\.managedObjectContext, managedObjectContext)
+                        .environmentObject(navModel)
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
