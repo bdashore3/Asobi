@@ -22,7 +22,7 @@ struct EditBookmarkView: View {
     @State private var bookmarkName = ""
     @State private var bookmarkUrl = ""
     @State private var showUrlError = false
-    
+
     var body: some View {
         Form {
             // Because onAppear doesn't work properly with sheet + form

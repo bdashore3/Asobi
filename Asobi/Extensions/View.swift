@@ -17,6 +17,6 @@ extension View {
     }
 
     func onWillDisappear(_ perform: @escaping () -> Void) -> some View {
-        self.modifier(WillDisappearModifier(callback: perform))
+        modifier(WillDisappearModifier(callback: perform))
     }
 }

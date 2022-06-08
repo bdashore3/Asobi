@@ -69,8 +69,7 @@ struct LibraryView: View {
                                     }
                                     .onWillDisappear {
                                         showEditing = false
-                                    }
-                            )
+                                    })
                         } else {
                             Button("Add") {
                                 showEditing.toggle()
