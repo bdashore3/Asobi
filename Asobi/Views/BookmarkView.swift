@@ -24,6 +24,9 @@ struct BookmarkView: View {
         ]
     ) var bookmarks: FetchedResults<Bookmark>
 
+    @Binding var currentBookmark: Bookmark?
+    @Binding var showEditing: Bool
+
     var body: some View {
         if bookmarks.isEmpty {
             Text("It looks like your bookmarks are empty. Try adding some!")
@@ -35,8 +38,17 @@ struct BookmarkView: View {
                     if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                NavigationLink("Edit", destination: EditBookmarkView(bookmark: bookmark))
+                                if #available(iOS 16, *) {
+                                    NavigationLink("Edit", destination: EditBookmarkView(bookmark: bookmark))
+                                        .tint(.blue)
+                                } else {
+                                    Button("Edit") {
+                                        currentBookmark = bookmark
+
+                                        showEditing = true
+                                    }
                                     .tint(.blue)
+                                }
 
                                 Button("Delete") {
                                     PersistenceController.shared.delete(bookmark, context: backgroundContext)
@@ -54,7 +66,11 @@ struct BookmarkView: View {
                     } else {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .contextMenu {
-                                NavigationLink(destination: EditBookmarkView(bookmark: bookmark)) {
+                                Button {
+                                    currentBookmark = bookmark
+
+                                    showEditing = true
+                                } label: {
                                     Label("Edit bookmark", systemImage: "pencil")
                                 }
 
@@ -104,6 +120,6 @@ struct BookmarkView: View {
 
 struct BookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkView()
+        BookmarkView(currentBookmark: .constant(nil), showEditing: .constant(false))
     }
 }
