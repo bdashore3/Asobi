@@ -248,12 +248,13 @@ class DownloadManager: ObservableObject {
                 return
             }
 
-            guard downloadsUrl.startAccessingSecurityScopedResource() else {
-                webModel?.toastDescription = "Could not get the URL for your downloads directory, so the file was downloaded to Asobi's downloads directory"
-                return
-            }
+            let directorySecured = downloadsUrl.startAccessingSecurityScopedResource()
 
-            defer { downloadsUrl.stopAccessingSecurityScopedResource() }
+            defer {
+                if directorySecured {
+                    downloadsUrl.stopAccessingSecurityScopedResource()
+                }
+            }
 
             let fileManager = FileManager.default
             let newFileUrl = downloadsUrl.appendingPathComponent(tempUrl.lastPathComponent)
