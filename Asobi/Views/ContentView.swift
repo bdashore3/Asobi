@@ -22,6 +22,8 @@ struct ContentView: View {
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
     @AppStorage("showBottomInset") var showBottomInset = false
 
+    @State private var isKeyboardPresented = false
+
     var body: some View {
         ZStack {
             // Background color for orientation changes
@@ -156,7 +158,7 @@ struct ContentView: View {
                 // Fills up navigation bar height
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(height: navModel.isKeyboardShowing ? 0 : (navModel.showNavigationBar ? 50 : 0))
+                    .frame(height: isKeyboardPresented ? 0 : (navModel.showNavigationBar ? 50 : 0))
             }
             .zIndex(3)
 
@@ -175,6 +177,9 @@ struct ContentView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(4)
+        }
+        .onReceive(keyboardPublisher) { value in
+            isKeyboardPresented = value
         }
     }
 }
