@@ -5,6 +5,7 @@
 //  Created by Brian Dashore on 4/7/22.
 //
 
+import SwiftUI
 import UIKit
 
 // Inspired by Thomas Rademaker's UIHosting controller
@@ -12,6 +13,8 @@ import UIKit
 
 // ObservableObject to observe statusbar changes and set accordingly
 class AsobiRootViewController: UIViewController, ObservableObject {
+    @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
+
     var rootViewController: UIViewController?
     var style: UIStatusBarStyle = .lightContent {
         didSet {
@@ -35,11 +38,20 @@ class AsobiRootViewController: UIViewController, ObservableObject {
 
     var ignoreDarkMode: Bool = false
 
+    @Published var scenePhase: ScenePhase = .active
+
     init(rootViewController: UIViewController?, style: UIStatusBarStyle, ignoreDarkMode: Bool = false) {
         self.rootViewController = rootViewController
         self.style = style
         self.ignoreDarkMode = ignoreDarkMode
+
         super.init(nibName: nil, bundle: nil)
+
+        if statusBarPinType == .hide {
+            statusBarHidden = true
+        }
+
+        addObservers()
     }
 
     required init?(coder: NSCoder) {
@@ -52,6 +64,25 @@ class AsobiRootViewController: UIViewController, ObservableObject {
         addChild(child)
         view.addSubview(child.view)
         child.didMove(toParent: self)
+    }
+
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSceneChange), name: NSNotification.Name("UIApplicationDidBecomeActiveNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSceneChange), name: NSNotification.Name("UIApplicationWillResignActiveNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSceneChange), name: NSNotification.Name("UIApplicationDidEnterBackgroundNotification"), object: nil)
+    }
+
+    @objc func handleSceneChange(_ notification: Notification) {
+        switch notification.name.rawValue {
+        case "UIApplicationDidBecomeActiveNotification":
+            scenePhase = .active
+        case "UIApplicationWillResignActiveNotification":
+            scenePhase = .inactive
+        case "UIApplicationDidEnterBackgroundNotification":
+            scenePhase = .background
+        default:
+            debugPrint("An unknown notification with name: \(notification.name.rawValue) was called here!")
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
