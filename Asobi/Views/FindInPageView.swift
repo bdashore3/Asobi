@@ -20,11 +20,6 @@ struct FindInPageView: View {
             TextField(
                 "Enter query",
                 text: $webModel.findQuery,
-                onEditingChanged: { changed in
-                    if UIDevice.current.deviceType != .mac {
-                        navModel.isKeyboardShowing = changed
-                    }
-                },
                 onCommit: {
                     webModel.executeFindInPage()
                 }

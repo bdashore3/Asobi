@@ -23,11 +23,6 @@ struct UrlBarView: View {
             TextField(
                 "https://...",
                 text: $currentUrl,
-                onEditingChanged: { changed in
-                    if UIDevice.current.deviceType != .mac {
-                        navModel.isKeyboardShowing = changed
-                    }
-                },
                 onCommit: {
                     webModel.loadUrl(currentUrl)
                 }
