@@ -29,117 +29,116 @@ struct MainView: View {
     @State private var blurRadius: CGFloat = 0
 
     var body: some View {
-        ZStack {
-            ContentView()
-                .introspectViewController { viewController in
-                    let window = viewController.view.window
-                    guard let rootViewController = window?.rootViewController else { return }
-                    self.rootViewController.rootViewController = rootViewController
-                    self.rootViewController.ignoreDarkMode = true
+        ContentView()
+            .introspectViewController { viewController in
+                let window = viewController.view.window
+                guard let rootViewController = window?.rootViewController else { return }
+                self.rootViewController.rootViewController = rootViewController
+                self.rootViewController.ignoreDarkMode = true
 
-                    if statusBarPinType == .hide {
-                        self.rootViewController.statusBarHidden = true
-                    }
-
-                    window?.rootViewController = self.rootViewController
+                if statusBarPinType == .hide {
+                    self.rootViewController.statusBarHidden = true
                 }
-                .sheet(item: $navModel.currentSheet) { item in
-                    switch item {
-                    case .library:
-                        LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
-                            .environment(\.managedObjectContext, managedObjectContext)
-                            .environmentObject(navModel)
-                    case .settings:
-                        SettingsView()
-                            .environment(\.managedObjectContext, managedObjectContext)
-                            .environmentObject(navModel)
-                    case .bookmarkEditing:
-                        NavView {
-                            EditBookmarkView()
-                        }
+
+                window?.rootViewController = self.rootViewController
+            }
+            .sheet(item: $navModel.currentSheet) { item in
+                switch item {
+                case .library:
+                    LibraryView(currentUrl: webModel.webView.url?.absoluteString ?? "No URL found")
                         .environment(\.managedObjectContext, managedObjectContext)
                         .environmentObject(navModel)
+                case .settings:
+                    SettingsView()
+                        .environment(\.managedObjectContext, managedObjectContext)
+                        .environmentObject(navModel)
+                case .bookmarkEditing:
+                    NavView {
+                        EditBookmarkView()
                     }
+                    .environment(\.managedObjectContext, managedObjectContext)
+                    .environmentObject(navModel)
                 }
-                .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    withAnimation(.easeIn(duration: 0.15)) {
-                        navModel.blurRadius = 0
-                    }
+            }
+            .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                withAnimation(.easeIn(duration: 0.15)) {
+                    navModel.blurRadius = 0
+                }
 
-                    PersistenceController.shared.save()
+                PersistenceController.shared.save()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                if blurInRecents, UIDevice.current.deviceType != .mac {
+                    navModel.blurRadius = 10
                 }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    if blurInRecents, UIDevice.current.deviceType != .mac {
-                        navModel.blurRadius = 15
-                    }
 
-                    PersistenceController.shared.save()
-                }
-                .blur(radius: navModel.blurRadius)
-                .overlay {
+                PersistenceController.shared.save()
+            }
+            .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 15)
+            .overlay {
+                if !navModel.isUnlocked {
                     AuthOverlayView()
                 }
-                .environmentObject(webModel)
-                .environmentObject(navModel)
-                .environmentObject(downloadManager)
-                .environmentObject(rootViewController)
-                .onAppear {
-                    if downloadManager.webModel == nil {
-                        downloadManager.webModel = webModel
-                    }
+            }
+            .environmentObject(navModel)
+            .environmentObject(downloadManager)
+            .environmentObject(rootViewController)
+            .onAppear {
+                if downloadManager.webModel == nil {
+                    downloadManager.webModel = webModel
+                }
 
-                    if forceSecurityCredentials {
-                        Task {
-                            await navModel.authenticateOnStartup()
-                        }
-                    }
-                }
-                .onOpenURL { url in
-                    var splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
-                    navModel.currentSheet = nil
-
-                    if useStatefulBookmarks {
-                        let historyRequest = HistoryEntry.fetchRequest()
-                        historyRequest.predicate = NSPredicate(format: "url CONTAINS %@", splitUrl)
-                        historyRequest.sortDescriptors = [NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)]
-                        historyRequest.fetchLimit = 1
-
-                        if let entry = try? PersistenceController.shared.backgroundContext.fetch(historyRequest).first, let url = entry.url {
-                            splitUrl = url
-                        }
-                    }
-
-                    webModel.loadUrl(splitUrl)
-                }
-                .onChange(of: colorScheme) { _ in
-                    webModel.setStatusbarColor()
-                }
-                .onChange(of: useDarkTheme || followSystemTheme) { _ in
-                    webModel.setStatusbarColor()
-                }
-                .onChange(of: webModel.backgroundColor) { newColor in
-                    rootViewController.style = newColor.isLight ? .darkContent : .lightContent
-                }
-                .onChange(of: statusBarPinType) { newPinType in
-                    if newPinType == .hide {
-                        rootViewController.statusBarHidden = true
-                    } else if newPinType == .pin {
-                        rootViewController.statusBarHidden = false
+                if forceSecurityCredentials {
+                    Task {
+                        await navModel.authenticateOnStartup()
                     }
                 }
-                .onChange(of: navModel.showNavigationBar) { showing in
-                    print("Navigation bar showing?: \(showing)")
+            }
+            .onOpenURL { url in
+                var splitUrl = url.absoluteString.replacingOccurrences(of: "asobi://", with: "")
+                navModel.currentSheet = nil
 
-                    if statusBarPinType == .partialHide {
-                        rootViewController.statusBarHidden = !showing
-                    }
+                if useStatefulBookmarks {
+                    let historyRequest = HistoryEntry.fetchRequest()
+                    historyRequest.predicate = NSPredicate(format: "url CONTAINS %@", splitUrl)
+                    historyRequest.sortDescriptors = [NSSortDescriptor(keyPath: \HistoryEntry.timestamp, ascending: false)]
+                    historyRequest.fetchLimit = 1
 
-                    if grayHomeIndicator {
-                        rootViewController.grayHomeIndicator = !showing
+                    if let entry = try? PersistenceController.shared.backgroundContext.fetch(historyRequest).first, let url = entry.url {
+                        splitUrl = url
                     }
                 }
-        }
+
+                webModel.loadUrl(splitUrl)
+            }
+            .onChange(of: colorScheme) { _ in
+                webModel.setStatusbarColor()
+            }
+            .onChange(of: useDarkTheme || followSystemTheme) { _ in
+                webModel.setStatusbarColor()
+            }
+            .onChange(of: webModel.backgroundColor) { newColor in
+                rootViewController.style = newColor.isLight ? .darkContent : .lightContent
+            }
+            .onChange(of: statusBarPinType) { newPinType in
+                if newPinType == .hide {
+                    rootViewController.statusBarHidden = true
+                } else if newPinType == .pin {
+                    rootViewController.statusBarHidden = false
+                }
+            }
+            .onChange(of: navModel.showNavigationBar) { showing in
+                print("Navigation bar showing?: \(showing)")
+
+                if statusBarPinType == .partialHide {
+                    rootViewController.statusBarHidden = !showing
+                }
+
+                if grayHomeIndicator {
+                    rootViewController.grayHomeIndicator = !showing
+                }
+            }
     }
 }
 

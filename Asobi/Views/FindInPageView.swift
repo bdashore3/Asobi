@@ -18,7 +18,7 @@ struct FindInPageView: View {
     var body: some View {
         HStack {
             TextField(
-                "",
+                "Enter query",
                 text: $webModel.findQuery,
                 onEditingChanged: { changed in
                     if UIDevice.current.deviceType != .mac {
@@ -63,6 +63,7 @@ struct FindInPageView: View {
             Button(action: {
                 webModel.resetFindInPage()
                 webModel.showFindInPage.toggle()
+                navModel.isKeyboardShowing = false
             }, label: {
                 Image(systemName: "xmark")
                     .padding(.horizontal, 4)
