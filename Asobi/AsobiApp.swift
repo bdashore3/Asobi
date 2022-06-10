@@ -5,6 +5,7 @@
 //  Created by Brian Dashore on 8/2/21.
 //
 
+import Introspect
 import SwiftUI
 
 @main
@@ -14,10 +15,22 @@ struct AsobiApp: App {
     // At top level for keyboard commands
     @StateObject var webModel: WebViewModel = .init()
 
+    // At top level for scenePhase if needed
+    @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
+
     var body: some Scene {
         WindowGroup {
             MainView()
+                .introspectViewController { viewController in
+                    let window = viewController.view.window
+                    guard let rootViewController = window?.rootViewController else { return }
+                    self.rootViewController.rootViewController = rootViewController
+                    self.rootViewController.ignoreDarkMode = true
+
+                    window?.rootViewController = self.rootViewController
+                }
                 .environmentObject(webModel)
+                .environmentObject(rootViewController)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
         .commands {

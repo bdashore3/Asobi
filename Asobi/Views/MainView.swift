@@ -5,7 +5,6 @@
 //  Created by Brian Dashore on 1/30/22.
 //
 
-import Introspect
 import SwiftUI
 
 struct MainView: View {
@@ -13,10 +12,10 @@ struct MainView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
 
     @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var rootViewController: AsobiRootViewController
 
     @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
-    @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
     @AppStorage("blurInRecents") var blurInRecents = false
@@ -30,18 +29,6 @@ struct MainView: View {
 
     var body: some View {
         ContentView()
-            .introspectViewController { viewController in
-                let window = viewController.view.window
-                guard let rootViewController = window?.rootViewController else { return }
-                self.rootViewController.rootViewController = rootViewController
-                self.rootViewController.ignoreDarkMode = true
-
-                if statusBarPinType == .hide {
-                    self.rootViewController.statusBarHidden = true
-                }
-
-                window?.rootViewController = self.rootViewController
-            }
             .sheet(item: $navModel.currentSheet) { item in
                 switch item {
                 case .library:
@@ -61,19 +48,16 @@ struct MainView: View {
                 }
             }
             .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                withAnimation(.easeIn(duration: 0.15)) {
-                    navModel.blurRadius = 0
+            .onChange(of: rootViewController.scenePhase) { phase in
+                if blurInRecents {
+                    if phase == .active {
+                        withAnimation(.easeIn(duration: 0.15)) {
+                            navModel.blurRadius = 0
+                        }
+                    } else {
+                        navModel.blurRadius = 15
+                    }
                 }
-
-                PersistenceController.shared.save()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                if blurInRecents, UIDevice.current.deviceType != .mac {
-                    navModel.blurRadius = 10
-                }
-
-                PersistenceController.shared.save()
             }
             .blur(radius: navModel.isUnlocked ? navModel.blurRadius : 15)
             .overlay {
@@ -83,7 +67,6 @@ struct MainView: View {
             }
             .environmentObject(navModel)
             .environmentObject(downloadManager)
-            .environmentObject(rootViewController)
             .onAppear {
                 if downloadManager.webModel == nil {
                     downloadManager.webModel = webModel
@@ -122,10 +105,11 @@ struct MainView: View {
                 rootViewController.style = newColor.isLight ? .darkContent : .lightContent
             }
             .onChange(of: statusBarPinType) { newPinType in
-                if newPinType == .hide {
-                    rootViewController.statusBarHidden = true
-                } else if newPinType == .pin {
+                switch newPinType {
+                case .pin, .partialHide:
                     rootViewController.statusBarHidden = false
+                case .hide:
+                    rootViewController.statusBarHidden = true
                 }
             }
             .onChange(of: navModel.showNavigationBar) { showing in

@@ -78,7 +78,7 @@ struct ContentView: View {
 
                     navModel.currentSheet = .settings
                 }
-                .edgesIgnoringSafeArea(statusBarPinType == .hide ? .vertical : (showBottomInset ? [] : .bottom))
+                .edgesIgnoringSafeArea(statusBarPinType == .hide ? (showBottomInset ? .top : .vertical) : (showBottomInset ? [] : .bottom))
                 .zIndex(1)
 
             // ProgressView for loading
