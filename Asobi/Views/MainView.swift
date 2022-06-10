@@ -129,8 +129,6 @@ struct MainView: View {
                 }
             }
             .onChange(of: navModel.showNavigationBar) { showing in
-                print("Navigation bar showing?: \(showing)")
-
                 if statusBarPinType == .partialHide {
                     rootViewController.statusBarHidden = !showing
                 }
