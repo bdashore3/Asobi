@@ -125,7 +125,10 @@ struct ContentView: View {
                 // Calls the find in page view
                 if webModel.showFindInPage {
                     FindInPageView()
-                        .padding(UIDevice.current.deviceType != .phone ? 10 : 0)
+                }
+
+                if webModel.showUrlBar {
+                    UrlBarView()
                 }
 
                 // Download progress bar view

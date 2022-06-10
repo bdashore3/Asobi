@@ -12,10 +12,12 @@ struct SettingsWebsiteView: View {
 
     @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("loadLastHistory") var loadLastHistory = false
+    @AppStorage("useUrlBar") var useUrlBar = false
 
     @AppStorage("defaultUrl") var defaultUrl = ""
 
     @State private var showUrlChangeAlert: Bool = false
+    @State private var showUrlBarAlert: Bool = false
 
     var body: some View {
         // MARK: Website settings (settings that can alter website content)
@@ -65,6 +67,25 @@ struct SettingsWebsiteView: View {
 
             Toggle(isOn: $loadLastHistory) {
                 Text("Load most recent URL")
+            }
+        }
+
+        Section(header: Text("URL bar")) {
+            Toggle(isOn: $useUrlBar) {
+                Text("Enable URL bar")
+            }
+            .onChange(of: useUrlBar) { changed in
+                if changed {
+                    showUrlBarAlert.toggle()
+                }
+            }
+            .alert(isPresented: $showUrlBarAlert) {
+                Alert(
+                    title: Text("URL bar enabled"),
+                    message: Text("This can be shown through the library context menu. \n\n" +
+                        "If this interferes with the browsing experience, please disable the setting."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
