@@ -96,6 +96,8 @@ class NavigationViewModel: ObservableObject {
                         authErrorAlert = .error(localizedDescription: error.localizedDescription)
                     }
                 }
+
+                print("Is unlocked: \(isUnlocked)")
             }
         } else {
             // There's no authentication methods, so unlock anyway, show an error, and turn off the setting
