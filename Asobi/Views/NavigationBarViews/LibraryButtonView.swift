@@ -11,6 +11,8 @@ struct LibraryButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
+    @AppStorage("useUrlBar") var useUrlBar = false
+
     var body: some View {
         Button(action: {
             navModel.currentSheet = .library
@@ -39,6 +41,15 @@ struct LibraryButtonView: View {
                 } label: {
                     Text("Find in page")
                     Image(systemName: "magnifyingglass")
+                }
+            }
+
+            if useUrlBar {
+                Button {
+                    webModel.showUrlBar.toggle()
+                } label: {
+                    Text("Show URL bar")
+                    Image(systemName: "link")
                 }
             }
 

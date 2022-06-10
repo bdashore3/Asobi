@@ -71,6 +71,7 @@ class WebViewModel: ObservableObject {
     @Published var canGoForward: Bool = false
 
     // Cosmetic variables
+    @Published var showUrlBar: Bool = false
     @Published var showLoadingProgress: Bool = false
     @Published var backgroundColor: Color = .clear
 
