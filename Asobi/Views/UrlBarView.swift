@@ -17,12 +17,16 @@ struct UrlBarView: View {
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
     @State private var currentUrl: String = ""
+    @State private var showCloseButton = true
 
     var body: some View {
         HStack {
             TextField(
                 "https://...",
                 text: $currentUrl,
+                onEditingChanged: { changed in
+                    showCloseButton = !changed
+                },
                 onCommit: {
                     webModel.loadUrl(currentUrl)
                 }
@@ -33,14 +37,16 @@ struct UrlBarView: View {
             .keyboardType(.URL)
             .autocapitalization(.none)
 
-            Button(action: {
-                webModel.showUrlBar.toggle()
-                navModel.isKeyboardShowing = false
-            }, label: {
-                Image(systemName: "xmark")
-                    .padding(.horizontal, 4)
-            })
-            .keyboardShortcut(.cancelAction)
+            if showCloseButton {
+                Button(action: {
+                    webModel.showUrlBar.toggle()
+                    navModel.isKeyboardShowing = false
+                }, label: {
+                    Image(systemName: "xmark")
+                        .padding(.horizontal, 4)
+                })
+                .keyboardShortcut(.cancelAction)
+            }
         }
         .onAppear {
             currentUrl = webModel.webView.url?.absoluteString ?? ""
