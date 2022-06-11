@@ -65,6 +65,11 @@ struct FindInPageView: View {
             })
             .keyboardShortcut(.cancelAction)
         }
+        .onAppear {
+            if webModel.showUrlBar {
+                webModel.showUrlBar = false
+            }
+        }
         .padding(10)
         .accentColor(navigationAccent)
         .background(colorScheme == .light ? .white : .black)

@@ -49,6 +49,10 @@ struct UrlBarView: View {
             }
         }
         .onAppear {
+            if webModel.showFindInPage {
+                webModel.showFindInPage = false
+            }
+
             currentUrl = webModel.webView.url?.absoluteString ?? ""
         }
         .onChange(of: webModel.webView.url) { url in
