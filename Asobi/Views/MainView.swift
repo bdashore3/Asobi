@@ -48,7 +48,7 @@ struct MainView: View {
                 }
             }
             .preferredColorScheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
-            .onChange(of: rootViewController.scenePhase) { phase in
+            .onReceive(scenePhasePublisher) { phase in
                 if blurInRecents {
                     if phase == .active {
                         withAnimation(.easeIn(duration: 0.15)) {

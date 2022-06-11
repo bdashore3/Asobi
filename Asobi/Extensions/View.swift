@@ -19,14 +19,34 @@ extension View {
                     .map { _ in true },
                 NotificationCenter
                     .default
-                    .publisher(for: UIResponder.keyboardWillHideNotification)
+                    .publisher(for: UIResponder.keyboardDidHideNotification)
                     .map { _ in false }
             )
-            .debounce(for: .seconds(0.1), scheduler: RunLoop.main)
+            .debounce(for: .seconds(0.1), scheduler: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+
+    var scenePhasePublisher: AnyPublisher<ScenePhase, Never> {
+        Publishers
+            .Merge3(
+                NotificationCenter
+                    .default
+                    .publisher(for: UIApplication.willResignActiveNotification)
+                    .map { _ in .inactive },
+                NotificationCenter
+                    .default
+                    .publisher(for: UIApplication.didBecomeActiveNotification)
+                    .map { _ in .active },
+                NotificationCenter
+                    .default
+                    .publisher(for: UIApplication.didEnterBackgroundNotification)
+                    .map { _ in .background }
+            )
             .eraseToAnyPublisher()
     }
 
     // MARK: Modifiers
+
     func applyTheme(_ colorScheme: ColorScheme?) -> some View {
         modifier(ApplyTheme(colorScheme: colorScheme))
     }
