@@ -25,7 +25,7 @@ struct LibraryView: View {
     @State private var editMode: EditMode = .inactive
 
     var body: some View {
-        NavView {
+        NavigationView {
             VStack {
                 Picker("Tabs", selection: $tabSelect) {
                     Text("Bookmarks").tag(0)
@@ -51,29 +51,15 @@ struct LibraryView: View {
                 Spacer()
             }
             .background {
-                if #available(iOS 16, *) {
-                } else {
-                    navigationSwitchView
-                }
+                navigationSwitchView
             }
             .navigationBarTitle(getNavigationBarTitle(tabSelect), displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     if tabSelect == 0 {
                         // Showing bookmark view
-                        if #available(iOS 16, *) {
-                            NavigationLink("Add", destination:
-                                EditBookmarkView()
-                                    .onAppear {
-                                        showEditing = true
-                                    }
-                                    .onWillDisappear {
-                                        showEditing = false
-                                    })
-                        } else {
-                            Button("Add") {
-                                showEditing.toggle()
-                            }
+                        Button("Add") {
+                            showEditing.toggle()
                         }
                     } else if #available(iOS 15, *), tabSelect == 2 {
                         // Show history action sheet in toolbar if iOS 15 or up
@@ -96,6 +82,7 @@ struct LibraryView: View {
             }
             .id(showEditing)
             .environment(\.editMode, $editMode)
+            .navigationViewStyle(.stack)
         }
         .onAppear {
             currentUrl = webModel.webView.url?.absoluteString ?? "No URL found"

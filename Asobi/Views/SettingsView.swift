@@ -16,7 +16,7 @@ struct SettingsView: View {
 
     // Core settings. All prefs saved in UserDefaults
     var body: some View {
-        NavView {
+        NavigationView {
             Form {
                 SettingsAppearanceView()
                 SettingsBehaviorView()
@@ -58,6 +58,7 @@ struct SettingsView: View {
         }
         .blur(radius: navModel.blurRadius)
         .applyTheme(followSystemTheme ? nil : (useDarkTheme ? .dark : .light))
+        .navigationViewStyle(.stack)
     }
 }
 

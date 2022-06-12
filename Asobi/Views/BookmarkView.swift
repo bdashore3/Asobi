@@ -38,17 +38,12 @@ struct BookmarkView: View {
                     if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                if #available(iOS 16, *) {
-                                    NavigationLink("Edit", destination: EditBookmarkView(bookmark: bookmark))
-                                        .tint(.blue)
-                                } else {
-                                    Button("Edit") {
-                                        currentBookmark = bookmark
+                                Button("Edit") {
+                                    currentBookmark = bookmark
 
-                                        showEditing = true
-                                    }
-                                    .tint(.blue)
+                                    showEditing = true
                                 }
+                                .tint(.blue)
 
                                 Button("Delete") {
                                     PersistenceController.shared.delete(bookmark, context: backgroundContext)

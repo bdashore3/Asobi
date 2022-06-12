@@ -54,7 +54,7 @@ struct MainView: View {
                             .environment(\.managedObjectContext, managedObjectContext)
                             .environmentObject(navModel)
                     case .bookmarkEditing:
-                        NavView {
+                        NavigationView {
                             EditBookmarkView()
                         }
                         .environment(\.managedObjectContext, managedObjectContext)
