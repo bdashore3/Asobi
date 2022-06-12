@@ -35,7 +35,6 @@ class NavigationViewModel: ObservableObject {
     @AppStorage("forceSecurityCredentials") private var forceSecurityCredentials = false
 
     @Published var currentSheet: SheetType?
-    @Published var isKeyboardShowing = false
     @Published var showNavigationBar = true
     @Published var isUnlocked = true
     @Published var authErrorAlert: AuthAlertType?

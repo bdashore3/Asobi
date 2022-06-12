@@ -40,7 +40,6 @@ struct UrlBarView: View {
             if showCloseButton {
                 Button(action: {
                     webModel.showUrlBar.toggle()
-                    navModel.isKeyboardShowing = false
                 }, label: {
                     Image(systemName: "xmark")
                         .padding(.horizontal, 4)

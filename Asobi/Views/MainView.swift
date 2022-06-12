@@ -25,8 +25,6 @@ struct MainView: View {
     @AppStorage("grayHomeIndicator") var grayHomeIndicator = false
     @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
 
-    @State private var blurRadius: CGFloat = 0
-
     var body: some View {
         ContentView()
             .sheet(item: $navModel.currentSheet) { item in
