@@ -211,8 +211,7 @@ struct WebView: UIViewRepresentable {
                 preferredStyle: .alert
             )
 
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            }
+            let okAction = UIAlertAction(title: "OK", style: .default)
 
             alert.addAction(okAction)
 

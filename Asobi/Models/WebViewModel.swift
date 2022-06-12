@@ -58,7 +58,7 @@ class WebViewModel: ObservableObject {
     private let javaScriptLoader: JavaScriptLoader = .init()
 
     // Make a non mutable fallback URL
-    private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")!
+    private let fallbackUrl = URL(string: "https://kingbri.dev/asobi")
 
     // Has the page loaded once?
     @Published var firstLoad: Bool = false
@@ -180,7 +180,11 @@ class WebViewModel: ObservableObject {
 
     // Loads a URL. URL built in the buildURL function
     func loadUrl(_ urlString: String? = nil) {
-        let url = buildUrl(urlString)
+        guard let url = buildUrl(urlString) else {
+            toastDescription = "Could not load this URL because it is invalid."
+            return
+        }
+
         let urlRequest = URLRequest(url: url)
 
         webView.load(urlRequest)
@@ -192,7 +196,7 @@ class WebViewModel: ObservableObject {
      Always prefix a URL with https if not present
      If the default URL is empty, return the fallback URL.
      */
-    func buildUrl(_ testString: String?) -> URL {
+    func buildUrl(_ testString: String?) -> URL? {
         if testString == nil, defaultUrl.isEmpty {
             return fallbackUrl
         }
@@ -203,7 +207,7 @@ class WebViewModel: ObservableObject {
             urlString = "https://\(urlString)"
         }
 
-        return URL(string: urlString)!
+        return URL(string: urlString)
     }
 
     func goForward() {
