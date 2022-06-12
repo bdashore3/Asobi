@@ -46,6 +46,12 @@ struct WebView: UIViewRepresentable {
             }
         }
 
+        // Handle popups from methods like window.open
+        func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+            parent.webModel.handlePopup(navigationAction)
+            return nil
+        }
+
         // Will check if the user manually zoomed in
         func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
             if UIDevice.current.deviceType != .mac {
