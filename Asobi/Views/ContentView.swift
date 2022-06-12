@@ -178,9 +178,9 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(4)
         }
-         .onReceive(keyboardPublisher) { value in
-             isKeyboardPresented = value
-         }
+        .onReceive(keyboardPublisher) { value in
+            isKeyboardPresented = value
+        }
     }
 }
 
