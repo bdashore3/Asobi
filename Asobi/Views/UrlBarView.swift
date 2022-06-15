@@ -60,6 +60,7 @@ struct UrlBarView: View {
         .transition(AnyTransition.move(edge: .bottom))
         .animation(.easeInOut(duration: 0.3))
         .padding(.horizontal, 4)
+        .frame(maxWidth: UIDevice.current.deviceType == .phone ? .infinity : 700)
     }
 }
 

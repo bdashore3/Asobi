@@ -158,7 +158,7 @@ struct ContentView: View {
                 // Fills up navigation bar height
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(height: isKeyboardPresented ? 0 : (navModel.showNavigationBar ? 50 : 0))
+                    .frame(height: isKeyboardPresented ? 0 : (navModel.showNavigationBar ? (UIDevice.current.deviceType == .phone ? 35 : 60) : 0))
             }
             .zIndex(3)
 
@@ -173,6 +173,12 @@ struct ContentView: View {
                                 navModel.autoHideNavigationBar()
                             }
                         }
+                }
+
+                if UIDevice.current.deviceType != .phone {
+                    Rectangle()
+                        .foregroundColor( .clear)
+                        .frame(height: UIDevice.current.hasNotch ? 20 : 0)
                 }
             }
             .edgesIgnoringSafeArea(.bottom)

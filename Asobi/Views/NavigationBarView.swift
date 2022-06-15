@@ -19,32 +19,23 @@ struct NavigationBarView: View {
             // Sets button position depending on hand mode setting
             HStack {
                 if leftHandMode {
-                    if horizontalSizeClass == .regular {
-                        Spacer()
-                    }
                     ForwardBackButtonView()
                     Spacer()
                     SettingsButtonView()
                     Spacer()
                     LibraryButtonView()
                     Spacer()
-                    if UIDevice.current.userInterfaceIdiom == .pad {
+                    if UIDevice.current.deviceType != .phone {
                         RefreshButtonView()
                         Spacer()
                         FindInPageButtonView()
                         Spacer()
                     }
                     HomeButtonView()
-                    if horizontalSizeClass == .regular {
-                        Spacer()
-                    }
                 } else {
-                    if horizontalSizeClass == .regular {
-                        Spacer()
-                    }
                     HomeButtonView()
                     Spacer()
-                    if UIDevice.current.userInterfaceIdiom == .pad {
+                    if UIDevice.current.deviceType != .phone {
                         RefreshButtonView()
                         Spacer()
                         FindInPageButtonView()
@@ -55,25 +46,24 @@ struct NavigationBarView: View {
                     SettingsButtonView()
                     Spacer()
                     ForwardBackButtonView()
-                    if horizontalSizeClass == .regular {
-                        Spacer()
-                    }
                 }
             }
             .padding()
             .accentColor(navigationAccent)
 
-            Spacer()
+            if UIDevice.current.deviceType == .phone && UIDevice.current.hasNotch {
+                Spacer()
+                    .frame(height: 20)
+            }
         }
-        .background(colorScheme == .light ? Color.white : Color.black)
-        .frame(height: UIDevice.current.hasNotch ? 80 : 50)
+        .background(colorScheme == .light ? .white : .black)
+        .frame(maxWidth: UIDevice.current.deviceType == .phone ? .infinity : 600)
+        .cornerRadius(UIDevice.current.deviceType == .phone ? 0 : 10)
     }
 }
 
-#if DEBUG
 struct NavigationBarView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationBarView()
     }
 }
-#endif

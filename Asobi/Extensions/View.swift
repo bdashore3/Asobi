@@ -9,7 +9,8 @@ import Combine
 import SwiftUI
 
 extension View {
-    // From https://stackoverflow.com/questions/65784294/how-to-detect-if-keyboard-is-present-in-swiftui
+    // Modified from https://stackoverflow.com/questions/65784294/how-to-detect-if-keyboard-is-present-in-swiftui
+    // Uses keyboardWillHide to properly track when to adjust the height for the pill view buffer
     var keyboardPublisher: AnyPublisher<Bool, Never> {
         Publishers
             .Merge(
@@ -19,10 +20,9 @@ extension View {
                     .map { _ in true },
                 NotificationCenter
                     .default
-                    .publisher(for: UIResponder.keyboardDidHideNotification)
+                    .publisher(for: UIResponder.keyboardWillHideNotification)
                     .map { _ in false }
             )
-            .debounce(for: .seconds(0.1), scheduler: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
 
