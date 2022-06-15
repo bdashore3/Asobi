@@ -68,6 +68,11 @@ struct LibraryActionsView: View {
                     navModel.currentSheet = nil
                 }
 
+                Button("Show URL bar") {
+                    navModel.currentPillView = .urlBar
+                    navModel.currentSheet = nil
+                }
+
                 // Group all buttons tied to one alert
                 Group {
                     Button("Save website icon") {
