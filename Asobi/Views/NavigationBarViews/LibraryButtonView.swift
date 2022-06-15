@@ -37,7 +37,7 @@ struct LibraryButtonView: View {
 
             if webModel.findInPageEnabled {
                 Button {
-                    webModel.showFindInPage.toggle()
+                    navModel.currentPillView = .findInPage
                 } label: {
                     Text("Find in page")
                     Image(systemName: "magnifyingglass")
@@ -46,7 +46,7 @@ struct LibraryButtonView: View {
 
             if useUrlBar {
                 Button {
-                    webModel.showUrlBar.toggle()
+                    navModel.currentPillView = .urlBar
                 } label: {
                     Text("Show URL bar")
                     Image(systemName: "link")

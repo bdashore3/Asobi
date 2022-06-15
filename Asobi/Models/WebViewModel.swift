@@ -71,7 +71,6 @@ class WebViewModel: ObservableObject {
     @Published var canGoForward: Bool = false
 
     // Cosmetic variables
-    @Published var showUrlBar: Bool = false
     @Published var showLoadingProgress: Bool = false
     @Published var backgroundColor: Color = .clear
 
@@ -102,7 +101,6 @@ class WebViewModel: ObservableObject {
 
     // Find in page variables
     @Published var findInPageEnabled = true
-    @Published var showFindInPage = false
     @Published var findQuery: String = ""
     @Published var currentFindResult: Int = -1
     @Published var totalFindResults: Int = -1

@@ -30,6 +30,11 @@ class NavigationViewModel: ObservableObject {
         case error(localizedDescription: String)
     }
 
+    enum PillViewType {
+        case urlBar
+        case findInPage
+    }
+
     @AppStorage("persistNavigation") private var persistNavigation = false
     @AppStorage("autoHideNavigation") private var autoHideNavigation = false
     @AppStorage("forceSecurityCredentials") private var forceSecurityCredentials = false
@@ -39,6 +44,14 @@ class NavigationViewModel: ObservableObject {
     @Published var isUnlocked = true
     @Published var authErrorAlert: AuthAlertType?
     @Published var blurRadius: CGFloat = 0
+    @Published var currentPillView: PillViewType? {
+        didSet {
+            // If the button is triggered twice, assume that the user wants to hide the view
+            if oldValue == currentPillView {
+                currentPillView = nil
+            }
+        }
+    }
 
     private var autoHideTask: Task<Void, Error>?
 

@@ -124,13 +124,13 @@ struct ContentView: View {
                     .padding()
                 }
 
-                // Calls the find in page view
-                if webModel.showFindInPage {
+                switch navModel.currentPillView {
+                case .findInPage:
                     FindInPageView()
-                }
-
-                if webModel.showUrlBar {
+                case .urlBar:
                     UrlBarView()
+                case .none:
+                    EmptyView()
                 }
 
                 // Download progress bar view

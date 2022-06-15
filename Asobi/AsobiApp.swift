@@ -14,6 +14,7 @@ struct AsobiApp: App {
 
     // At top level for keyboard commands
     @StateObject var webModel: WebViewModel = .init()
+    @StateObject var navModel: NavigationViewModel = .init()
 
     // At top level for scenePhase if needed
     @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
@@ -30,6 +31,7 @@ struct AsobiApp: App {
                     window?.rootViewController = self.rootViewController
                 }
                 .environmentObject(webModel)
+                .environmentObject(navModel)
                 .environmentObject(rootViewController)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
@@ -38,7 +40,7 @@ struct AsobiApp: App {
                 Divider()
 
                 Button("Find in Page") {
-                    webModel.showFindInPage.toggle()
+                    navModel.currentPillView = .findInPage
                 }.keyboardShortcut("f")
             }
 

@@ -64,7 +64,7 @@ struct LibraryActionsView: View {
                 }
 
                 Button("Find in page") {
-                    webModel.showFindInPage = true
+                    navModel.currentPillView = .findInPage
                     navModel.currentSheet = nil
                 }
 

@@ -13,8 +13,8 @@ struct MainView: View {
 
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var rootViewController: AsobiRootViewController
+    @EnvironmentObject var navModel: NavigationViewModel
 
-    @StateObject var navModel: NavigationViewModel = .init()
     @StateObject var downloadManager: DownloadManager = .init()
 
     @AppStorage("forceSecurityCredentials") var forceSecurityCredentials = false
@@ -63,7 +63,6 @@ struct MainView: View {
                     AuthOverlayView()
                 }
             }
-            .environmentObject(navModel)
             .environmentObject(downloadManager)
             .onAppear {
                 if downloadManager.webModel == nil {

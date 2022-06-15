@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct FindInPageButtonView: View {
-    @EnvironmentObject var webModel: WebViewModel
+    @EnvironmentObject var navModel: NavigationViewModel
 
     var body: some View {
         Button(action: {
-            webModel.showFindInPage.toggle()
+            navModel.currentPillView = .findInPage
         }, label: {
             Image(systemName: "magnifyingglass")
                 .padding(.horizontal, 4)

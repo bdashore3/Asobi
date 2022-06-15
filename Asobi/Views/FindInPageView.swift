@@ -57,17 +57,12 @@ struct FindInPageView: View {
 
             Button(action: {
                 webModel.resetFindInPage()
-                webModel.showFindInPage.toggle()
+                navModel.currentPillView = nil
             }, label: {
                 Image(systemName: "xmark")
                     .padding(.horizontal, 4)
             })
             .keyboardShortcut(.cancelAction)
-        }
-        .onAppear {
-            if webModel.showUrlBar {
-                webModel.showUrlBar = false
-            }
         }
         .padding(10)
         .accentColor(navigationAccent)
