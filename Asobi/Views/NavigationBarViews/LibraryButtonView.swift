@@ -40,16 +40,16 @@ struct LibraryButtonView: View {
                     navModel.currentPillView = .findInPage
                 } label: {
                     Text("Find in page")
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: "text.magnifyingglass")
                 }
             }
 
             if useUrlBar {
                 Button {
-                    navModel.currentPillView = .urlBar
+                    webModel.goHome()
                 } label: {
-                    Text("Show URL bar")
-                    Image(systemName: "link")
+                    Text("Go to homepage")
+                    Image(systemName: "house")
                 }
             }
 

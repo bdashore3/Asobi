@@ -27,6 +27,7 @@
 		0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */; };
 		0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */; };
 		0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C447E95274C6C2100DF0186 /* Alamofire */; };
+		0C46D904285B950800F36692 /* UrlBarButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C46D903285B950800F36692 /* UrlBarButtonView.swift */; };
 		0C552ADC2837FB3B0003CBBC /* PopupExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C552ADB2837FB3B0003CBBC /* PopupExceptionView.swift */; };
 		0C55FD1C27823127001FA90E /* FindInPage.js in Resources */ = {isa = PBXBuildFile; fileRef = 0C55FD1B27823127001FA90E /* FindInPage.js */; };
 		0C580953277566F80005CA40 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C580952277566F80005CA40 /* CGFloat.swift */; };
@@ -115,6 +116,7 @@
 		0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0C46D903285B950800F36692 /* UrlBarButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBarButtonView.swift; sourceTree = "<group>"; };
 		0C552ADB2837FB3B0003CBBC /* PopupExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupExceptionView.swift; sourceTree = "<group>"; };
 		0C55FD1B27823127001FA90E /* FindInPage.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = FindInPage.js; sourceTree = "<group>"; };
 		0C580952277566F80005CA40 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				7C20C0D026BC6FFC004D8618 /* SettingsButtonView.swift */,
 				0C8BB6B5270E50DB0083C9D1 /* RefreshButtonView.swift */,
 				0C77E7D7278B4AF400CBE07A /* FindInPageButtonView.swift */,
+				0C46D903285B950800F36692 /* UrlBarButtonView.swift */,
 			);
 			path = NavigationBarViews;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 				0CFCBD3E2740C229003020D9 /* HistoryActionView.swift in Sources */,
 				7C20C0BF26BB4C02004D8618 /* NavigationBarView.swift in Sources */,
 				0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */,
+				0C46D904285B950800F36692 /* UrlBarButtonView.swift in Sources */,
 				0C8DF1D62779217300F25471 /* AppIconPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,6 +25,8 @@ struct LibraryActionsView: View {
     @EnvironmentObject var navModel: NavigationViewModel
     @EnvironmentObject var downloadManager: DownloadManager
 
+    @AppStorage("useUrlBar") var useUrlBar = false
+
     @Binding var currentUrl: String
     @State private var isCopiedButton = false
     @State private var currentAlert: LibraryActionAlertType?
@@ -68,9 +70,15 @@ struct LibraryActionsView: View {
                     navModel.currentSheet = nil
                 }
 
-                Button("Show URL bar") {
-                    navModel.currentPillView = .urlBar
-                    navModel.currentSheet = nil
+                if useUrlBar {
+                    Button("Show URL bar") {
+                        navModel.currentPillView = .urlBar
+                        navModel.currentSheet = nil
+                    }
+
+                    Button("Go to homepage") {
+                        webModel.goHome()
+                    }
                 }
 
                 // Group all buttons tied to one alert

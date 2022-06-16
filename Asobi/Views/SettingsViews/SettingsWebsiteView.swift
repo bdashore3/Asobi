@@ -82,8 +82,9 @@ struct SettingsWebsiteView: View {
             .alert(isPresented: $showUrlBarAlert) {
                 Alert(
                     title: Text("URL bar enabled"),
-                    message: Text("This can be shown through the library context menu. \n\n" +
-                        "If this interferes with the browsing experience, please disable the setting."),
+                    message: Text("The navigation bar should have a link icon now. \n\n" +
+                        "The homepage button is located in the library context menu. \n\n" +
+                        "If this interferes with browsing, please disable the setting."),
                     dismissButton: .default(Text("OK"))
                 )
             }

@@ -14,7 +14,7 @@ struct FindInPageButtonView: View {
         Button(action: {
             navModel.currentPillView = .findInPage
         }, label: {
-            Image(systemName: "magnifyingglass")
+            Image(systemName: "text.magnifyingglass")
                 .padding(.horizontal, 4)
         })
         .keyboardShortcut("f")

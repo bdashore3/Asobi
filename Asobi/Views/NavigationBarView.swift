@@ -12,6 +12,8 @@ struct NavigationBarView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     @AppStorage("leftHandMode") var leftHandMode = false
+    @AppStorage("useUrlBar") var useUrlBar = false
+
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
     var body: some View {
@@ -25,22 +27,34 @@ struct NavigationBarView: View {
                     Spacer()
                     LibraryButtonView()
                     Spacer()
+
+                    if useUrlBar {
+                        UrlBarButtonView()
+                    } else {
+                        HomeButtonView()
+                    }
+
                     if UIDevice.current.deviceType != .phone {
+                        Spacer()
                         RefreshButtonView()
                         Spacer()
                         FindInPageButtonView()
-                        Spacer()
                     }
-                    HomeButtonView()
                 } else {
-                    HomeButtonView()
-                    Spacer()
                     if UIDevice.current.deviceType != .phone {
-                        RefreshButtonView()
-                        Spacer()
                         FindInPageButtonView()
                         Spacer()
+                        RefreshButtonView()
+                        Spacer()
                     }
+
+                    if useUrlBar {
+                        UrlBarButtonView()
+                    } else {
+                        HomeButtonView()
+                    }
+
+                    Spacer()
                     LibraryButtonView()
                     Spacer()
                     SettingsButtonView()
