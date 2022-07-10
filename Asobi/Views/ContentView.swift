@@ -83,29 +83,27 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(statusBarPinType == .hide ? (showBottomInset ? .top : .vertical) : (showBottomInset ? [] : .bottom))
                 .zIndex(1)
 
-            // ProgressView for loading
-            if webModel.showLoadingProgress {
-                GroupBox {
-                    VStack {
-                        ZStack {
-                            Text("\(String(format: "%.0f", round(webModel.webView.estimatedProgress * 100)))%")
-
-                            CircularProgressBar(webModel.webView.estimatedProgress)
-                                .lineWidth(6)
-                                .foregroundColor(navigationAccent)
-                                .frame(width: 60, height: 60)
-                        }
-
-                        Text("Loading...")
-                            .font(.title2)
-                    }
-                }
-                .zIndex(2)
-            }
-
             // Error view, download bar, and find in page bar
             VStack {
                 Spacer()
+
+                // ProgressView for loading
+                if webModel.showLoadingProgress {
+                    VStack {
+                        GroupBox {
+                            Text("Loading - \(String(format: "%.0f", round(webModel.webView.estimatedProgress * 100)))%")
+                                .animation(.none)
+                                .font(.callout)
+
+                            ProgressView(value: webModel.webView.estimatedProgress, total: 1.00)
+                                .progressViewStyle(LinearProgressViewStyle(tint: navigationAccent))
+                        }
+                        .groupBoxStyle(LoadingGroupBoxStyle())
+                    }
+                    .padding(.bottom, 5)
+                    .frame(width: 150)
+                    .animation(.easeInOut(duration: 0.7))
+                }
 
                 // Error description view
                 if webModel.showToast {
@@ -160,7 +158,7 @@ struct ContentView: View {
                     .foregroundColor(.clear)
                     .frame(height: isKeyboardPresented ? 0 : (navModel.showNavigationBar ? (UIDevice.current.deviceType == .phone ? 35 : 60) : 0))
             }
-            .zIndex(3)
+            .zIndex(2)
 
             // Navigation Bar
             VStack {
@@ -177,12 +175,12 @@ struct ContentView: View {
 
                 if UIDevice.current.deviceType != .phone {
                     Rectangle()
-                        .foregroundColor( .clear)
+                        .foregroundColor(.clear)
                         .frame(height: UIDevice.current.hasNotch ? 20 : 0)
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
-            .zIndex(4)
+            .zIndex(3)
         }
         .onReceive(keyboardPublisher) { value in
             isKeyboardPresented = value

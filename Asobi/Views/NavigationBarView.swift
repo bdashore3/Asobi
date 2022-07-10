@@ -65,7 +65,7 @@ struct NavigationBarView: View {
             .padding()
             .accentColor(navigationAccent)
 
-            if UIDevice.current.deviceType == .phone && UIDevice.current.hasNotch {
+            if UIDevice.current.deviceType == .phone, UIDevice.current.hasNotch {
                 Spacer()
                     .frame(height: 20)
             }
