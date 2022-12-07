@@ -28,7 +28,7 @@ struct UrlBarView: View {
                     showCloseButton = !changed
                 },
                 onCommit: {
-                    webModel.loadUrl(currentUrl)
+                    webModel.parseUrlBarQuery(currentUrl)
                 }
             )
             .clearButtonMode(.whileEditing)
@@ -37,13 +37,19 @@ struct UrlBarView: View {
             .keyboardType(.URL)
             .autocapitalization(.none)
 
+            Button {
+                webModel.parseUrlBarQuery(currentUrl, forceSearch: true)
+            } label: {
+                Image(systemName: "magnifyingglass")
+            }
+
             if showCloseButton {
-                Button(action: {
+                Button {
                     navModel.currentPillView = nil
-                }, label: {
+                } label: {
                     Image(systemName: "xmark")
                         .padding(.horizontal, 4)
-                })
+                }
                 .keyboardShortcut(.cancelAction)
             }
         }

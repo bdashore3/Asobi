@@ -12,7 +12,7 @@ struct NavigationBarView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     @AppStorage("leftHandMode") var leftHandMode = false
-    @AppStorage("useUrlBar") var useUrlBar = false
+    @AppStorage("browserModeEnabled") var browserModeEnabled = false
 
     @AppStorage("navigationAccent") var navigationAccent: Color = .red
 
@@ -28,7 +28,7 @@ struct NavigationBarView: View {
                     LibraryButtonView()
                     Spacer()
 
-                    if useUrlBar {
+                    if browserModeEnabled {
                         UrlBarButtonView()
                     } else {
                         HomeButtonView()
@@ -48,7 +48,7 @@ struct NavigationBarView: View {
                         Spacer()
                     }
 
-                    if useUrlBar {
+                    if browserModeEnabled {
                         UrlBarButtonView()
                     } else {
                         HomeButtonView()

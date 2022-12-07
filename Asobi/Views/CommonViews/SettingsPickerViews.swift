@@ -63,3 +63,49 @@ struct StatusBarBehaviorPicker: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+enum DefaultSearchEngine: String {
+    case google
+    case brave
+    case bing
+    case duckduckgo
+    case startpage
+    case custom
+}
+
+struct BrowserSearchEnginePicker: View {
+    @AppStorage("defaultSearchEngine") var defaultSearchEngine: DefaultSearchEngine = .google
+    @AppStorage("customDefaultSearchEngine") var customSearchEngine = ""
+
+    var body: some View {
+        List {
+            Picker(selection: $defaultSearchEngine, label: EmptyView()) {
+                Text("Google")
+                    .tag(DefaultSearchEngine.google)
+                Text("Brave")
+                    .tag(DefaultSearchEngine.brave)
+                Text("Bing")
+                    .tag(DefaultSearchEngine.bing)
+                Text("DuckDuckGo")
+                    .tag(DefaultSearchEngine.duckduckgo)
+                Text("Startpage")
+                    .tag(DefaultSearchEngine.startpage)
+                Text("Custom")
+                    .tag(DefaultSearchEngine.custom)
+            }
+            .pickerStyle(.inline)
+            .listStyle(.insetGrouped)
+            .navigationTitle("Default search engine")
+            .navigationBarTitleDisplayMode(.inline)
+
+            if defaultSearchEngine == .custom {
+                Section(header: Text("Custom search engine")) {
+                    TextField("https://domain.com/search?q=%s", text: $customSearchEngine)
+                        .keyboardType(.URL)
+                        .autocorrectionDisabled(true)
+                        .autocapitalization(.none)
+                }
+            }
+        }
+    }
+}

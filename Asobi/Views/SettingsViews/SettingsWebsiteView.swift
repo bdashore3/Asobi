@@ -12,9 +12,11 @@ struct SettingsWebsiteView: View {
 
     @AppStorage("changeUserAgent") var changeUserAgent = false
     @AppStorage("loadLastHistory") var loadLastHistory = false
-    @AppStorage("useUrlBar") var useUrlBar = false
+    @AppStorage("browserModeEnabled") var browserModeEnabled = false
 
     @AppStorage("defaultUrl") var defaultUrl = ""
+
+    @AppStorage("defaultSearchEngine") var defaultSearchEngine: DefaultSearchEngine = .google
 
     @State private var showUrlChangeAlert: Bool = false
     @State private var showUrlBarAlert: Bool = false
@@ -70,22 +72,52 @@ struct SettingsWebsiteView: View {
             }
         }
 
-        Section(header: Text("URL bar")) {
-            Toggle(isOn: $useUrlBar) {
-                Text("Enable URL bar")
+        Section(header: Text("Browser mode"),
+                footer: Text("Browser mode changes Asobi to work more like a mobile browser as opposed to a PWA companion.")) {
+            Toggle(isOn: $browserModeEnabled) {
+                Text("Enable browser mode")
             }
-            .onChange(of: useUrlBar) { changed in
+            .onChange(of: browserModeEnabled) { changed in
                 if changed {
                     showUrlBarAlert.toggle()
                 }
             }
             .alert(isPresented: $showUrlBarAlert) {
                 Alert(
-                    title: Text("URL bar enabled"),
+                    title: Text("Browser mode enabled"),
                     message: Text("The navigation bar should have a link icon now. \n\n" +
                         "The homepage button is located in the library context menu. \n\n" +
-                        "If this interferes with browsing, please disable the setting."),
+                        "If this interferes with PWAs, please disable the setting."),
                     dismissButton: .default(Text("OK"))
+                )
+            }
+
+            if browserModeEnabled {
+                NavigationLink(
+                    destination: BrowserSearchEnginePicker(),
+                    label: {
+                        HStack {
+                            Text("Search engine")
+                            Spacer()
+                            Group {
+                                switch defaultSearchEngine {
+                                case .google:
+                                    Text("Google")
+                                case .brave:
+                                    Text("Brave")
+                                case .bing:
+                                    Text("Bing")
+                                case .duckduckgo:
+                                    Text("DuckDuckGo")
+                                case .startpage:
+                                    Text("Startpage")
+                                case .custom:
+                                    Text("Custom")
+                                }
+                            }
+                            .foregroundColor(.gray)
+                        }
+                    }
                 )
             }
         }

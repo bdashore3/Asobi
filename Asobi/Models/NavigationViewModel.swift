@@ -53,7 +53,7 @@ class NavigationViewModel: ObservableObject {
         }
     }
 
-    private var autoHideTask: Task<Void, Error>?
+    private var autoHideTask: Task<Void, Never>?
 
     init() {
         if forceSecurityCredentials {
@@ -135,7 +135,7 @@ class NavigationViewModel: ObservableObject {
         }
 
         autoHideTask = Task {
-            try await Task.sleep(seconds: 3)
+            try? await Task.sleep(seconds: 3)
 
             // If persist navigation is disabled, turn off the navbar
             if !persistNavigation {

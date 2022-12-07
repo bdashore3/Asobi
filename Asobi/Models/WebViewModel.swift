@@ -54,6 +54,8 @@ class WebViewModel: ObservableObject {
     @AppStorage("navigationAccent") private var navigationAccent: Color = .red
     @AppStorage("statusBarAccent") private var statusBarAccent: Color = .clear
     @AppStorage("statusBarStyleType") private var statusBarStyleType: StatusBarStyleType = .automatic
+    @AppStorage("defaultSearchEngine") private var defaultSearchEngine: DefaultSearchEngine = .google
+    @AppStorage("customDefaultSearchEngine") var customSearchEngine = ""
 
     private let javaScriptLoader: JavaScriptLoader = .init()
 
@@ -206,6 +208,43 @@ class WebViewModel: ObservableObject {
         }
 
         return URL(string: urlString)
+    }
+
+    func parseUrlBarQuery(_ urlText: String, forceSearch: Bool = false) {
+        if !forceSearch {
+            let splitText = urlText.split(separator: ".")
+
+            if urlText.contains("://") {
+                return loadUrl(urlText)
+            } else if let possibleSecondTld = splitText[safe: 2], possibleSecondTld.count >= 2 {
+                return loadUrl(urlText)
+            } else if let possibleTld = splitText[safe: 1], possibleTld.count >= 2 {
+                return loadUrl(urlText)
+            }
+        }
+
+        loadUrl(fetchSearchEngine(query: urlText))
+    }
+
+    func fetchSearchEngine(query: String) -> String {
+        let searchEngineUrl: String
+
+        switch defaultSearchEngine {
+        case .google:
+            searchEngineUrl = "https://google.com/search?q=%s"
+        case .brave:
+            searchEngineUrl = "https://search.brave.com/search?q=%s"
+        case .bing:
+            searchEngineUrl = "https://www.bing.com/search?q=%s"
+        case .duckduckgo:
+            searchEngineUrl = "https://duckduckgo.com/?q=%s"
+        case .startpage:
+            searchEngineUrl = "https://startpage.com/sp/search?q=%s"
+        case .custom:
+            searchEngineUrl = customSearchEngine
+        }
+
+        return searchEngineUrl.replacingOccurrences(of: "%s", with: query)
     }
 
     func goForward() {
