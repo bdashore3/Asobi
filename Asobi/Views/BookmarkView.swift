@@ -114,7 +114,7 @@ struct BookmarkView: View {
             changedBookmarks[reverseIndex].orderNum = Int16(reverseIndex)
         }
 
-        PersistenceController.shared.save(backgroundContext)
+        PersistenceController.shared.save()
     }
 }
 
