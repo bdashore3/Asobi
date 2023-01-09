@@ -58,4 +58,8 @@ extension View {
     func onWillDisappear(_ perform: @escaping () -> Void) -> some View {
         modifier(WillDisappearModifier(callback: perform))
     }
+
+    func dynamicContextMenu(buttons: [ContextMenuButton], title: String? = nil, willEnd: (() -> Void)? = nil, willDisplay: (() -> Void)? = nil) -> some View {
+        modifier(DynamicContextMenu(buttons: buttons, title: title, willDisplay: willDisplay, willEnd: willEnd))
+    }
 }

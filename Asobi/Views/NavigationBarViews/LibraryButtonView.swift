@@ -11,7 +11,7 @@ struct LibraryButtonView: View {
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
-    @AppStorage("useUrlBar") var useUrlBar = false
+    @AppStorage("browserModeEnabled") var browserModeEnabled = false
 
     var body: some View {
         Button(action: {
@@ -20,48 +20,52 @@ struct LibraryButtonView: View {
             Image(systemName: "book")
                 .padding(.horizontal, 4)
         })
-        .contextMenu {
-            Button {
+        .dynamicContextMenu(
+            buttons: getContextMenuButtons(),
+            willEnd: {
+                navModel.libraryMenuOpen = false
+            },
+            willDisplay: {
+                navModel.libraryMenuOpen = true
+            }
+        )
+    }
+
+    func getContextMenuButtons() -> [ContextMenuButton] {
+        var buttons = [
+            ContextMenuButton("Copy current URL", systemImage: "doc.on.doc") {
                 UIPasteboard.general.string = webModel.webView.url?.absoluteString
-            } label: {
-                Text("Copy current URL")
-                Image(systemName: "doc.on.doc")
-            }
-
-            Button {
+            },
+            ContextMenuButton("Add bookmark", systemImage: "plus.circle") {
                 navModel.currentSheet = .bookmarkEditing
-            } label: {
-                Text("Add bookmark")
-                Image(systemName: "plus.circle")
             }
+        ]
 
-            if webModel.findInPageEnabled {
-                Button {
+        if webModel.findInPageEnabled {
+            buttons.append(
+                ContextMenuButton("Find in page", systemImage: "text.magnifyingglass") {
                     navModel.currentPillView = .findInPage
-                } label: {
-                    Text("Find in page")
-                    Image(systemName: "text.magnifyingglass")
                 }
-            }
-
-            if useUrlBar {
-                Button {
-                    webModel.goHome()
-                } label: {
-                    Text("Go to homepage")
-                    Image(systemName: "house")
-                }
-            }
-
-            if UIDevice.current.deviceType == .phone {
-                Button {
-                    webModel.webView.reload()
-                } label: {
-                    Text("Refresh page")
-                    Image(systemName: "arrow.clockwise")
-                }
-            }
+            )
         }
+
+        if browserModeEnabled {
+            buttons.append(
+                ContextMenuButton("Go to homepage", systemImage: "ahouse") {
+                    webModel.goHome()
+                }
+            )
+        }
+
+        if UIDevice.current.deviceType == .phone {
+            buttons.append(
+                ContextMenuButton("Refresh page", systemImage: "arrow.clockwise") {
+                    webModel.webView.reload()
+                }
+            )
+        }
+
+        return buttons
     }
 }
 

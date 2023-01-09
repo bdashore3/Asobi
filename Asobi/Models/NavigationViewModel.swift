@@ -44,6 +44,7 @@ class NavigationViewModel: ObservableObject {
     @Published var isUnlocked = true
     @Published var authErrorAlert: AuthAlertType?
     @Published var blurRadius: CGFloat = 0
+    @Published var libraryMenuOpen = false
     @Published var currentPillView: PillViewType? {
         didSet {
             // If the button is triggered twice, assume that the user wants to hide the view
@@ -128,8 +129,8 @@ class NavigationViewModel: ObservableObject {
         return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
     }
 
+    // If auto hiding is enabled
     func autoHideNavigationBar() {
-        // Marker: If auto hiding is enabled
         if let autoHideTask = autoHideTask {
             autoHideTask.cancel()
         }
@@ -137,8 +138,10 @@ class NavigationViewModel: ObservableObject {
         autoHideTask = Task {
             try? await Task.sleep(seconds: 3)
 
-            // If persist navigation is disabled, turn off the navbar
-            if !persistNavigation {
+            // If persist navigation is disabled or if a context menu isn't open, turn off the navbar
+            if persistNavigation || libraryMenuOpen || !autoHideNavigation {
+                setNavigationBar(true)
+            } else {
                 setNavigationBar(false)
             }
         }

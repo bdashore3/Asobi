@@ -18,8 +18,7 @@ struct WebView: UIViewRepresentable {
     @AppStorage("persistNavigation") var persistNavigation = false
 
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, WKScriptMessageHandler {
-        var parent: WebView
-
+        let parent: WebView
         init(_ parent: WebView) {
             self.parent = parent
         }
