@@ -16,23 +16,14 @@ struct BookmarkView: View {
 
     let backgroundContext = PersistenceController.shared.backgroundContext
 
-    @FetchRequest(
-        entity: Bookmark.entity(),
-        sortDescriptors: [
-            NSSortDescriptor(keyPath: \Bookmark.orderNum, ascending: true),
-            NSSortDescriptor(keyPath: \Bookmark.name, ascending: true)
-        ]
-    ) var bookmarks: FetchedResults<Bookmark>
+    var bookmarks: FetchedResults<Bookmark>
 
     @Binding var currentBookmark: Bookmark?
     @Binding var showEditing: Bool
 
     var body: some View {
-        if bookmarks.isEmpty {
-            Text("It looks like your bookmarks are empty. Try adding some!")
-                .padding()
-        } else {
-            List {
+        List {
+            if !bookmarks.isEmpty {
                 ForEach(bookmarks, id: \.self) { bookmark in
                     // Check for iOS 15 and ONLY iOS 15
                     if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
@@ -93,8 +84,9 @@ struct BookmarkView: View {
                 .onMove(perform: moveItem)
                 .onDelete(perform: removeItem)
             }
-            .listStyle(.grouped)
         }
+        .inlinedList()
+        .listStyle(.grouped)
     }
 
     func removeItem(at offsets: IndexSet) {
@@ -115,11 +107,5 @@ struct BookmarkView: View {
         }
 
         PersistenceController.shared.save()
-    }
-}
-
-struct BookmarkView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarkView(currentBookmark: .constant(nil), showEditing: .constant(false))
     }
 }

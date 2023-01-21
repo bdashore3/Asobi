@@ -73,7 +73,7 @@ struct PopupExceptionView: View {
                 newAllowedSiteUrl = url.absoluteString
             }
         }
-        .navigationTitle("Popup exceptions")
+        .navigationTitle("Popup Exceptions")
         .navigationBarTitleDisplayMode(.inline)
     }
 

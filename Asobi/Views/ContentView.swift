@@ -22,15 +22,13 @@ struct ContentView: View {
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
     @AppStorage("showBottomInset") var showBottomInset = false
 
-    @State private var isKeyboardPresented = false
-
     var body: some View {
         ZStack {
             // Background color for orientation changes
             Rectangle()
                 .foregroundColor(statusBarPinType == .hide ? .clear : webModel.backgroundColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onTapGesture(count: autoHideNavigation ? 1 : 3) {
+                .onTapGesture(count: (autoHideNavigation && !navModel.isKeyboardShowing) ? 1 : 3) {
                     navModel.toggleNavigationBar()
                 }
                 .ignoresSafeArea()
@@ -156,7 +154,7 @@ struct ContentView: View {
                 // Fills up navigation bar height
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(height: isKeyboardPresented ? 0 : (navModel.showNavigationBar ? (UIDevice.current.deviceType == .phone ? 35 : 60) : 0))
+                    .frame(height: navModel.isKeyboardShowing ? 0 : (navModel.showNavigationBar ? (UIDevice.current.deviceType == .phone ? 35 : 60) : 0))
             }
             .zIndex(2)
 
@@ -181,9 +179,6 @@ struct ContentView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
             .zIndex(3)
-        }
-        .onReceive(keyboardPublisher) { value in
-            isKeyboardPresented = value
         }
     }
 }

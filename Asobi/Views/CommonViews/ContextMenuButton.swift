@@ -31,7 +31,7 @@ struct ContextMenuButton: Identifiable {
     }
 
     func toUIAction() -> UIAction {
-        return UIAction(title: text, image: UIImage(systemName: systemImage ?? ""), handler: { _ in
+        UIAction(title: text, image: UIImage(systemName: systemImage ?? ""), handler: { _ in
             action()
         })
     }

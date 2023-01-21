@@ -51,7 +51,7 @@ struct LibraryButtonView: View {
 
         if browserModeEnabled {
             buttons.append(
-                ContextMenuButton("Go to homepage", systemImage: "ahouse") {
+                ContextMenuButton("Go to homepage", systemImage: "house") {
                     webModel.goHome()
                 }
             )

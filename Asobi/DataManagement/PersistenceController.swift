@@ -49,6 +49,12 @@ struct PersistenceController {
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Error: \(error.localizedDescription)")
+            }
+        }
+
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         try? container.viewContext.setQueryGenerationFrom(.current)
@@ -57,12 +63,6 @@ struct PersistenceController {
         backgroundContext.automaticallyMergesChangesFromParent = true
         backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         try? backgroundContext.setQueryGenerationFrom(.current)
-
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Error: \(error.localizedDescription)")
-            }
-        }
     }
 
     func save(_ context: NSManagedObjectContext? = nil) {

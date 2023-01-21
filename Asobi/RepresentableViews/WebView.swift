@@ -346,7 +346,7 @@ struct WebView: UIViewRepresentable {
         webModel.webView.configuration.userContentController.add(context.coordinator, name: "findListener")
 
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
-        tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
+        tapGesture.numberOfTapsRequired = (autoHideNavigation && !navModel.isKeyboardShowing) ? 1 : 3
         tapGesture.delegate = context.coordinator
         webModel.webView.addGestureRecognizer(tapGesture)
 
@@ -369,7 +369,7 @@ struct WebView: UIViewRepresentable {
                 return
             }
 
-            tapGesture.numberOfTapsRequired = autoHideNavigation ? 1 : 3
+            tapGesture.numberOfTapsRequired = (autoHideNavigation && !navModel.isKeyboardShowing) ? 1 : 3
             tapGesture.isEnabled = !persistNavigation
         }
     }

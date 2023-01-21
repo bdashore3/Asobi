@@ -45,6 +45,7 @@ class NavigationViewModel: ObservableObject {
     @Published var authErrorAlert: AuthAlertType?
     @Published var blurRadius: CGFloat = 0
     @Published var libraryMenuOpen = false
+    @Published var isKeyboardShowing = false
     @Published var currentPillView: PillViewType? {
         didSet {
             // If the button is triggered twice, assume that the user wants to hide the view
@@ -109,8 +110,6 @@ class NavigationViewModel: ObservableObject {
                         authErrorAlert = .error(localizedDescription: error.localizedDescription)
                     }
                 }
-
-                print("Is unlocked: \(isUnlocked)")
             }
         } else {
             // There's no authentication methods, so unlock anyway, show an error, and turn off the setting
@@ -136,13 +135,21 @@ class NavigationViewModel: ObservableObject {
         }
 
         autoHideTask = Task {
-            try? await Task.sleep(seconds: 3)
+            while showNavigationBar {
+                try? await Task.sleep(seconds: 3)
 
-            // If persist navigation is disabled or if a context menu isn't open, turn off the navbar
-            if persistNavigation || libraryMenuOpen || !autoHideNavigation {
-                setNavigationBar(true)
-            } else {
-                setNavigationBar(false)
+                // Immediately break out if the task is cancelled
+                if Task.isCancelled {
+                    return
+                }
+
+                // If any of these conditions are met, send a show navbar command
+                // rather than leaving it at the current state
+                if persistNavigation || libraryMenuOpen || !autoHideNavigation || currentSheet != nil || currentPillView != nil {
+                    continue
+                } else {
+                    setNavigationBar(false)
+                }
             }
         }
     }

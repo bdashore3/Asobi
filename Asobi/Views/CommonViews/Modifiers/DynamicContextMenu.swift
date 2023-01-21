@@ -31,6 +31,7 @@ struct DynamicContextMenu: ViewModifier {
                 willDisplay: willDisplay,
                 willEnd: willEnd
             )
+            .ignoresSafeArea(.keyboard)
             .fixedSize()
         }
     }

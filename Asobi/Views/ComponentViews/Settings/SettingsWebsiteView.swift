@@ -36,11 +36,13 @@ struct SettingsWebsiteView: View {
 
         // MARK: Default URL setting
 
-        Section(header: Text("Default URL"),
-                footer: VStack(alignment: .leading, spacing: 8) {
-                    Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
-                    Text("The load most recent URL option loads the last URL from history on app launch.")
-                }) {
+        Section(
+            header: Text("Default URL"),
+            footer: VStack(alignment: .leading, spacing: 8) {
+                Text("Sets the default URL when the app is launched. Https will be automatically added if you don't provide it.")
+                Text("The load most recent URL option loads the last URL from history on app launch.")
+            }
+        ) {
             // Auto capitalization modifier will be deprecated at some point
             TextField("https://...", text: $defaultUrl, onEditingChanged: { begin in
                 if !begin, UIDevice.current.deviceType != .mac {
@@ -72,8 +74,10 @@ struct SettingsWebsiteView: View {
             }
         }
 
-        Section(header: Text("Browser mode"),
-                footer: Text("Browser mode changes Asobi to work more like a mobile browser as opposed to a PWA companion.")) {
+        Section(
+            header: Text("Browser mode"),
+            footer: Text("Browser mode changes Asobi to work more like a mobile browser as opposed to a PWA companion.")
+        ) {
             Toggle(isOn: $browserModeEnabled) {
                 Text("Enable browser mode")
             }

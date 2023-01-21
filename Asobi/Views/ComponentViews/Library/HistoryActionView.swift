@@ -21,6 +21,10 @@ struct HistoryActionView: View {
     @State var labelText: String
 
     @State private var currentHistoryAlert: HistoryAlertType?
+    @State private var showWarnAlert = false
+    @State private var showErrorAlert = false
+    @State private var showSuccessAlert = false
+
     @State private var showActionSheet = false
     @State private var historyDeleteRange: HistoryDeleteRange = .day
     @State private var successAlertRange: String = ""
@@ -41,21 +45,21 @@ struct HistoryActionView: View {
                     .destructive(Text("Past day")) {
                         historyDeleteRange = .day
                         successAlertRange = "day"
-                        currentHistoryAlert = .warn
+                        showWarnAlert.toggle()
                     },
                     .destructive(Text("Past week")) {
                         historyDeleteRange = .week
                         successAlertRange = "week"
-                        currentHistoryAlert = .warn
+                        showWarnAlert.toggle()
                     },
                     .destructive(Text("Past 4 weeks")) {
                         historyDeleteRange = .month
                         successAlertRange = "4 weeks"
-                        currentHistoryAlert = .warn
+                        showWarnAlert.toggle()
                     },
                     .destructive(Text("All time")) {
                         historyDeleteRange = .allTime
-                        currentHistoryAlert = .warn
+                        showWarnAlert.toggle()
                     },
                     .cancel()
                 ]

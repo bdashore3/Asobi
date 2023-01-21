@@ -27,8 +27,10 @@ struct SettingsPrivacyView: View {
     var body: some View {
         // MARK: Privacy settings
 
-        Section(header: Text("Privacy and security"),
-                footer: Text("The adblocker blocks in-page ads and the popup blocker blocks popups. Make sure to enable what you need.")) {
+        Section(
+            header: Text("Privacy and security"),
+            footer: Text("The adblocker blocks in-page ads and the popup blocker blocks popups. Make sure to enable what you need.")
+        ) {
             Toggle(isOn: $incognitoMode) {
                 Text("Incognito mode")
             }

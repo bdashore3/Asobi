@@ -23,8 +23,10 @@ struct SettingsDownloadsView: View {
         // MARK: Downloads directory (for iDevices)
 
         if UIDevice.current.deviceType != .mac {
-            Section(header: Text("Download options"),
-                    footer: Text("If a downloaded file has the same name as a local file, the local file will be overwritten if the toggle is on.")) {
+            Section(
+                header: Text("Download options"),
+                footer: Text("If a downloaded file has the same name as a local file, the local file will be overwritten if the toggle is on.")
+            ) {
                 HStack {
                     Text("Downloads")
 

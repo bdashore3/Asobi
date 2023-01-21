@@ -118,6 +118,9 @@ struct MainView: View {
                     rootViewController.grayHomeIndicator = !showing
                 }
             }
+            .onReceive(keyboardPublisher) { value in
+                navModel.isKeyboardShowing = value
+            }
     }
 }
 

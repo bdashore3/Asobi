@@ -17,10 +17,10 @@ struct NotifyingContextMenu<Content: View>: UIViewRepresentable {
     let willEnd: (() -> Void)?
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
+        Coordinator(self)
     }
 
-    class Coordinator: NSObject, UIContextMenuInteractionDelegate{
+    class Coordinator: NSObject, UIContextMenuInteractionDelegate {
         var contextMenu: UIContextMenuInteraction!
 
         let parent: NotifyingContextMenu
@@ -30,9 +30,9 @@ struct NotifyingContextMenu<Content: View>: UIViewRepresentable {
 
         func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
             UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { [self]
-                suggestedActions in
+                _ in
 
-                return UIMenu(title: parent.title ?? "", children: parent.actions)
+                    UIMenu(title: parent.title ?? "", children: parent.actions)
             })
         }
 
@@ -49,7 +49,7 @@ struct NotifyingContextMenu<Content: View>: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         // Add a hosting controller shim to access the ContextMenu properties
-        let hostingWrapper = UIHostingController(rootView: parentView).view!
+        let hostingWrapper = UIHostingController(rootView: parentView, ignoresKeyboard: true).view!
         context.coordinator.contextMenu = UIContextMenuInteraction(delegate: context.coordinator)
         hostingWrapper.addInteraction(context.coordinator.contextMenu)
         return hostingWrapper

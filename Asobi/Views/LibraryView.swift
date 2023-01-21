@@ -9,16 +9,36 @@ import CoreData
 import SwiftUI
 
 struct LibraryView: View {
+    enum LibraryPickerSegment {
+        case bookmarks
+        case actions
+        case history
+    }
+
     @EnvironmentObject var webModel: WebViewModel
     @EnvironmentObject var navModel: NavigationViewModel
 
     @AppStorage("useDarkTheme") var useDarkTheme = false
     @AppStorage("followSystemTheme") var followSystemTheme = true
 
+    @FetchRequest(
+        entity: Bookmark.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Bookmark.orderNum, ascending: true)
+        ]
+    ) var bookmarks: FetchedResults<Bookmark>
+
+    @FetchRequest(
+        entity: History.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \History.date, ascending: false)
+        ]
+    ) var history: FetchedResults<History>
+
     @State var currentUrl: String = "No URL found"
 
     @State private var dismissSelf = false
-    @State private var tabSelect = 0
+    @State private var selectedSegment: LibraryPickerSegment = .bookmarks
     @State private var showEditing = false
     @State private var currentBookmark: Bookmark?
     @State private var isCopiedButton = false
@@ -27,25 +47,23 @@ struct LibraryView: View {
     var body: some View {
         NavView {
             VStack {
-                Picker("Tabs", selection: $tabSelect) {
-                    Text("Bookmarks").tag(0)
-                    Text("Actions").tag(1)
-                    Text("History").tag(2)
+                Picker("Tabs", selection: $selectedSegment) {
+                    Text("Bookmarks").tag(LibraryPickerSegment.bookmarks)
+                    Text("Actions").tag(LibraryPickerSegment.actions)
+                    Text("History").tag(LibraryPickerSegment.history)
                 }
                 .pickerStyle(.segmented)
                 .padding()
 
                 Spacer()
 
-                switch tabSelect {
-                case 0:
-                    BookmarkView(currentBookmark: $currentBookmark, showEditing: $showEditing)
-                case 1:
+                switch selectedSegment {
+                case .bookmarks:
+                    BookmarkView(bookmarks: bookmarks, currentBookmark: $currentBookmark, showEditing: $showEditing)
+                case .actions:
                     LibraryActionsView(currentUrl: $currentUrl)
-                case 2:
-                    HistoryView()
-                default:
-                    EmptyView()
+                case .history:
+                    HistoryView(history: history)
                 }
 
                 Spacer()
@@ -56,10 +74,24 @@ struct LibraryView: View {
                     navigationSwitchView
                 }
             }
-            .navigationBarTitle(getNavigationBarTitle(tabSelect), displayMode: .inline)
+            .overlay {
+                switch selectedSegment {
+                case .bookmarks:
+                    if bookmarks.isEmpty {
+                        EmptyInstructionView(title: "No Bookmarks", message: "Add a bookmark from search results")
+                    }
+                case .actions:
+                    EmptyView()
+                case .history:
+                    if history.isEmpty {
+                        EmptyInstructionView(title: "No History", message: "Visit some webpages to build history")
+                    }
+                }
+            }
+            .navigationBarTitle("Library", displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
-                    if tabSelect == 0 {
+                    if selectedSegment == .bookmarks {
                         // Showing bookmark view
                         if #available(iOS 16, *) {
                             NavigationLink("Add", destination:
@@ -75,7 +107,7 @@ struct LibraryView: View {
                                 showEditing.toggle()
                             }
                         }
-                    } else if #available(iOS 15, *), tabSelect == 2 {
+                    } else if #available(iOS 15, *), selectedSegment == .history {
                         // Show history action sheet in toolbar if iOS 15 or up
                         HistoryActionView(labelText: "Clear")
                     }
@@ -83,7 +115,7 @@ struct LibraryView: View {
                     Spacer()
 
                     // If we're on history or bookmarks views
-                    if tabSelect == 0 || tabSelect == 2 {
+                    if selectedSegment == .bookmarks || selectedSegment == .history {
                         EditButton()
                     }
                 }
@@ -103,22 +135,9 @@ struct LibraryView: View {
         .blur(radius: UIDevice.current.deviceType == .mac ? 0 : navModel.blurRadius)
     }
 
-    func getNavigationBarTitle(_ tabSelect: Int) -> String {
-        switch tabSelect {
-        case 0:
-            return "Bookmarks"
-        case 1:
-            return "Actions"
-        case 2:
-            return "History"
-        default:
-            return ""
-        }
-    }
-
     @ViewBuilder
     var navigationSwitchView: some View {
-        if tabSelect == 0 {
+        if selectedSegment == .bookmarks {
             NavigationLink("", destination:
                 EditBookmarkView(bookmark: currentBookmark)
                     .onWillDisappear { showEditing = false },
