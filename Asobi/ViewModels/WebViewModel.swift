@@ -15,6 +15,17 @@ struct FindInPageResult: Codable {
     let totalResultLength: Int
 }
 
+enum WebAlertType: Identifiable {
+    var id: Int {
+        hashValue
+    }
+
+    case alert
+    case confirm
+    case prompt
+    case auth
+}
+
 @MainActor
 class WebViewModel: ObservableObject {
     let webView: WKWebView
@@ -106,6 +117,20 @@ class WebViewModel: ObservableObject {
     @Published var findQuery: String = ""
     @Published var currentFindResult: Int = -1
     @Published var totalFindResults: Int = -1
+
+    // JS alert variables
+    @Published var currentWebAlert: WebAlertType?
+    @Published var webAlertMessage: String = ""
+    @Published var webAlertAction: (() -> Void)?
+
+    // JS confirm variables
+    @Published var webConfirmAction: ((Bool) -> Void)?
+
+    // JS prompt variables
+    @Published var webPromptAction: ((String?) -> Void)?
+
+    // JS auth prompt variables
+    @Published var webAuthAction: ((URLSession.AuthChallengeDisposition, URLCredential?) -> Void)?
 
     init() {
         firstLoad = true
@@ -257,6 +282,12 @@ class WebViewModel: ObservableObject {
 
     func goHome() {
         loadUrl()
+    }
+
+    func presentAlert(_ alertType: WebAlertType?) {
+        withAnimation(.easeInOut(duration: 0.2)) {
+            currentWebAlert = alertType
+        }
     }
 
     // The user agent will be a variant of safari to enable airplay support everywhere

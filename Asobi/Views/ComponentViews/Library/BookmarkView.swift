@@ -86,7 +86,7 @@ struct BookmarkView: View {
             }
         }
         .inlinedList()
-        .listStyle(.grouped)
+        .conditionalListStyle()
     }
 
     func removeItem(at offsets: IndexSet) {

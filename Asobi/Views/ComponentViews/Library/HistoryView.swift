@@ -37,7 +37,7 @@ struct HistoryView: View {
                 }
             }
         }
-        .listStyle(.grouped)
+        .conditionalListStyle()
     }
 
     func groupedEntries(_ result: FetchedResults<History>) -> [[History]] {

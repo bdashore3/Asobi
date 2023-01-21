@@ -17,6 +17,7 @@ struct UrlBarButtonView: View {
             Image(systemName: "link")
                 .padding(.horizontal, 4)
         })
+        .keyboardShortcut("u", modifiers: [.command, .shift])
     }
 }
 

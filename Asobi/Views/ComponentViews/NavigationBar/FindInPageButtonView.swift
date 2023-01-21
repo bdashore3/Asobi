@@ -17,7 +17,7 @@ struct FindInPageButtonView: View {
             Image(systemName: "text.magnifyingglass")
                 .padding(.horizontal, 4)
         })
-        .keyboardShortcut("f")
+        .keyboardShortcut("f", modifiers: [.command, .shift])
     }
 }
 

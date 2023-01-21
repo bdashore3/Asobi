@@ -203,18 +203,15 @@ struct WebView: UIViewRepresentable {
             true
         }
 
-        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
-            let alert = UIAlertController(
-                title: nil,
-                message: message,
-                preferredStyle: .alert
-            )
-
-            let okAction = UIAlertAction(title: "OK", style: .default)
-
-            alert.addAction(okAction)
-
-            parent.rootViewController.present(alert, animated: true, completion: nil)
+        // Don't use the async variants of these functions due to passing a completion handler between the WebViewModel
+        func webView(_ webView: WKWebView,
+                     runJavaScriptAlertPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping () -> Void)
+        {
+            parent.webModel.webAlertMessage = message
+            parent.webModel.webAlertAction = completionHandler
+            parent.webModel.presentAlert(.alert)
         }
 
         func webView(_ webView: WKWebView,
@@ -222,26 +219,9 @@ struct WebView: UIViewRepresentable {
                      initiatedByFrame frame: WKFrameInfo,
                      completionHandler: @escaping (Bool) -> Void)
         {
-            let alert = UIAlertController(
-                title: nil,
-                message: message,
-                preferredStyle: .alert
-            )
-
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                completionHandler(true)
-            }
-
-            alert.addAction(okAction)
-
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                completionHandler(false)
-            }
-
-            alert.addAction(cancelAction)
-
-            // Display the NSAlert
-            parent.rootViewController.present(alert, animated: true, completion: nil)
+            parent.webModel.webAlertMessage = message
+            parent.webModel.webConfirmAction = completionHandler
+            parent.webModel.presentAlert(.confirm)
         }
 
         func webView(_ webView: WKWebView,
@@ -250,23 +230,9 @@ struct WebView: UIViewRepresentable {
                      initiatedByFrame frame: WKFrameInfo,
                      completionHandler: @escaping (String?) -> Void)
         {
-            let alert = UIAlertController(
-                title: nil,
-                message: prompt,
-                preferredStyle: .alert
-            )
-
-            alert.addTextField { textField in
-                textField.text = defaultText
-            }
-
-            let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
-                completionHandler(alert.textFields?.first?.text)
-            }
-
-            alert.addAction(submitAction)
-
-            parent.rootViewController.present(alert, animated: true, completion: nil)
+            parent.webModel.webAlertMessage = prompt
+            parent.webModel.webPromptAction = completionHandler
+            parent.webModel.presentAlert(.prompt)
         }
 
         func webView(_ webView: WKWebView,
@@ -281,43 +247,9 @@ struct WebView: UIViewRepresentable {
             let authenticationMethod = challenge.protectionSpace.authenticationMethod
             switch authenticationMethod {
             case NSURLAuthenticationMethodDefault, NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest:
-                let alert = UIAlertController(
-                    title: "Authentication Required",
-                    message: "\(hostname) is asking for your credentials",
-                    preferredStyle: .alert
-                )
-
-                alert.addTextField { textField in
-                    textField.placeholder = "Username"
-                }
-
-                alert.addTextField { textField in
-                    textField.placeholder = "Password"
-                    textField.isSecureTextEntry = true
-                }
-
-                let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
-                    guard let username = alert.textFields?.first?.text else {
-                        return
-                    }
-
-                    guard let password = alert.textFields?.last?.text else {
-                        return
-                    }
-
-                    let credentials = URLCredential(user: username, password: password, persistence: .forSession)
-                    completionHandler(.useCredential, credentials)
-                }
-
-                alert.addAction(submitAction)
-
-                let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
-                    completionHandler(.cancelAuthenticationChallenge, nil)
-                }
-
-                alert.addAction(cancelAction)
-
-                parent.rootViewController.present(alert, animated: true, completion: nil)
+                parent.webModel.webAlertMessage = "\(hostname) is asking for your credentials"
+                parent.webModel.webAuthAction = completionHandler
+                parent.webModel.presentAlert(.auth)
             case NSURLAuthenticationMethodServerTrust:
                 completionHandler(.performDefaultHandling, nil)
             default:

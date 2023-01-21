@@ -83,4 +83,8 @@ extension View {
     func inlinedList() -> some View {
         modifier(InlinedList())
     }
+
+    func conditionalListStyle() -> some View {
+        modifier(ConditionalListStyle())
+    }
 }

@@ -19,6 +19,8 @@ struct AsobiApp: App {
     // At top level for scenePhase if needed
     @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
 
+    @AppStorage("browserModeEnabled") var browserModeEnabled = false
+
     var body: some Scene {
         WindowGroup {
             MainView()
@@ -39,9 +41,15 @@ struct AsobiApp: App {
             CommandGroup(after: .textEditing) {
                 Divider()
 
-                Button("Find in Page") {
+                Button("Find in page") {
                     navModel.currentPillView = .findInPage
-                }.keyboardShortcut("f")
+                }.keyboardShortcut("f", modifiers: [.command, .shift])
+
+                if browserModeEnabled {
+                    Button("Show URL bar") {
+                        navModel.currentPillView = .urlBar
+                    }.keyboardShortcut("u", modifiers: [.command, .shift])
+                }
             }
 
             CommandGroup(after: .windowSize) {

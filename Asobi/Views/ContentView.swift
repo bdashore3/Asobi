@@ -26,6 +26,16 @@ struct ContentView: View {
         ZStack {
             // Background color for orientation changes
             Rectangle()
+                .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
+                    switch result {
+                    case let .success(path):
+                        downloadManager.setDefaultDownloadDirectory(downloadPath: path)
+                    case let .failure(error):
+                        webModel.toastDescription = error.localizedDescription
+                    }
+
+                    navModel.currentSheet = .settings
+                }
                 .foregroundColor(statusBarPinType == .hide ? .clear : webModel.backgroundColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .onTapGesture(count: (autoHideNavigation && !navModel.isKeyboardShowing) ? 1 : 3) {
@@ -68,18 +78,26 @@ struct ContentView: View {
                         )
                     }
                 }
-                .fileImporter(isPresented: $downloadManager.showDefaultDirectoryPicker, allowedContentTypes: [UTType.folder]) { result in
-                    switch result {
-                    case let .success(path):
-                        downloadManager.setDefaultDownloadDirectory(downloadPath: path)
-                    case let .failure(error):
-                        webModel.toastDescription = error.localizedDescription
-                    }
-
-                    navModel.currentSheet = .settings
-                }
                 .edgesIgnoringSafeArea(statusBarPinType == .hide ? (showBottomInset ? .top : .vertical) : (showBottomInset ? [] : .bottom))
                 .zIndex(1)
+
+            Group {
+                if let currentWebAlert = webModel.currentWebAlert {
+                    Color.darkGray.opacity(0.4)
+
+                    switch currentWebAlert {
+                    case .alert:
+                        WebAlertPanel()
+                    case .confirm:
+                        WebConfirmPanel()
+                    case .prompt:
+                        WebPromptPanel()
+                    case .auth:
+                        WebAuthPanel()
+                    }
+                }
+            }
+            .zIndex(2)
 
             // Error view, download bar, and find in page bar
             VStack {
@@ -156,7 +174,7 @@ struct ContentView: View {
                     .foregroundColor(.clear)
                     .frame(height: navModel.isKeyboardShowing ? 0 : (navModel.showNavigationBar ? (UIDevice.current.deviceType == .phone ? 35 : 60) : 0))
             }
-            .zIndex(2)
+            .zIndex(3)
 
             // Navigation Bar
             VStack {
@@ -178,7 +196,7 @@ struct ContentView: View {
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
-            .zIndex(3)
+            .zIndex(4)
         }
     }
 }
