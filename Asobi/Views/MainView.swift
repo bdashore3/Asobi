@@ -24,6 +24,9 @@ struct MainView: View {
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
     @AppStorage("grayHomeIndicator") var grayHomeIndicator = false
     @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
+    @AppStorage("runAppOnce") var runAppOnce = false
+
+    @State private var showIntroAlert = false
 
     var body: some View {
         ContentView()
@@ -63,6 +66,19 @@ struct MainView: View {
                     AuthOverlayView()
                 }
             }
+            .alert(isPresented: $showIntroAlert) {
+                Alert(
+                    title: Text("Welcome"),
+                    message: Text(
+                        "Click the Guides button if you need a guide to get started. \n\n" +
+                        "These guides can be accessed later in Asobi's settings."
+                    ),
+                    primaryButton: .default(Text("Guides")) {
+                        UIApplication.shared.open(URL(string: "https://github.com/bdashore3/Asobi/wiki")!)
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
             .environmentObject(downloadManager)
             .onAppear {
                 if downloadManager.webModel == nil {
@@ -72,6 +88,14 @@ struct MainView: View {
                 if forceSecurityCredentials {
                     Task {
                         await navModel.authenticateOnStartup()
+                    }
+                }
+
+                Task { @MainActor in
+                    if !runAppOnce {
+                        try? await Task.sleep(seconds: 1)
+                        showIntroAlert.toggle()
+                        runAppOnce = true
                     }
                 }
             }

@@ -124,7 +124,7 @@ struct ContentView: View {
                 // Error description view
                 if webModel.showToast {
                     VStack {
-                        GroupBox {
+                        Group {
                             switch webModel.toastType {
                             case .info:
                                 Text(webModel.toastDescription ?? "This shouldn't be showing up... Contact the dev!")
@@ -132,10 +132,16 @@ struct ContentView: View {
                                 Text("Error: \(webModel.toastDescription ?? "This shouldn't be showing up... Contact the dev!")")
                             }
                         }
+                        .font(.caption)
+                        .padding(12)
+                        .background {
+                            VisualEffectBlurView(blurStyle: .systemThinMaterial)
+                        }
+                        .cornerRadius(10)
                     }
+                    .padding()
                     .transition(AnyTransition.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.3))
-                    .padding()
                 }
 
                 switch navModel.currentPillView {
