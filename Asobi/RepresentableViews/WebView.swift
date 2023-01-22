@@ -162,7 +162,7 @@ struct WebView: UIViewRepresentable {
                     // Usually about:blank, so ignore
                     decisionHandler(.cancel)
                 default:
-                    if parent.allowedSchemes.contains(where: { $0.scheme?.lowercased() == url.scheme?.lowercased() }) && UIApplication.shared.canOpenURL(url) {
+                    if parent.allowedSchemes.contains(where: { $0.scheme?.lowercased() == url.scheme?.lowercased() }), UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     } else {
                         parent.webModel.toastDescription =

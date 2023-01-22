@@ -9,11 +9,11 @@ import SwiftUI
 
 struct InlineHeader: View {
     let title: String
-    
+
     init(_ title: String) {
         self.title = title
     }
-    
+
     var body: some View {
         if #available(iOS 16, *) {
             Text(title)

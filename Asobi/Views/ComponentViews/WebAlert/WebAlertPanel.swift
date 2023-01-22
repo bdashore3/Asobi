@@ -15,7 +15,7 @@ struct WebAlertPanel: View {
             VStack(spacing: 20) {
                 Text(webModel.webAlertMessage)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 Button("Close") {
                     webModel.webAlertAction?()
                     webModel.presentAlert(nil)

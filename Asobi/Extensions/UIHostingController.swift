@@ -10,8 +10,8 @@
 
 import SwiftUI
 
-extension UIHostingController {
-    convenience public init(rootView: Content, ignoresKeyboard: Bool) {
+public extension UIHostingController {
+    convenience init(rootView: Content, ignoresKeyboard: Bool) {
         self.init(rootView: rootView)
 
         if ignoresKeyboard {
@@ -20,8 +20,7 @@ extension UIHostingController {
             let viewSubclassName = String(cString: class_getName(viewClass)).appending("_IgnoresKeyboard")
             if let viewSubclass = NSClassFromString(viewSubclassName) {
                 object_setClass(view, viewSubclass)
-            }
-            else {
+            } else {
                 guard let viewClassNameUtf8 = (viewSubclassName as NSString).utf8String else { return }
                 guard let viewSubclass = objc_allocateClassPair(viewClass, viewClassNameUtf8, 0) else { return }
 
