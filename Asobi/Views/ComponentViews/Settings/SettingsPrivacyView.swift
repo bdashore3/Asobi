@@ -69,6 +69,8 @@ struct SettingsPrivacyView: View {
                 NavigationLink("Popup exceptions", destination: PopupExceptionView())
             }
 
+            NavigationLink("Allowed URL schemes", destination: AllowedURLSchemeView())
+
             if UIDevice.current.deviceType != .mac {
                 Toggle(isOn: $blurInRecents) {
                     Text("Blur in recents menu")

@@ -17,6 +17,11 @@ struct WebView: UIViewRepresentable {
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
 
+    @FetchRequest(
+        entity: AllowedURLScheme.entity(),
+        sortDescriptors: []
+    ) var allowedSchemes: FetchedResults<AllowedURLScheme>
+
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, WKScriptMessageHandler {
         let parent: WebView
         init(_ parent: WebView) {
@@ -153,9 +158,16 @@ struct WebView: UIViewRepresentable {
                     parent.downloadManager.executeBlobDownloadJS(url: url)
 
                     decisionHandler(.cancel)
+                case "about":
+                    // Usually about:blank, so ignore
+                    decisionHandler(.cancel)
                 default:
-                    if UIApplication.shared.canOpenURL(url) {
+                    if parent.allowedSchemes.contains(where: { $0.scheme?.lowercased() == url.scheme?.lowercased() }) && UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
+                    } else {
+                        parent.webModel.toastDescription =
+                            "Cannot navigate to URL with scheme \(String(describing: url.scheme)) because the scheme is not allowed or your device can't open it. \n\n" +
+                            "Exceptions can be added in Settings > Allowed URL schemes."
                     }
 
                     decisionHandler(.cancel)
@@ -189,7 +201,9 @@ struct WebView: UIViewRepresentable {
             switch error.code {
             // Error -1022 has a special message because we don't allow insecure webpage loads
             case -1022:
-                parent.webModel.toastDescription = "Failed to load because this page is insecure! \nPlease contact the website dev to fix app transport security protocols!"
+                parent.webModel.toastDescription =
+                    "Failed to load because this page is insecure! \n" +
+                    "Please contact the website dev to fix app transport security protocols!"
             // Error 102 can be ignored since that's used for downloading files
             // Error 999 can be ignored since that's an error for loading a cached webpage
             case 102, -999:

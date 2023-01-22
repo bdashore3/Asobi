@@ -17,7 +17,6 @@ struct PopupExceptionView: View {
         sortDescriptors: []
     ) var allowedPopups: FetchedResults<AllowedPopup>
 
-    @State private var showAddAlert = false
     @State private var newAllowedSiteUrl = ""
 
     var body: some View {
