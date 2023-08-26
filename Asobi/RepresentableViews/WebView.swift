@@ -16,19 +16,20 @@ struct WebView: UIViewRepresentable {
 
     @AppStorage("autoHideNavigation") var autoHideNavigation = false
     @AppStorage("persistNavigation") var persistNavigation = false
+    @AppStorage("allowZoom") var allowZoom = true
 
     @FetchRequest(
         entity: AllowedURLScheme.entity(),
         sortDescriptors: []
     ) var allowedSchemes: FetchedResults<AllowedURLScheme>
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, WKScriptMessageHandler {
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, WKScriptMessageHandler, WKScriptMessageHandlerWithReply {
         let parent: WebView
         init(_ parent: WebView) {
             self.parent = parent
         }
 
-        // JS Handler for blob downloader
+        // JS message handler
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             switch message.name {
             case "blobListener":
@@ -46,7 +47,18 @@ struct WebView: UIViewRepresentable {
 
                 parent.webModel.handleFindInPageResult(jsonString: jsonString)
             default:
-                debugPrint("Unknown JS message: \(message.body)")
+                debugPrint("Unknown JS message from \(message.name) with body: \(message.body)")
+            }
+        }
+
+        // JS message handler with replies
+        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) async -> (Any?, String?) {
+            switch message.name {
+            case "zoomUnlocker":
+                return (parent.allowZoom, nil)
+            default:
+                debugPrint("Unknown JS message from \(message.name) with body: \(message.body)")
+                return (nil, nil)
             }
         }
 
@@ -58,14 +70,17 @@ struct WebView: UIViewRepresentable {
 
         // Will check if the user manually zoomed in
         func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-            if UIDevice.current.deviceType != .mac {
+            let allowZoom = UserDefaults.standard.bool(forKey: "allowZoom")
+
+            scrollView.pinchGestureRecognizer?.isEnabled = allowZoom
+            if UIDevice.current.deviceType != .mac && allowZoom {
                 parent.webModel.userDidZoom = true
             }
         }
 
         // Handle orientation changes here
         func scrollViewDidZoom(_ scrollView: UIScrollView) {
-            if UIDevice.current.deviceType != .mac {
+            if UIDevice.current.deviceType != .mac && UserDefaults.standard.bool(forKey: "allowZoom") {
                 // If the user initiated the zoom, we don't care
                 if parent.webModel.userDidZoom {
                     return
@@ -84,7 +99,7 @@ struct WebView: UIViewRepresentable {
         // Check if the user is zoomed in, used for resetting the zoom level on orientation change
         // Also set the previous zoom level for possible orientation change issues
         func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-            if UIDevice.current.deviceType != .mac {
+            if UIDevice.current.deviceType != .mac && UserDefaults.standard.bool(forKey: "allowZoom") {
                 parent.webModel.userDidZoom = false
 
                 parent.webModel.previousZoomScale = scale
@@ -288,8 +303,9 @@ struct WebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
-        webModel.webView.configuration.userContentController.add(context.coordinator, name: "blobListener")
-        webModel.webView.configuration.userContentController.add(context.coordinator, name: "findListener")
+        webModel.webView.configuration.userContentController.add(context.coordinator, contentWorld: .page, name: "blobListener")
+        webModel.webView.configuration.userContentController.add(context.coordinator, contentWorld: .page, name: "findListener")
+        webModel.webView.configuration.userContentController.addScriptMessageHandler(context.coordinator, contentWorld: .page, name: "zoomUnlocker")
 
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.toggleNavigation))
         tapGesture.numberOfTapsRequired = (autoHideNavigation && !navModel.isKeyboardShowing) ? 1 : 3

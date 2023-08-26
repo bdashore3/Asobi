@@ -20,10 +20,12 @@ struct SettingsBehaviorView: View {
     @AppStorage("useStatefulBookmarks") var useStatefulBookmarks = false
 
     @AppStorage("allowSwipeNavGestures") var allowSwipeNavGestures = true
+    @AppStorage("allowZoom") var allowZoom = true
 
     @AppStorage("statusBarPinType") var statusBarPinType: StatusBarBehaviorType = .partialHide
 
     @State private var showForceFullScreenAlert: Bool = false
+    @State private var showZoomAlert: Bool = false
 
     var body: some View {
         // MARK: Browser behavior settings
@@ -103,6 +105,21 @@ struct SettingsBehaviorView: View {
                 Alert(
                     title: Text(forceFullScreen ? "Fullscreen enabled" : "Fullscreen disabled"),
                     message: Text("Changing this setting requires an app restart"),
+                    dismissButton: .cancel(Text("OK"))
+                )
+            }
+
+            Toggle(isOn: $allowZoom) {
+                Text("Allow zooming")
+            }
+            .onChange(of: allowZoom) { changed in
+                webModel.webView.reload()
+                showZoomAlert.toggle()
+            }
+            .alert(isPresented: $showZoomAlert) {
+                Alert(
+                    title: Text(allowZoom ? "Zooming enabled" : "Zooming disabled"),
+                    message: Text("The page will refresh when you exit settings"),
                     dismissButton: .cancel(Text("OK"))
                 )
             }

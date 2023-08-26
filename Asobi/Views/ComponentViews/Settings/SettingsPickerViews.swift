@@ -36,9 +36,9 @@ struct StatusBarStylePicker: View {
 
     func fetchPickerChoiceName(_ style: StatusBarStyleType) -> String {
         switch style {
-        case .theme:
-            return "Automatic tint"
         case .automatic:
+            return "Automatic tint"
+        case .theme:
             return "Follow theme"
         case .accent:
             return "App accent color"
