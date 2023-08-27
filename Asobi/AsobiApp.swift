@@ -20,6 +20,7 @@ struct AsobiApp: App {
     @StateObject var rootViewController: AsobiRootViewController = .init(rootViewController: nil, style: .default)
 
     @AppStorage("browserModeEnabled") var browserModeEnabled = false
+    @AppStorage("allowZoom") var allowZoom = true
 
     var body: some Scene {
         WindowGroup {
@@ -55,17 +56,19 @@ struct AsobiApp: App {
             CommandGroup(after: .windowSize) {
                 Divider()
 
-                Button("Zoom in") {
-                    let currentZoomScale = webModel.webView.scrollView.zoomScale
-                    webModel.webView.scrollView.zoomScale = currentZoomScale + 0.1
-                }
-                .keyboardShortcut("+", modifiers: [.command, .shift])
+                if allowZoom {
+                    Button("Zoom in") {
+                        let currentZoomScale = webModel.webView.scrollView.zoomScale
+                        webModel.webView.scrollView.zoomScale = currentZoomScale + 0.1
+                    }
+                    .keyboardShortcut("+", modifiers: [.command, .shift])
 
-                Button("Zoom out") {
-                    let currentZoomScale = webModel.webView.scrollView.zoomScale
-                    webModel.webView.scrollView.zoomScale = currentZoomScale - 0.1
+                    Button("Zoom out") {
+                        let currentZoomScale = webModel.webView.scrollView.zoomScale
+                        webModel.webView.scrollView.zoomScale = currentZoomScale - 0.1
+                    }
+                    .keyboardShortcut("-", modifiers: [.command, .shift])
                 }
-                .keyboardShortcut("-", modifiers: [.command, .shift])
             }
         }
     }
