@@ -10,20 +10,6 @@ import Introspect
 import SwiftUI
 
 extension View {
-    // MARK: Custom introspect functions
-
-    func introspectCollectionView(customize: @escaping (UICollectionView) -> Void) -> some View {
-        inject(UIKitIntrospectionView(
-            selector: { introspectionView in
-                guard let viewHost = Introspect.findViewHost(from: introspectionView) else {
-                    return nil
-                }
-                return Introspect.previousSibling(containing: UICollectionView.self, from: viewHost)
-            },
-            customize: customize
-        ))
-    }
-
     // MARK: Custom combine publishers
 
     // Modified from https://stackoverflow.com/questions/65784294/how-to-detect-if-keyboard-is-present-in-swiftui
