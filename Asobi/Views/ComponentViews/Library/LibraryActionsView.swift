@@ -35,7 +35,10 @@ struct LibraryActionsView: View {
 
     var body: some View {
         Form {
-            Section(header: "Current URL", footer: "Tap the textbox to copy the URL!") {
+            Section(
+                header: Text("Current URL"),
+                footer: Text("Tap the textbox to copy the URL!")
+            ) {
                 HStack {
                     Text(currentUrl)
                         .lineLimit(1)

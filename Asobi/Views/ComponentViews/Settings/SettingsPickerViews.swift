@@ -110,7 +110,7 @@ struct BrowserSearchEnginePicker: View {
             }
 
             if defaultSearchEngine == .custom {
-                Section(header: Text("Custom search engine")) {
+                Section("Custom search engine") {
                     TextField("https://domain.com/search?q=%s", text: $customSearchEngine)
                         .keyboardType(.URL)
                         .autocorrectionDisabled(true)

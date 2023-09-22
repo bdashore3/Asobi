@@ -24,7 +24,7 @@ struct SettingsAppearanceView: View {
 
         // The combination of toggles and a ColorPicker cause keyboard shortcuts to stop working
         // Reported this bug to Apple
-        Section(header: Text("Appearance")) {
+        Section("Appearance") {
             Toggle(isOn: $leftHandMode) {
                 Text("Left handed mode")
             }

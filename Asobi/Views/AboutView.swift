@@ -29,7 +29,7 @@ struct AboutView: View {
 
                     Text("Asobi is a free and open source browser application developed by Brian Dashore under the Apache-2.0 license.")
                         .textCase(.none)
-                        .foregroundColor(.label)
+                        .foregroundColor(Color(uiColor: .label))
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 20)

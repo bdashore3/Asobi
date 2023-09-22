@@ -17,7 +17,7 @@ struct PaddedTextFieldStyle: TextFieldStyle {
         configuration
             .padding(5)
             .background(
-                colorScheme == .light ? .secondarySystemGroupedBackground : .tertiarySystemGroupedBackground
+                colorScheme == .light ? Color(uiColor: .secondarySystemGroupedBackground) : Color(uiColor: .tertiarySystemGroupedBackground)
             )
             .cornerRadius(isRounded ? 5 : 0)
     }

@@ -14,13 +14,16 @@ struct EmptyInstructionView: View {
     var body: some View {
         VStack(spacing: 5) {
             Text(title)
-                .font(.system(size: 25, weight: .semibold))
+                .font(
+                    .system(size: 25)
+                    .weight(.semibold)
+                )
 
             Text(message)
                 .padding(.horizontal, 50)
         }
         .multilineTextAlignment(.center)
-        .foregroundColor(.secondaryLabel)
+        .foregroundColor(Color(uiColor: .secondaryLabel))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
     }

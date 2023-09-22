@@ -25,8 +25,7 @@ struct BookmarkView: View {
         List {
             if !bookmarks.isEmpty {
                 ForEach(bookmarks, id: \.self) { bookmark in
-                    // Check for iOS 15 and ONLY iOS 15
-                    if #available(iOS 15.0, *), UIDevice.current.deviceType != .mac {
+                    if UIDevice.current.deviceType != .mac {
                         ListRowLinkView(text: bookmark.name ?? "Unknown", link: bookmark.url ?? "", useStatefulBookmarks: useStatefulBookmarks)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 if #available(iOS 16, *) {

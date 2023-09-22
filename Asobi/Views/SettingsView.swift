@@ -28,7 +28,7 @@ struct SettingsView: View {
                 // MARK: App icon picker (iDevices only)
 
                 if UIDevice.current.deviceType != .mac {
-                    Section(header: Text("App Icon")) {
+                    Section("App Icon") {
                         AppIconPickerView()
                     }
                 }

@@ -21,7 +21,7 @@ struct PopupExceptionView: View {
 
     var body: some View {
         Form {
-            Section(header: "Add a website") {
+            Section("Add a website") {
                 HStack {
                     TextField("Enter URL", text: $newAllowedSiteUrl)
                         .clearButtonMode(.whileEditing)
@@ -51,7 +51,7 @@ struct PopupExceptionView: View {
                 }
             }
 
-            Section(header: "Allowed websites") {
+            Section("Allowed websites") {
                 if allowedPopups.isEmpty {
                     Text("There are no allowed popup websites")
                 } else {

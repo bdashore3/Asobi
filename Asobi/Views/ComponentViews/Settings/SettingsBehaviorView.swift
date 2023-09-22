@@ -30,12 +30,14 @@ struct SettingsBehaviorView: View {
     var body: some View {
         // MARK: Browser behavior settings
 
-        Section(header: Text("Behavior"),
-                footer: VStack(alignment: .leading, spacing: 8) {
-                    Text("The clear cache option clears browser cache on app launch.")
-                    Text("The allow browser swipe gestures option toggles the webview's navigation gestures.")
-                    Text("Smart bookmarks will remember the last page you visited for that website.")
-                }) {
+        Section(
+            header: Text("Behavior"),
+            footer: VStack(alignment: .leading, spacing: 8) {
+                Text("The clear cache option clears browser cache on app launch.")
+                Text("The allow browser swipe gestures option toggles the webview's navigation gestures.")
+                Text("Smart bookmarks will remember the last page you visited for that website.")
+            }
+        ) {
             Toggle(isOn: $persistNavigation) {
                 Text("Lock navigation bar")
             }

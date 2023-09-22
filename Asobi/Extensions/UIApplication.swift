@@ -1,0 +1,15 @@
+//
+//  UIApplication.swift
+//  Asobi
+//
+//  Created by Brian Dashore on 9/22/23.
+//
+
+import UIKit
+
+extension UIApplication {
+    // From https://stackoverflow.com/questions/69650504/how-to-get-rid-of-message-windows-was-deprecated-in-ios-15-0-use-uiwindowsc
+    var currentUIWindow: UIWindow? {
+        UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
+    }
+}

@@ -33,6 +33,7 @@
 		0C30B3E3282F2F1D00D59AA1 /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */; };
 		0C30B3E5282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */; };
 		0C30B3E7282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */; };
+		0C3DBB442ABE1F6D00B2DC14 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DBB432ABE1F6D00B2DC14 /* UIApplication.swift */; };
 		0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C447E95274C6C2100DF0186 /* Alamofire */; };
 		0C46D904285B950800F36692 /* UrlBarButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C46D903285B950800F36692 /* UrlBarButtonView.swift */; };
 		0C49C632296CBF8C00DCD277 /* DisabledAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C49C631296CBF8C00DCD277 /* DisabledAppearance.swift */; };
@@ -70,7 +71,6 @@
 		0CAA093A280285E4007A0F77 /* SettingsDownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA0939280285E4007A0F77 /* SettingsDownloadsView.swift */; };
 		0CAA093C280286BE007A0F77 /* SettingsWebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA093B280286BE007A0F77 /* SettingsWebsiteView.swift */; };
 		0CB4DB9E271B859F00ADBE5A /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4DB9D271B859F00ADBE5A /* EditBookmarkView.swift */; };
-		0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 0CB4DBA2271BB58700ADBE5A /* SwiftUIX */; };
 		0CBC61E7273B64B8003A1AAA /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBC61E6273B64B8003A1AAA /* HistoryView.swift */; };
 		0CC13CA6297C4C4B0050CAA8 /* WebAlertPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC13CA5297C4C4B0050CAA8 /* WebAlertPanel.swift */; };
 		0CC13CA8297C582E0050CAA8 /* WebConfirmPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC13CA7297C582E0050CAA8 /* WebConfirmPanel.swift */; };
@@ -142,6 +142,7 @@
 		0C30B3E2282F2F1D00D59AA1 /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "History+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0C30B3E4282F2F2D00D59AA1 /* HistoryEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0C30B3E6282F2F3700D59AA1 /* HistoryEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0C3DBB432ABE1F6D00B2DC14 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		0C46D903285B950800F36692 /* UrlBarButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBarButtonView.swift; sourceTree = "<group>"; };
 		0C49C631296CBF8C00DCD277 /* DisabledAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledAppearance.swift; sourceTree = "<group>"; };
 		0C49C633296CBF9B00DCD277 /* ApplyTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyTheme.swift; sourceTree = "<group>"; };
@@ -217,7 +218,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CB4DBA3271BB58700ADBE5A /* SwiftUIX in Frameworks */,
 				0C30B3D6282F1EA700D59AA1 /* CloudKit.framework in Frameworks */,
 				0C0C6B7B277A35F6007B9345 /* Introspect in Frameworks */,
 				0C447E96274C6C2100DF0186 /* Alamofire in Frameworks */,
@@ -388,6 +388,7 @@
 				0C6BFEC12847B52D008AEAFE /* TextField.swift */,
 				0C92B28C284992A10026A1F2 /* Collection.swift */,
 				0C003E0E297B32130002D9ED /* UIHostingController.swift */,
+				0C3DBB432ABE1F6D00B2DC14 /* UIApplication.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -533,7 +534,6 @@
 			);
 			name = Asobi;
 			packageProductDependencies = (
-				0CB4DBA2271BB58700ADBE5A /* SwiftUIX */,
 				0C447E95274C6C2100DF0186 /* Alamofire */,
 				0C0C6B7A277A35F6007B9345 /* Introspect */,
 			);
@@ -583,8 +583,9 @@
 		7C2248B826B85D0F00AD3D42 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					7C2248BF26B85D0F00AD3D42 = {
 						CreatedOnToolsVersion = 12.5;
@@ -609,7 +610,6 @@
 			);
 			mainGroup = 7C2248B726B85D0F00AD3D42;
 			packageReferences = (
-				0CB4DBA1271BB58700ADBE5A /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				0C447E94274C6C2100DF0186 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0C0C6B79277A35F6007B9345 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
@@ -696,6 +696,7 @@
 				0C87E67E283078E3005FBAAD /* SettingsSyncView.swift in Sources */,
 				0C7FADD22786246200564B52 /* LibraryActionsView.swift in Sources */,
 				0C5CAD87296DD376008C5E62 /* SettingsModels.swift in Sources */,
+				0C3DBB442ABE1F6D00B2DC14 /* UIApplication.swift in Sources */,
 				0C11E6BD284EE9AB0031DCE5 /* NavView.swift in Sources */,
 				7C2248C626B85D0F00AD3D42 /* ContentView.swift in Sources */,
 				0C615B8A271214C80090198B /* UIDevice.swift in Sources */,
@@ -808,6 +809,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -822,7 +824,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -869,6 +871,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -877,7 +880,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -896,14 +899,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Asobi/Asobi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Asobi/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Asobi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Asobi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -927,14 +930,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Asobi/Asobi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Asobi/Preview Content\"";
 				DEVELOPMENT_TEAM = 8A74DBQ6S3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Asobi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Asobi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1091,14 +1094,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		0CB4DBA1271BB58700ADBE5A /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1111,11 +1106,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0C447E94274C6C2100DF0186 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		0CB4DBA2271BB58700ADBE5A /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0CB4DBA1271BB58700ADBE5A /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
 		};
 /* End XCSwiftPackageProductDependency section */
 

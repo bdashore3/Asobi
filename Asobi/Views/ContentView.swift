@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIX
 import UniformTypeIdentifiers
 
 struct ContentView: View {
@@ -83,7 +82,7 @@ struct ContentView: View {
 
             Group {
                 if let currentWebAlert = webModel.currentWebAlert {
-                    Color.darkGray.opacity(0.4)
+                    Color(uiColor: .darkGray).opacity(0.4)
 
                     switch currentWebAlert {
                     case .alert:
@@ -134,9 +133,7 @@ struct ContentView: View {
                         }
                         .font(.caption)
                         .padding(12)
-                        .background {
-                            VisualEffectBlurView(blurStyle: .systemThinMaterial)
-                        }
+                        .background(.thickMaterial)
                         .cornerRadius(10)
                     }
                     .padding()

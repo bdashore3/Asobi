@@ -24,7 +24,7 @@ struct SettingsWebsiteView: View {
     var body: some View {
         // MARK: Website settings (settings that can alter website content)
 
-        Section(header: Text("Website settings")) {
+        Section("Website settings") {
             Toggle(isOn: $changeUserAgent) {
                 Text("Request \(UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac ? "mobile" : "desktop") website")
             }

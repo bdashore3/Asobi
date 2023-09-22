@@ -45,7 +45,10 @@ struct AppIconButtonView: View {
                 Text("-\(author)")
             }
             .foregroundColor(selectedIconKey == imageKey ? navigationAccent : (colorScheme == .light ? .black : .white))
-            .font(.caption2, weight: selectedIconKey == imageKey ? .bold : .regular)
+            .font(
+                .caption2
+                .weight(selectedIconKey == imageKey ? .bold : .regular)
+            )
         }
         .alert(isPresented: $showErrorAlert) {
             Alert(

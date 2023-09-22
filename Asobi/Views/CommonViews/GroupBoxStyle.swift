@@ -14,7 +14,7 @@ struct LoadingGroupBoxStyle: GroupBoxStyle {
             configuration.content
         }
         .padding(10)
-        .background(.systemGroupedBackground)
+        .background(Color(uiColor: .systemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 }

@@ -24,8 +24,8 @@ struct AllowedURLSchemeView: View {
     var body: some View {
         Form {
             Section(
-                header: "Add a website",
-                footer: "When adding a scheme, it must have :// included"
+                header: Text("Add a website"),
+                footer: Text("When adding a scheme, it must have :// included")
             ) {
                 HStack {
                     TextField("Enter URL or scheme", text: $newSchemeUrl)
@@ -76,7 +76,7 @@ struct AllowedURLSchemeView: View {
                 }
             }
 
-            Section(header: "Allowed schemes") {
+            Section("Allowed schemes") {
                 if allowedSchemes.isEmpty {
                     Text("There are no allowed URL schemes (https and http are always allowed)")
                 } else {
